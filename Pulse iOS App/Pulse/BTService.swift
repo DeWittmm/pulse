@@ -18,14 +18,14 @@ let PositionCharUUID = CBUUID(string: "F38A2C23-BC54-40FC-BED0-60EDDA139F47")
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
 
 class BTService: NSObject, CBPeripheralDelegate {
-    var peripheral: CBPeripheral?
+    var peripheral: CBPeripheral
     var positionCharacteristic: CBCharacteristic?
     
     init(initWithPeripheral peripheral: CBPeripheral) {
-        super.init()
-        
         self.peripheral = peripheral
-        self.peripheral?.delegate = self
+
+        super.init()
+        self.peripheral.delegate = self
     }
     
     deinit {
@@ -33,13 +33,13 @@ class BTService: NSObject, CBPeripheralDelegate {
     }
     
     func startDiscoveringServices() {
-        self.peripheral?.discoverServices([BLEServiceUUID])
+        self.peripheral.discoverServices([BLEServiceUUID])
     }
     
     func reset() {
-        if peripheral != nil {
-            peripheral = nil
-        }
+        //TODO: Is this a better approaching than an optional peripheral?
+        // Resetting to general CBPeripheral
+        peripheral = CBPeripheral()
         
         // Deallocating therefore send notification
         self.sendBTServiceNotificationWithIsBluetoothConnected(false)
@@ -103,7 +103,7 @@ class BTService: NSObject, CBPeripheralDelegate {
         // Need a mutable var to pass to writeValue function
         var positionValue = position
         let data = NSData(bytes: &positionValue, length: sizeof(UInt8))
-        self.peripheral?.writeValue(data, forCharacteristic: self.positionCharacteristic, type: CBCharacteristicWriteType.WithResponse)
+        self.peripheral.writeValue(data, forCharacteristic: self.positionCharacteristic, type: CBCharacteristicWriteType.WithResponse)
     }
     
     func sendBTServiceNotificationWithIsBluetoothConnected(isBluetoothConnected: Bool) {

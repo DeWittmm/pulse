@@ -13,7 +13,7 @@ int redLEDPin = 8;
 int freq = timer; 
 int infrared = 1; // 1 indicates readings are coming in from infrared light
 
-int infraredReadings[100]; //Size should correspond with packet sent vie BLE
+int infraredReadings[100]; //Size should correspond with packet sent via BLE
 int LEDReadings[100];
 int i = 0;
 int j = 0; 
