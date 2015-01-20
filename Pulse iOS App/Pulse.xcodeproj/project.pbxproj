@@ -9,11 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTService.swift */; };
-		0A98EB4B1A15571A0040544B /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB4A1A15571A0040544B /* BLEManager.swift */; };
-		0A98EB4C1A15571A0040544B /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB4A1A15571A0040544B /* BLEManager.swift */; };
-		0A98EB521A15572C0040544B /* BLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB501A15572C0040544B /* BLE.m */; };
 		0A98EB561A15587D0040544B /* BLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB551A15587D0040544B /* BLETests.swift */; };
-		0A98EB571A155AB40040544B /* BLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB501A15572C0040544B /* BLE.m */; };
 		0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
 		0A99B96E1A21A4F2002DF93D /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A99B96D1A21A4F2002DF93D /* WatchKit.framework */; };
 		0A99B9741A21A4F2002DF93D /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A99B9731A21A4F2002DF93D /* InterfaceController.swift */; };
@@ -25,8 +21,7 @@
 		0A99B9871A21A4F3002DF93D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A99B9861A21A4F3002DF93D /* Images.xcassets */; };
 		0A99B98A1A21A4F3002DF93D /* Pulse WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0A99B96B1A21A4F2002DF93D /* Pulse WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
-		0AB19E2119FDB3C10024ACC7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E2019FDB3C10024ACC7 /* FirstViewController.swift */; };
-		0AB19E2319FDB3C10024ACC7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E2219FDB3C10024ACC7 /* SecondViewController.swift */; };
+		0AB19E2119FDB3C10024ACC7 /* MonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */; };
 		0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2419FDB3C10024ACC7 /* Main.storyboard */; };
 		0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2719FDB3C10024ACC7 /* Images.xcassets */; };
 		0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2919FDB3C10024ACC7 /* LaunchScreen.xib */; };
@@ -76,12 +71,8 @@
 		0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
 		0A0F815B1A30FB2F00622383 /* BTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
-		0A98EB4A1A15571A0040544B /* BLEManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		0A98EB4D1A15572C0040544B /* Pulse-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pulse-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A98EB4E1A15572C0040544B /* PulseTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PulseTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		0A98EB4F1A15572C0040544B /* BLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE.h; sourceTree = "<group>"; };
-		0A98EB501A15572C0040544B /* BLE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE.m; sourceTree = "<group>"; };
-		0A98EB511A15572C0040544B /* BLEDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDefines.h; sourceTree = "<group>"; };
 		0A98EB551A15587D0040544B /* BLETests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLETests.swift; sourceTree = "<group>"; };
 		0A98EB591A155C6D0040544B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		0A99B96B1A21A4F2002DF93D /* Pulse WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Pulse WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,8 +90,7 @@
 		0AB19E1919FDB3C10024ACC7 /* Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB19E1D19FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0AB19E2019FDB3C10024ACC7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		0AB19E2219FDB3C10024ACC7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorViewController.swift; sourceTree = "<group>"; };
 		0AB19E2519FDB3C10024ACC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AB19E2719FDB3C10024ACC7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0AB19E2A19FDB3C10024ACC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -139,21 +129,10 @@
 		0A0F81581A30FB0B00622383 /* BT */ = {
 			isa = PBXGroup;
 			children = (
-				0A98EB4F1A15572C0040544B /* BLE.h */,
-				0A98EB501A15572C0040544B /* BLE.m */,
-				0A98EB511A15572C0040544B /* BLEDefines.h */,
 				0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */,
 				0A0F815B1A30FB2F00622383 /* BTService.swift */,
 			);
 			name = BT;
-			sourceTree = "<group>";
-		};
-		0A98EB581A155B4A0040544B /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				0A98EB4A1A15571A0040544B /* BLEManager.swift */,
-			);
-			name = Managers;
 			sourceTree = "<group>";
 		};
 		0A98EB5B1A155C780040544B /* Frameworks */ = {
@@ -240,13 +219,10 @@
 		0AB19E1B19FDB3C10024ACC7 /* Pulse */ = {
 			isa = PBXGroup;
 			children = (
-				0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */,
 				0AB19E2419FDB3C10024ACC7 /* Main.storyboard */,
-				0A98EB581A155B4A0040544B /* Managers */,
-				0AB19E2019FDB3C10024ACC7 /* FirstViewController.swift */,
-				0AB19E2219FDB3C10024ACC7 /* SecondViewController.swift */,
+				0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */,
+				0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
-				0A98EB5B1A155C780040544B /* Frameworks */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
 			);
 			path = Pulse;
@@ -255,6 +231,7 @@
 		0AB19E1C19FDB3C10024ACC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0A98EB5B1A155C780040544B /* Frameworks */,
 				0AB19E2719FDB3C10024ACC7 /* Images.xcassets */,
 				0AB19E2919FDB3C10024ACC7 /* LaunchScreen.xib */,
 				0AB19E1D19FDB3C10024ACC7 /* Info.plist */,
@@ -455,13 +432,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A98EB4B1A15571A0040544B /* BLEManager.swift in Sources */,
-				0AB19E2319FDB3C10024ACC7 /* SecondViewController.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
-				0A98EB521A15572C0040544B /* BLE.m in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
-				0AB19E2119FDB3C10024ACC7 /* FirstViewController.swift in Sources */,
+				0AB19E2119FDB3C10024ACC7 /* MonitorViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,10 +443,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A98EB4C1A15571A0040544B /* BLEManager.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
-				0A98EB571A155AB40040544B /* BLE.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,7 +497,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Pulse WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SKIP_INSTALL = YES;
@@ -537,7 +509,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Pulse WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SKIP_INSTALL = YES;
@@ -556,7 +528,7 @@
 				);
 				IBSC_MODULE = Pulse_WatchKit_Extension;
 				INFOPLIST_FILE = "Pulse Watch App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -575,7 +547,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				IBSC_MODULE = Pulse_WatchKit_Extension;
 				INFOPLIST_FILE = "Pulse Watch App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
