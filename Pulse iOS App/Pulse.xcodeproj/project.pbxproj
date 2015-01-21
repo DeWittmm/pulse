@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTService.swift */; };
+		0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
+		0A6CE3A61A6F8243003E719E /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
+		0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
+		0A6CE3A81A6F84FF003E719E /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTService.swift */; };
 		0A98EB561A15587D0040544B /* BLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB551A15587D0040544B /* BLETests.swift */; };
 		0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
 		0A99B96E1A21A4F2002DF93D /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A99B96D1A21A4F2002DF93D /* WatchKit.framework */; };
@@ -21,7 +25,6 @@
 		0A99B9871A21A4F3002DF93D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A99B9861A21A4F3002DF93D /* Images.xcassets */; };
 		0A99B98A1A21A4F3002DF93D /* Pulse WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0A99B96B1A21A4F2002DF93D /* Pulse WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
-		0AB19E2119FDB3C10024ACC7 /* MonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */; };
 		0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2419FDB3C10024ACC7 /* Main.storyboard */; };
 		0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2719FDB3C10024ACC7 /* Images.xcassets */; };
 		0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2919FDB3C10024ACC7 /* LaunchScreen.xib */; };
@@ -71,6 +74,7 @@
 		0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
 		0A0F815B1A30FB2F00622383 /* BTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
+		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A98EB4D1A15572C0040544B /* Pulse-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pulse-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A98EB4E1A15572C0040544B /* PulseTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PulseTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A98EB551A15587D0040544B /* BLETests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLETests.swift; sourceTree = "<group>"; };
@@ -90,7 +94,6 @@
 		0AB19E1919FDB3C10024ACC7 /* Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB19E1D19FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorViewController.swift; sourceTree = "<group>"; };
 		0AB19E2519FDB3C10024ACC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AB19E2719FDB3C10024ACC7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0AB19E2A19FDB3C10024ACC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -221,7 +224,7 @@
 			children = (
 				0AB19E2419FDB3C10024ACC7 /* Main.storyboard */,
 				0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */,
-				0AB19E2019FDB3C10024ACC7 /* MonitorViewController.swift */,
+				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
 			);
@@ -434,8 +437,8 @@
 			files = (
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */,
+				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
-				0AB19E2119FDB3C10024ACC7 /* MonitorViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +446,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A6CE3A61A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
+				0A6CE3A81A6F84FF003E719E /* BTService.swift in Sources */,
+				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
