@@ -31,7 +31,12 @@ class MonitorTableViewController: UITableViewController {
     //MARK: TableViewDelegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        if btDiscovery.bleService != nil {
+            return 4
+        }
+        
+        createEmptyTableView()
+        return 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -62,6 +67,30 @@ class MonitorTableViewController: UITableViewController {
         default:
             return 44
         }
+    }
+    
+    func createEmptyTableView() {
+        let scanView = UIView(frame: CGRect(origin: CGPointZero, size: tableView.frame.size))
+        scanView.backgroundColor = UIColor.whiteColor()
+        
+        let label = UILabel()
+        
+        label.center = tableView.center - CGPoint(x: 100, y: 40)
+        label.text = "Scanning for BLE devices..."
+        label.textAlignment = .Center
+        label.sizeToFit()
+
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = scanView.center
+        activityIndicator.startAnimating()
+        activityIndicator.color = UIColor.blackColor()
+        
+        scanView.addSubview(label)
+        scanView.addSubview(activityIndicator)
+        scanView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        
+        tableView.separatorColor = UIColor.clearColor()
+        tableView.backgroundView = scanView
     }
 
 }
