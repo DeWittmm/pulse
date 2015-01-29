@@ -8,6 +8,7 @@
 int timer = 200;           // The higher the number, the slower the timing.
 int infraredPin = 7;
 int redLEDPin = 8; 
+int sensorPin = A0;
 
 //Variables
 int freq = timer; 
@@ -25,7 +26,6 @@ void setup() {
   
   pinMode(infraredPin, OUTPUT);
   pinMode(redLEDPin, OUTPUT);
- 
 }
 
 void loop() {
@@ -47,27 +47,22 @@ void loop() {
   else {
      freq = timer;
   }
-  //Serial.println(freq);
   
-  int sensorValue = analogRead(A0);
+  int sensorValue = analogRead(sensorPin);
   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
   float voltage = sensorValue * (5.0 / 1023.0);
+
+  // apply the calibration to the sensor reading
+//  sensorValue = map(sensorValue, sensorMin, sensorMax, 0, 255);
+//  sensorValue = constrain(sensorValue, 0, 255);
   
   infraredReadings[i++] = voltage;
  
-  //print(sensorValue);
-  //Serial.print("SensorValue: ");
-  //Serial.println(sensorValue);
-
 //  if (infrared) {
 //     //infraredReadings[i++] = voltage;
-//     Serial.print("Infrared: ");
-//     Serial.println(voltage);
 //  }
 //  else { 
 //    //LEDReadings[j++] = voltage; 
-//    Serial.print("LED: ");
-//    Serial.println(voltage);
 //  }
 
 // Printing in batches to try and increase 
