@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
-		0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTService.swift */; };
+		0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A6CE3A61A6F8243003E719E /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
-		0A6CE3A81A6F84FF003E719E /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTService.swift */; };
+		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -53,7 +53,7 @@
 
 /* Begin PBXFileReference section */
 		0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
-		0A0F815B1A30FB2F00622383 /* BTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
+		0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTServiceManager.swift; sourceTree = "<group>"; };
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */,
-				0A0F815B1A30FB2F00622383 /* BTService.swift */,
+				0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */,
 			);
 			name = BT;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
-				0A0F815D1A30FB2F00622383 /* BTService.swift in Sources */,
+				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
@@ -315,7 +315,7 @@
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A6CE3A61A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
-				0A6CE3A81A6F84FF003E719E /* BTService.swift in Sources */,
+				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
 				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
 			);

@@ -21,6 +21,13 @@ class MonitorTableViewController: UITableViewController {
         super.viewDidLoad()
         
         btDiscovery.startScanning()
+        
+        // Watch Bluetooth connection
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("connectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: BLEServiceChangedStatusNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,6 +98,24 @@ class MonitorTableViewController: UITableViewController {
         
         tableView.separatorColor = UIColor.clearColor()
         tableView.backgroundView = scanView
+    }
+    
+    //MARK: BLE Connection
+    
+    func bleConnectionChanged(notification: NSNotification) {
+        // Connection status changed. Indicate on GUI.
+        let userInfo = notification.userInfo as [String: Bool]
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            // Set image based on connection status
+            if let isConnected: Bool = userInfo["isConnected"] {
+                if isConnected {
+                    self.tableView.reloadData()
+                } else {
+                    println("Disconnected")
+                }
+            }
+        });
     }
 
 }

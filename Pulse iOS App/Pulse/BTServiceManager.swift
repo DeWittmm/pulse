@@ -10,7 +10,6 @@ import Foundation
 import CoreBluetooth
 
 // MARK: Services & Characteristics UUIDs for BLUETOOTH LOW ENERGY TINYSHIELD - REV 2
-
 let BLEServiceUUID = CBUUID(string: "195ae58a-437a-489b-b0cd-b7c9c394bae4")
 let BLEChar1UUID = CBUUID(string: "5fc569a0-74a9-4fa4-b8b7-8354c86e45a4")
 let BLEChar2UUID = CBUUID(string: "21819ab0-c937-4188-b0db-b9621e1696cd")
@@ -96,14 +95,14 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     func writePosition(position: UInt8) {
         // See if characteristic has been discovered before writing to it
-        if self.positionCharacteristic == nil {
+        if positionCharacteristic == nil {
             return
         }
         
         // Need a mutable var to pass to writeValue function
         var positionValue = position
         let data = NSData(bytes: &positionValue, length: sizeof(UInt8))
-        self.peripheral.writeValue(data, forCharacteristic: self.positionCharacteristic, type: CBCharacteristicWriteType.WithResponse)
+        peripheral.writeValue(data, forCharacteristic: positionCharacteristic, type: CBCharacteristicWriteType.WithResponse)
     }
     
     func sendBTServiceNotificationWithIsBluetoothConnected(isBluetoothConnected: Bool) {
