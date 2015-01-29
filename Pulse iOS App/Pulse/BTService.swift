@@ -1,9 +1,7 @@
 //
-//  BTService.swift
-//  Originally adapted from: raywenderlich Arduino_Servo
-//
-//  Created by Owen L Brown on 10/11/14.
-//  Copyright (c) 2014 Razeware LLC. All rights reserved.
+//  BTServiceManager.swift
+//  Originally adapted from: http://www.raywenderlich.com/85900/arduino-tutorial-integrating-bluetooth-le-ios-swift
+//  Copyright: http://www.raywenderlich.com/faq
 //
 
 //  Modified by: Michael DeWitt 1/19/2015
@@ -11,13 +9,15 @@
 import Foundation
 import CoreBluetooth
 
-/* Services & Characteristics UUIDs */
-//FIXME: Need UUID for TinyShield
-let BLEServiceUUID = CBUUID(string: "025A7775-49AA-42BD-BBDB-E2AE77782966")
-let PositionCharUUID = CBUUID(string: "F38A2C23-BC54-40FC-BED0-60EDDA139F47")
+// MARK: Services & Characteristics UUIDs for BLUETOOTH LOW ENERGY TINYSHIELD - REV 2
+
+let BLEServiceUUID = CBUUID(string: "195ae58a-437a-489b-b0cd-b7c9c394bae4")
+let BLEChar1UUID = CBUUID(string: "5fc569a0-74a9-4fa4-b8b7-8354c86e45a4")
+let BLEChar2UUID = CBUUID(string: "21819ab0-c937-4188-b0db-b9621e1696cd")
+
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
 
-class BTService: NSObject, CBPeripheralDelegate {
+class BTServiceManager: NSObject, CBPeripheralDelegate {
     var peripheral: CBPeripheral
     var positionCharacteristic: CBCharacteristic?
     
@@ -37,7 +37,7 @@ class BTService: NSObject, CBPeripheralDelegate {
     }
     
     func reset() {
-        //TODO: Is this a better approaching than an optional peripheral?
+        //TODO: Is this a better approach than an optional peripheral"?"
         // Resetting to general CBPeripheral
         peripheral = CBPeripheral()
         
@@ -45,13 +45,13 @@ class BTService: NSObject, CBPeripheralDelegate {
         self.sendBTServiceNotificationWithIsBluetoothConnected(false)
     }
     
-    // Mark: - CBPeripheralDelegate
+    // Mark: CBPeripheralDelegate
     
     func peripheral(peripheral: CBPeripheral!, didDiscoverServices error: NSError!) {
-        let uuidsForBTService: [CBUUID] = [PositionCharUUID]
+        let uuidsForBTService: [CBUUID] = [BLEChar1UUID]
         
+        // Wrong Peripheral
         if (peripheral != self.peripheral) {
-            // Wrong Peripheral
             return
         }
         
@@ -59,8 +59,8 @@ class BTService: NSObject, CBPeripheralDelegate {
             return
         }
         
+        // No Services
         if ((peripheral.services == nil) || (peripheral.services.count == 0)) {
-            // No Services
             return
         }
         
@@ -82,7 +82,7 @@ class BTService: NSObject, CBPeripheralDelegate {
         }
         
         for characteristic in service.characteristics {
-            if characteristic.UUID == PositionCharUUID {
+            if characteristic.UUID == BLEChar1UUID {
                 self.positionCharacteristic = (characteristic as CBCharacteristic)
                 peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
                 

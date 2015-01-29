@@ -13,10 +13,10 @@ int redLEDPin = 8;
 int freq = timer; 
 int infrared = 1; // 1 indicates readings are coming in from infrared light
 
-int infraredReadings[100]; //Size should correspond with packet sent via BLE
-int LEDReadings[100];
+const int binSize = 100;
+float infraredReadings[binSize]; //Size should correspond with packet sent via BLE
+//int LEDReadings[100];
 int i = 0;
-int j = 0; 
 
 void setup() {
   // initialize serial communication at 9600 bits per second:
@@ -52,8 +52,10 @@ void loop() {
   int sensorValue = analogRead(A0);
   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
   float voltage = sensorValue * (5.0 / 1023.0);
-   
-   print(sensorValue);
+  
+  infraredReadings[i++] = voltage;
+ 
+  //print(sensorValue);
   //Serial.print("SensorValue: ");
   //Serial.println(sensorValue);
 
@@ -68,11 +70,25 @@ void loop() {
 //    Serial.println(voltage);
 //  }
 
-  //TODO: Exit if array out of bounds
+// Printing in batches to try and increase 
+// processor speed. 
+  if (i == binSize-1) {
+    Serial.println(-100);
+      Serial.println(",");
+
+    for(int j=0; j<binSize; j++) {
+      Serial.print(infraredReadings[j]);
+      Serial.println(",");
+    }
+    
+    Serial.println(-1);
+    Serial.println(",");
+
+    i = 0; 
+  }
 }
 
-void print(int num) {
-    
+void plot(int num) {
   for(int i=0; i<num; i+= 100) {
       Serial.print("-");
   }

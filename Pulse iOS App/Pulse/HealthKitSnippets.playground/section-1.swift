@@ -28,3 +28,8 @@ func heartRateValueHandler(HKObserverQuery!,
 //let predicate = NSPredicate() //A predicate that limits the samples matched by the query. Pass nil if you want to receive updates for every new sample of the specified type.
 
 let observe = HKObserverQuery(sampleType: heartRateQuantity, predicate: nil, updateHandler: heartRateValueHandler)
+
+
+if (1 == 2) || 2 == 1 {
+    print("Order operation test")
+}
