@@ -17,9 +17,13 @@ let BLEChar2UUID = CBUUID(string: "21819ab0-c937-4188-b0db-b9621e1696cd")
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
 
 class BTServiceManager: NSObject, CBPeripheralDelegate {
-    var peripheral: CBPeripheral
-    var positionCharacteristic: CBCharacteristic?
     
+    //MARK: Properties
+    
+    var peripheral: CBPeripheral
+    var heartRateCharacteristic: CBCharacteristic?
+    var pulseOxCharacteristic: CBCharacteristic?
+
     init(initWithPeripheral peripheral: CBPeripheral) {
         self.peripheral = peripheral
 
@@ -71,8 +75,8 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     }
     
     func peripheral(peripheral: CBPeripheral!, didDiscoverCharacteristicsForService service: CBService!, error: NSError!) {
+        // Wrong Peripheral
         if (peripheral != self.peripheral) {
-            // Wrong Peripheral
             return
         }
         
@@ -81,28 +85,29 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         for characteristic in service.characteristics {
+            //TODO: Identify HR vs. BloodO2 characteristic
             if characteristic.UUID == BLEChar1UUID {
-                self.positionCharacteristic = (characteristic as CBCharacteristic)
+                heartRateCharacteristic = (characteristic as CBCharacteristic)
                 peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
                 
                 // Send notification that Bluetooth is connected and all required characteristics are discovered
-                self.sendBTServiceNotificationWithIsBluetoothConnected(true)
+                sendBTServiceNotificationWithIsBluetoothConnected(true)
             }
         }
     }
     
-    // Mark: - Private
+    // Mark: Private
     
-    func writePosition(position: UInt8) {
+    func write(position: UInt8) {
         // See if characteristic has been discovered before writing to it
-        if positionCharacteristic == nil {
+        if heartRateCharacteristic == nil {
             return
         }
         
         // Need a mutable var to pass to writeValue function
         var positionValue = position
         let data = NSData(bytes: &positionValue, length: sizeof(UInt8))
-        peripheral.writeValue(data, forCharacteristic: positionCharacteristic, type: CBCharacteristicWriteType.WithResponse)
+        peripheral.writeValue(data, forCharacteristic: heartRateCharacteristic, type: CBCharacteristicWriteType.WithResponse)
     }
     
     func sendBTServiceNotificationWithIsBluetoothConnected(isBluetoothConnected: Bool) {

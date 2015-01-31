@@ -8,12 +8,16 @@
 
 import UIKit
 
-let HeartRateCellIdentifier = "HeartRateCell"
-let BloodOxygenCellIdentifier = "BloodOxygenCell"
-let DeviceInfoCellIdentifier = "DeviceInfoCell"
-let RSSICellIdentifier = "RSSICell"
-
 class MonitorTableViewController: UITableViewController {
+    
+    //MARK: Outlets
+    
+    @IBOutlet weak var bpmLabel: UILabel!
+    @IBOutlet weak var spO2Label: UILabel!
+    @IBOutlet weak var rssiLabel: UILabel!
+    @IBOutlet weak var peripheralIDLabel: UILabel!
+    
+    //MARK: Properties
     
     let btDiscovery = btDiscoverySharedInstance
     
@@ -23,7 +27,7 @@ class MonitorTableViewController: UITableViewController {
         btDiscovery.startScanning()
         
         // Watch Bluetooth connection
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("connectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("bleConnectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
     }
     
     deinit {
@@ -39,43 +43,13 @@ class MonitorTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if btDiscovery.bleService != nil {
-            return 4
+            return 5
         }
         
         createEmptyTableView()
         return 0
     }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var identifier = ""
         
-        switch indexPath.row {
-        case 0:
-            identifier = HeartRateCellIdentifier
-        case 1:
-            identifier = BloodOxygenCellIdentifier
-        case 2:
-            identifier = DeviceInfoCellIdentifier
-        case 3:
-            identifier = RSSICellIdentifier
-        default:
-            break
-        }
-        
-        return tableView.dequeueReusableCellWithIdentifier(identifier) as UITableViewCell
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
-            return 200
-        case 1:
-            return 200
-        default:
-            return 44
-        }
-    }
-    
     func createEmptyTableView() {
         let scanView = UIView(frame: CGRect(origin: CGPointZero, size: tableView.frame.size))
         scanView.backgroundColor = UIColor.whiteColor()
@@ -111,11 +85,22 @@ class MonitorTableViewController: UITableViewController {
             if let isConnected: Bool = userInfo["isConnected"] {
                 if isConnected {
                     self.tableView.reloadData()
+                    self.beginBLEReading()
                 } else {
                     println("Disconnected")
                 }
             }
         });
+    }
+    
+    func beginBLEReading() {
+        //TODO: Better way to deal with optionals
+        if let peripheral = btDiscovery.bleService?.peripheral {
+//            if let RSSI = peripheral.RSSI { //FIXME: RSSI is broken
+//                rssiLabel.text = "\(RSSI.stringValue) BPM"
+//            }
+            peripheralIDLabel.text = "\(peripheral.name)"
+        }
     }
 
 }
