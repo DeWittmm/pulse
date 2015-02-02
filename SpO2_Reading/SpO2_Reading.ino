@@ -4,6 +4,8 @@
   Team: Pulse
  */
 
+#include <Time.h>  
+
 //Constants
 int timer = 200;           // The higher the number, the slower the timing.
 int infraredPin = 7;
@@ -68,24 +70,46 @@ void loop() {
 // Printing in batches to try and increase 
 // processor speed. 
   if (i == binSize-1) {
-    Serial.println(-100);
-      Serial.println(",");
+    batchPrint();
+  }
+  
+  //Time 
+  logTime();
+}
 
-    for(int j=0; j<binSize; j++) {
-      Serial.print(infraredReadings[j]);
-      Serial.println(",");
-    }
-    
-    Serial.println(-1);
-    Serial.println(",");
-
-    i = 0; 
+void logTime(){
+  // digital clock display of the time
+  if (timeStatus()!= timeNotSet) {
+    Serial.print(hour());
+    printDigits(minute());
+    printDigits(second());  
+  }
+  if (timeStatus() == timeSet) {
+    digitalWrite(13, HIGH); // LED on if synced
+  } else {
+    digitalWrite(13, LOW);  // LED off if needs refresh
   }
 }
 
-void plot(int num) {
-  for(int i=0; i<num; i+= 100) {
-      Serial.print("-");
+void batchPrint() {
+  Serial.println(-1);
+  Serial.println(",");
+
+  for(int j=0; j<binSize; j++) {
+    Serial.print(infraredReadings[j]);
+    Serial.println(",");
   }
-    Serial.println(num);
+  
+  Serial.println(-1);
+  Serial.println(",");
+
+  i = 0; 
+}
+
+void printDigits(int digits){
+  // utility function for digital clock display: prints preceding colon and leading 0
+  Serial.print(":");
+  if(digits < 10)
+    Serial.print('0');
+  Serial.print(digits);
 }
