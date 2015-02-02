@@ -15,8 +15,6 @@
 		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
-		0A85ED2A1A7FF55A00BD5863 /* MonitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A85ED291A7FF55A00BD5863 /* MonitorViewModel.swift */; };
-		0A85ED2B1A7FF55A00BD5863 /* MonitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A85ED291A7FF55A00BD5863 /* MonitorViewModel.swift */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -61,7 +59,6 @@
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
-		0A85ED291A7FF55A00BD5863 /* MonitorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorViewModel.swift; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Monitor.playground; sourceTree = "<group>"; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
-				0A85ED291A7FF55A00BD5863 /* MonitorViewModel.swift */,
 			);
 			name = Monitor;
 			sourceTree = "<group>";
@@ -322,7 +318,6 @@
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
-				0A85ED2A1A7FF55A00BD5863 /* MonitorViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,7 +326,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
-				0A85ED2B1A7FF55A00BD5863 /* MonitorViewModel.swift in Sources */,
 				0A9135F61A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A6CE3A61A6F8243003E719E /* MonitorTableViewController.swift in Sources */,

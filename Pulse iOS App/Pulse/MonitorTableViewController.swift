@@ -27,7 +27,10 @@ class MonitorTableViewController: UITableViewController {
         btDiscovery.startScanning()
         
         // Watch Bluetooth connection
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("bleConnectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
+        let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)
+        NotificationObserver(notification: bleStatusNotification) { userInfo in
+            self.bleConnectionChanged(userInfo)
+        }
     }
     
     deinit {
@@ -76,10 +79,9 @@ class MonitorTableViewController: UITableViewController {
     
     //MARK: BLE Connection
     
-    func bleConnectionChanged(notification: NSNotification) {
+    func bleConnectionChanged(userInfo: [String: Bool]) {
         // Connection status changed. Indicate on GUI.
-        let userInfo = notification.userInfo as [String: Bool]
-        
+ 
         dispatch_async(dispatch_get_main_queue(), {
             // Set image based on connection status
             if let isConnected: Bool = userInfo["isConnected"] {
