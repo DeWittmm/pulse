@@ -1,0 +1,8 @@
+inhibit_all_warnings!
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '7.1'
+
+xcodeproj 'pulse'
+pod 'BEMSimpleLineGraph'
+pod 'FBSnapshotTestCase'
