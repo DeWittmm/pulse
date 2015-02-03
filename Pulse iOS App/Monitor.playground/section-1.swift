@@ -18,7 +18,7 @@ func + <A:Summable, B:Summable> (p1: (A, B), p2: (A, B)) -> (A, B) {
     return add(p1, p2)
 }
 
-//Read in CSV
+//MARK: Read in CSV
 let file = "IR_1mod5.csv"
 
 let dir = "\(NSHomeDirectory())/Documents/"
@@ -31,16 +31,45 @@ if csvFileContents == nil {
 
 let strValues = csvFileContents!.componentsSeparatedByString(",\n")
 
-//Run Analysis
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
 
-let maxValue = values.reduce(0.0) { max($0, $1) }
+/// MARK: Filtering
+struct FIRFilter {
+    let FIR = [0.1, 0.2, 1, 0.2, 0.1]
+    var queue = [Double]()
+    var data: [Double]
+    
+    init(inputData: [Double]) {
+        data = Array(inputData[5..<inputData.count])
+        queue += inputData[0..<5]
+    }
+    
+    mutating func filter() -> [Double] {
+        return data.map { value in
+            self.queue.insert(value, atIndex: 0)
+            self.queue.removeLast()
+            
+            var output = 0.0
+            for (index,value) in enumerate(self.queue) {
+                output += value * self.FIR[index]
+            }
+            return output
+        }
+    }
+}
+
+//FIXME: Slicing for speed
+let someValues = Array(values[0...799])
+var lowpass = FIRFilter(inputData: someValues) //mutating
+let filValues = lowpass.filter()
+
+let maxValue = filValues.reduce(0.0) { max($0, $1) }
 maxValue
 
 let maxValueTolerance = 0.95
 var indicies = [(Int, Double)]()
-for (index, value) in enumerate(values) {
+for (index, value) in enumerate(filValues) {
     if value >= maxValue * maxValueTolerance {
         indicies.append((index, value))
     }
@@ -83,7 +112,7 @@ func millsBetweenPoints(p1: Double, p2: Double) -> Double {
     return (timePts + spanWithPrint) / (numBins * 1000)
 }
 
-//Calculate BPM
+//MARK: Calculate BPM
 var timeSpans = [Double]()
 for var i=0; i < peaks.count - 1; i++ {
     let p1 = peaks[i].0
@@ -93,10 +122,7 @@ for var i=0; i < peaks.count - 1; i++ {
     timeSpans.append(time)
 }
 
-var sum = 0.0
-for time in timeSpans {
-    sum += 60 / time
-}
+var sum = timeSpans.reduce(0.0) { $0 + 60/$1 }
 let avgBPM = sum/Double(timeSpans.count)
 print("Average HR: \(avgBPM)")
 

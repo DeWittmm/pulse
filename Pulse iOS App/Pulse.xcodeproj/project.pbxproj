@@ -15,6 +15,7 @@
 		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
+		0A83D6561A8164060012ED2C /* IR_1mod5.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0A83D6551A8164060012ED2C /* IR_1mod5.csv */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -60,6 +61,7 @@
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
+		0A83D6551A8164060012ED2C /* IR_1mod5.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IR_1mod5.csv; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Monitor.playground; sourceTree = "<group>"; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 			name = BT;
 			sourceTree = "<group>";
 		};
+		0A83D6571A81640A0012ED2C /* Sample Data */ = {
+			isa = PBXGroup;
+			children = (
+				0A83D6551A8164060012ED2C /* IR_1mod5.csv */,
+			);
+			name = "Sample Data";
+			sourceTree = "<group>";
+		};
 		0A85ED281A7FF54700BD5863 /* Monitor */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +163,7 @@
 				0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */,
 				0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */,
 				0AD53F731A813D48009578E6 /* Tuples.playground */,
+				0A83D6571A81640A0012ED2C /* Sample Data */,
 				0AB19E1B19FDB3C10024ACC7 /* Pulse */,
 				0AB19E3319FDB3C10024ACC7 /* PulseTests */,
 				0A99B96C1A21A4F2002DF93D /* Frameworks */,
@@ -312,6 +323,7 @@
 			files = (
 				0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */,
 				0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */,
+				0A83D6561A8164060012ED2C /* IR_1mod5.csv in Resources */,
 				0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
