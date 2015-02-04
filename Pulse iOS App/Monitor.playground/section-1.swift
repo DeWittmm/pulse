@@ -19,7 +19,7 @@ func + <A:Summable, B:Summable> (p1: (A, B), p2: (A, B)) -> (A, B) {
 }
 
 //MARK: Read in CSV
-let file = "IR_1mod5.csv"
+let file = "RLED_3.csv" //
 
 let dir = "\(NSHomeDirectory())/Documents/"
 let path = dir.stringByAppendingPathComponent(file);
@@ -34,50 +34,20 @@ let strValues = csvFileContents!.componentsSeparatedByString(",\n")
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
 
-/// MARK: Filtering
-struct FIRFilter {
-    let FIR = [0.1, 0.2, 1, 0.2, 0.1]
-    var queue = [Double]()
-    var data: [Double]
-    
-    init(inputData: [Double]) {
-        data = Array(inputData[5..<inputData.count])
-        queue += inputData[0..<5]
-    }
-    
-    mutating func filter() -> [Double] {
-        return data.map { value in
-            self.queue.insert(value, atIndex: 0)
-            self.queue.removeLast()
-            
-            var output = 0.0
-            for (index,value) in enumerate(self.queue) {
-                output += value * self.FIR[index]
-            }
-            return output
-        }
-    }
-}
-
-//FIXME: Slicing for speed
-let someValues = Array(values[0...799])
-var lowpass = FIRFilter(inputData: someValues) //mutating
-let filValues = lowpass.filter()
-
-let maxValue = filValues.reduce(0.0) { max($0, $1) }
+//MARK: Finding peaks
+let maxValue = values.reduce(0.0) { max($0, $1) }
 maxValue
 
-let maxValueTolerance = 0.95
+let maxValueTolerance = 0.90
 var indicies = [(Int, Double)]()
-for (index, value) in enumerate(filValues) {
+for (index, value) in enumerate(values) {
     if value >= maxValue * maxValueTolerance {
         indicies.append((index, value))
     }
 }
 
-var peaks = [(Int, Double)]()
 let HR_WIDTH = 25
-
+var peaks = [(Int, Double)]()
 func average(group: [(Int, Double)]) -> (Int, Double) {
     let count = group.count
     let total = group.reduce((0, 0.0)){ $0 + $1 }
@@ -100,7 +70,7 @@ for (index, value) in indicies {
     }
 }
 peaks.append(average(cluster))
-peaks
+println("Number of peaks found: \(peaks.count)")
 
 let PRINT_BIN_TIME  = 727.0
 let TIME_PER_POINT = 0.17
@@ -124,9 +94,9 @@ for var i=0; i < peaks.count - 1; i++ {
 
 var sum = timeSpans.reduce(0.0) { $0 + 60/$1 }
 let avgBPM = sum/Double(timeSpans.count)
-print("Average HR: \(avgBPM)")
+print("Average HR: \(avgBPM) BPM")
 
 //Baseline
-let minValue = values.reduce(5.0) { min($0, $1) }
+let minValue = values.reduce(maxValue) { min($0, $1) }
 minValue
 
