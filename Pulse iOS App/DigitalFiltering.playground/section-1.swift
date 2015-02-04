@@ -1,12 +1,22 @@
 // Playground - noun: a place where people can play
 
-import Cocoa
+import Foundation
+import XCPlayground
+
+func pathToFileInSharedSubfolder() -> String {
+    return XCPSharedDataDirectoryPath +
+        "/" +
+        NSProcessInfo.processInfo().processName +
+        "/"
+}
 
 //MARK: Read in CSV
-let file = "~/RLED_3.csv" //
-let expandedPath = file.stringByExpandingTildeInPath
+let file = "RLED_3" //"IR_1mod5"
+let ext = file + ".csv"
+let dir = pathToFileInSharedSubfolder()
+let path = dir + ext
 
-let csvFileContents = String(contentsOfFile:expandedPath, encoding: NSUTF8StringEncoding)
+let csvFileContents = String(contentsOfFile:path, encoding: NSUTF8StringEncoding)
 if csvFileContents == nil {
     abort()
 }
@@ -21,13 +31,16 @@ println("Num values: \(values.count)")
 //Finite Impulse Response (FIR) filter
 // http://www.arc.id.au/FilterDesign.html
 struct FIRFilter {
+//    let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
     let FIR_coeff = [0.0, 0.2, 0.5, 0.2, 0.0]
+
     var queue = [Double]()
     var data: [Double]
     
     init(inputData: [Double]) {
-        data = Array(inputData[5..<inputData.count])
-        queue += inputData[0..<5]
+        let count = FIR_coeff.count
+        data = Array(inputData[count..<inputData.count])
+        queue += inputData[0..<count]
     }
     
     mutating func filter() -> [Double] {
@@ -44,7 +57,22 @@ struct FIRFilter {
     }
 }
 
+
 //FIXME: Slicing for speed
 let someValues = Array(values[0..<800])
 var lowpass = FIRFilter(inputData: someValues) //mutating
 let filValues = lowpass.filter()
+
+func writeValueAsCSV(value: String, toFilePath filePath: String) {
+    
+        let writePath = dir.stringByAppendingPathComponent(filePath);
+        
+        //writing
+        value.writeToFile(writePath, atomically: false, encoding: NSUTF8StringEncoding, error: nil);
+        
+        //reading
+        //        let text2 = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)
+}
+
+let filStrValues = filValues.map { "\($0)" }
+writeValueAsCSV(join(",", filStrValues), toFilePath: "\(file)FILTERED.csv")

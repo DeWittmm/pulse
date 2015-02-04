@@ -1,6 +1,7 @@
 // Playground - noun: a place where people can play
 
 import Cocoa
+import XCPlayground
 
 //Free Standing Functions
 protocol Summable: Equatable {
@@ -18,18 +19,25 @@ func + <A:Summable, B:Summable> (p1: (A, B), p2: (A, B)) -> (A, B) {
     return add(p1, p2)
 }
 
-//MARK: Read in CSV
-let file = "RLED_3.csv" //
+func pathToFileInSharedSubfolder() -> String {
+    return XCPSharedDataDirectoryPath +
+        "/" +
+        NSProcessInfo.processInfo().processName +
+    "/"
+}
 
-let dir = "\(NSHomeDirectory())/Documents/"
-let path = dir.stringByAppendingPathComponent(file);
+//MARK: Read in CSV
+let file = "IR_1mod5FILTERED" //"RLED_3
+let ext = file + ".csv"
+let dir = pathToFileInSharedSubfolder()
+let path = dir + ext
 
 let csvFileContents = String(contentsOfFile:path, encoding: NSUTF8StringEncoding)
 if csvFileContents == nil {
     abort()
 }
 
-let strValues = csvFileContents!.componentsSeparatedByString(",\n")
+let strValues = csvFileContents!.componentsSeparatedByString(",")
 
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
@@ -38,7 +46,8 @@ println("Num values: \(values.count)")
 let maxValue = values.reduce(0.0) { max($0, $1) }
 maxValue
 
-let maxValueTolerance = 0.90
+let maxValueTolerance = 0.95
+println("Max threshold: \(maxValue * maxValueTolerance)")
 var indicies = [(Int, Double)]()
 for (index, value) in enumerate(values) {
     if value >= maxValue * maxValueTolerance {
@@ -46,7 +55,8 @@ for (index, value) in enumerate(values) {
     }
 }
 
-let HR_WIDTH = 25
+//MARK: Clustering
+let HR_WIDTH = 40
 var peaks = [(Int, Double)]()
 func average(group: [(Int, Double)]) -> (Int, Double) {
     let count = group.count
@@ -77,9 +87,10 @@ let TIME_PER_POINT = 0.17
 func millsBetweenPoints(p1: Double, p2: Double) -> Double {
 //    println((p1, p2))
     let timePts = (p2 - p1) * TIME_PER_POINT
-    let numBins = floor((p2 - p1) / 100)
-    let spanWithPrint = PRINT_BIN_TIME * numBins
-    return (timePts + spanWithPrint) / (numBins * 1000)
+    let numPrintBins = floor((p2 - p1) / 100)
+    let spanWithPrint = PRINT_BIN_TIME * numPrintBins
+    let milis = (timePts + spanWithPrint) / ((numPrintBins != 0 ? numPrintBins : 1) * 1000)
+    return milis
 }
 
 //MARK: Calculate BPM
@@ -92,6 +103,15 @@ for var i=0; i < peaks.count - 1; i++ {
     timeSpans.append(time)
 }
 
+var avgMap = [Double]()
+for var i=0; i < timeSpans.count - 1; i++ {
+    let t1 = timeSpans[i].0
+    let t2 = timeSpans[i+1].0
+    let avg = (t1 + t2) / 2
+    avgMap.append(avg)
+}
+
+avgMap
 var sum = timeSpans.reduce(0.0) { $0 + 60/$1 }
 let avgBPM = sum/Double(timeSpans.count)
 print("Average HR: \(avgBPM) BPM")

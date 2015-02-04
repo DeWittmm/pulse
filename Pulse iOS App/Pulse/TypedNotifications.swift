@@ -15,6 +15,7 @@ struct Notification<A> {
 func postNotification<A>(note: Notification<A>, value: A, queue:
     
     dispatch_queue_t = dispatch_get_main_queue()) {
+   
     dispatch_async(queue, { () -> Void in
         let userInfo = ["value": Box(value)]
         NSNotificationCenter.defaultCenter().postNotificationName(note.name, object: nil, userInfo: userInfo)

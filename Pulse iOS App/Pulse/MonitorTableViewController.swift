@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreBluetooth
 
-class MonitorTableViewController: UITableViewController {
+class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     //MARK: Outlets
     
@@ -16,6 +17,7 @@ class MonitorTableViewController: UITableViewController {
     @IBOutlet weak var spO2Label: UILabel!
     @IBOutlet weak var rssiLabel: UILabel!
     @IBOutlet weak var peripheralIDLabel: UILabel!
+    
     
     //MARK: Properties
     
@@ -27,14 +29,22 @@ class MonitorTableViewController: UITableViewController {
         btDiscovery.startScanning()
         
         // Watch Bluetooth connection
-        let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)
-        NotificationObserver(notification: bleStatusNotification) { userInfo in
-            self.bleConnectionChanged(userInfo)
-        }
+//        let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)        
+//        NotificationObserver(notification: bleStatusNotification) { userInfo in
+//            self.bleConnectionChanged(userInfo)
+//        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("bleConnectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: BLEServiceChangedStatusNotification, object: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        bleRead()
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,31 +87,51 @@ class MonitorTableViewController: UITableViewController {
         tableView.backgroundView = scanView
     }
     
-    //MARK: BLE Connection
+    //MARK: BLE Connection (BLEServiceDelegate)
     
-    func bleConnectionChanged(userInfo: [String: Bool]) {
+    func characteristicDidUpdateValue(characteristic: CBCharacteristic) {
+        if let data = characteristic.value {
+            var int1: UInt = 0
+            data.getBytes(&int1, length: sizeof(UInt))
+            bpmLabel.text = "\(int1)"
+        }
+    }
+    
+    func peripheralDidUpdateRSSI(newRSSI: Int) {
+        rssiLabel.text = "\(newRSSI)"
+    }
+    
+//    func bleConnectionChanged(userInfo: [String: Bool]) {
+    func bleConnectionChanged(notification: NSNotification) {
         // Connection status changed. Indicate on GUI.
- 
+        let userInfo = notification.userInfo as [String: Bool]
+    
         dispatch_async(dispatch_get_main_queue(), {
-            // Set image based on connection status
             if let isConnected: Bool = userInfo["isConnected"] {
                 if isConnected {
                     self.tableView.reloadData()
                     self.beginBLEReading()
                 } else {
-                    println("Disconnected")
+                    self.tableView.reloadData()
+                    println("BLE Disconnected")
                 }
             }
         });
     }
     
     func beginBLEReading() {
-        //TODO: Better way to deal with optionals
-        if let peripheral = btDiscovery.bleService?.peripheral {
-//            if let RSSI = peripheral.RSSI { //FIXME: RSSI is broken
-//                rssiLabel.text = "\(RSSI.stringValue) BPM"
-//            }
-            peripheralIDLabel.text = "\(peripheral.name)"
+        if let service = btDiscovery.bleService {
+            service.delegate = self
+            service.readFromConnectedCharacteristics()
+            
+            peripheralIDLabel.text = "\(service.peripheral.name)"
+        }
+    }
+    
+    func bleRead() {
+        if let service = btDiscovery.bleService {
+            service.readFromConnectedCharacteristics()
+            peripheralIDLabel.text = "\(service.peripheral.name)"
         }
     }
 

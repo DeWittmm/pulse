@@ -61,7 +61,7 @@
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
-		0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Monitor.playground; sourceTree = "<group>"; };
+		0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Monitor.playground; sourceTree = SOURCE_ROOT; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +79,7 @@
 		0AB19E3519FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB19E3619FDB3C10024ACC7 /* PulseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseTests.swift; sourceTree = "<group>"; };
 		0AD53F731A813D48009578E6 /* Tuples.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Tuples.playground; sourceTree = "<group>"; };
+		0ADA44F21A82B68B00A2EC32 /* PeakDetection.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PeakDetection.playground; sourceTree = "<group>"; };
 		0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = DigitalFiltering.playground; sourceTree = "<group>"; };
 		0AE362721A82020900E1B3C2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -158,8 +159,9 @@
 			isa = PBXGroup;
 			children = (
 				0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */,
-				0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */,
 				0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */,
+				0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */,
+				0ADA44F21A82B68B00A2EC32 /* PeakDetection.playground */,
 				0AD53F731A813D48009578E6 /* Tuples.playground */,
 				0AB19E1B19FDB3C10024ACC7 /* Pulse */,
 				0AB19E3319FDB3C10024ACC7 /* PulseTests */,

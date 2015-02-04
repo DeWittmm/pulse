@@ -9,6 +9,11 @@
 import Foundation
 import CoreBluetooth
 
+protocol BLEServiceDelegate {
+    func characteristicDidUpdateValue(characteristic: CBCharacteristic)
+    func peripheralDidUpdateRSSI(newRSSI: Int)
+}
+
 // MARK: Services & Characteristics UUIDs for BLUETOOTH LOW ENERGY TINYSHIELD - REV 2
 let BLEServiceUUID = CBUUID(string: "195ae58a-437a-489b-b0cd-b7c9c394bae4")
 let BLEChar1UUID = CBUUID(string: "5fc569a0-74a9-4fa4-b8b7-8354c86e45a4")
@@ -19,6 +24,8 @@ let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
 class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     //MARK: Properties
+    
+    var delegate: BLEServiceDelegate?
     
     var peripheral: CBPeripheral
     var heartRateCharacteristic: CBCharacteristic?
@@ -36,22 +43,27 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     }
     
     func startDiscoveringServices() {
-        self.peripheral.discoverServices([BLEServiceUUID])
+        //FIXME
+//        self.peripheral.discoverServices([BLEServiceUUID])
+        self.peripheral.discoverServices(nil)
     }
     
     func reset() {
         //TODO: Is this a better approach than an optional peripheral"?"
         // Resetting to general CBPeripheral
-        peripheral = CBPeripheral()
+        
+        //FIXME: Causes Crash
+//        peripheral = CBPeripheral()
         
         // Deallocating therefore send notification
-        self.sendBTServiceNotificationWithIsBluetoothConnected(false)
+        sendBTServiceNotification(isBluetoothConnected: false)
     }
     
     // Mark: CBPeripheralDelegate
     
     func peripheral(peripheral: CBPeripheral!, didDiscoverServices error: NSError!) {
-        let uuidsForBTService: [CBUUID] = [BLEChar1UUID]
+//        let uuidsForBTService: [CBUUID] = [BLEChar1UUID, BLEChar2UUID]
+        let uuidsForBTService: [CBUUID] = [BLEChar2UUID]
         
         // Wrong Peripheral
         if (peripheral != self.peripheral) {
@@ -67,6 +79,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
             return
         }
         
+        println("Found \(peripheral.services.count) services")
         for service in peripheral.services {
             if service.UUID == BLEServiceUUID {
                 peripheral.discoverCharacteristics(uuidsForBTService, forService: service as CBService)
@@ -81,38 +94,70 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         if (error != nil) {
+            println("Error DiscoveringCharacteristicsForService: \(error.localizedDescription)")
             return
         }
         
+        println("Found \(service.characteristics.count) characteristics")
         for characteristic in service.characteristics {
+            
             //TODO: Identify HR vs. BloodO2 characteristic
             if characteristic.UUID == BLEChar1UUID {
+                println("--- BLEChar1")
                 heartRateCharacteristic = (characteristic as CBCharacteristic)
                 peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
                 
                 // Send notification that Bluetooth is connected and all required characteristics are discovered
-                sendBTServiceNotificationWithIsBluetoothConnected(true)
+                sendBTServiceNotification(isBluetoothConnected: true)
             }
+            else if characteristic.UUID == BLEChar2UUID {
+                println("--- BLEChar2")
+                pulseOxCharacteristic = (characteristic as CBCharacteristic)
+                peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
+                
+                // Send notification that Bluetooth is connected and all required characteristics are discovered
+                sendBTServiceNotification(isBluetoothConnected: true)
+            }
+        }
+    }
+    
+    func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
+        
+    }
+    
+    //Mark: Update Delegate
+    
+    func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
+        if let error = error {
+            println(error.localizedDescription)
+        }
+        
+        delegate?.characteristicDidUpdateValue(characteristic)
+    }
+    
+    func peripheral(peripheral: CBPeripheral!, didReadRSSI RSSI: NSNumber!, error: NSError!) {
+        println("RSSI: \(RSSI)")
+        delegate?.peripheralDidUpdateRSSI(RSSI.integerValue)
+    }
+    
+    func readFromConnectedCharacteristics() {
+        peripheral.readRSSI()
+        
+        if let hrCharacteristic = heartRateCharacteristic {
+            peripheral.readValueForCharacteristic(heartRateCharacteristic)
+        }
+        
+        if let IRCharacteristic = pulseOxCharacteristic {
+            peripheral.readValueForCharacteristic(pulseOxCharacteristic)
         }
     }
     
     // Mark: Private
     
-    func write(position: UInt8) {
-        // See if characteristic has been discovered before writing to it
-        if heartRateCharacteristic == nil {
-            return
-        }
-        
-        // Need a mutable var to pass to writeValue function
-        var positionValue = position
-        let data = NSData(bytes: &positionValue, length: sizeof(UInt8))
-        peripheral.writeValue(data, forCharacteristic: heartRateCharacteristic, type: CBCharacteristicWriteType.WithResponse)
-    }
-    
-    func sendBTServiceNotificationWithIsBluetoothConnected(isBluetoothConnected: Bool) {
+    func sendBTServiceNotification(# isBluetoothConnected: Bool) {
         let connectionDetails = ["isConnected": isBluetoothConnected]
-        postNotification(Notification<[String: Bool]>(name: BLEServiceChangedStatusNotification), connectionDetails)
+//        postNotification(Notification<[String: Bool]>(name: BLEServiceChangedStatusNotification), connectionDetails)
+        NSNotificationCenter.defaultCenter().postNotificationName(BLEServiceChangedStatusNotification, object: self, userInfo: connectionDetails)
     }
     
 }

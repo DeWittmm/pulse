@@ -61,7 +61,6 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
             
             // Connect to peripheral
             central.connectPeripheral(peripheral, options: nil)
-            println("Connected to peripheral \(peripheral)")
         }
     }
     
@@ -78,6 +77,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         // Stop scanning for new devices
         central.stopScan()
+        println("Connected to peripheral \(peripheral)")
     }
     
     func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
@@ -88,8 +88,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         // See if it was our peripheral that disconnected
         if (peripheral == peripheralBLE) {
-            bleService = nil
-            peripheralBLE = nil
+            clearDevices()
         }
         
         // Start scanning for new devices
@@ -99,14 +98,14 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     // MARK: Private
     
     func clearDevices() {
-        self.bleService = nil
-        self.peripheralBLE = nil
+        bleService = nil
+        peripheralBLE = nil
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager!) {
         switch (central.state) {
         case CBCentralManagerState.PoweredOff:
-            self.clearDevices()
+            clearDevices()
             
         case CBCentralManagerState.Unauthorized:
             // Indicate to user that the iOS device does not support BLE.
@@ -117,10 +116,10 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
             break
             
         case CBCentralManagerState.PoweredOn:
-            self.startScanning()
+            startScanning()
             
         case CBCentralManagerState.Resetting:
-            self.clearDevices()
+            clearDevices()
             
         case CBCentralManagerState.Unsupported:
             break
