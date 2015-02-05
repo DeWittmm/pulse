@@ -10,7 +10,7 @@ import Foundation
 import CoreBluetooth
 
 protocol BLEServiceDelegate {
-    func characteristicDidUpdateValue(characteristic: CBCharacteristic)
+    func characteristicDidCollectBin(bin: [Int8])
     func peripheralDidUpdateRSSI(newRSSI: Int)
 }
 
@@ -132,11 +132,22 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
             println(error.localizedDescription)
         }
         
-        delegate?.characteristicDidUpdateValue(characteristic)
+        if let data = characteristic.value {
+//            var values = [Int8](count: data.length, repeatedValue: 0)
+//            data.getBytes(&values)
+            
+            var bytes = UnsafePointer<Int8>(data.bytes)
+            var arr = [Int8]()
+            for var i = 0; i < data.length; i++ {
+                let elem = bytes[i]
+                arr.append(elem)
+            }
+            
+            delegate?.characteristicDidCollectBin(arr)
+        }
     }
     
     func peripheral(peripheral: CBPeripheral!, didReadRSSI RSSI: NSNumber!, error: NSError!) {
-        println("RSSI: \(RSSI)")
         delegate?.peripheralDidUpdateRSSI(RSSI.integerValue)
     }
     

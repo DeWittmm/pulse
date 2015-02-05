@@ -11,7 +11,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "RLED_3" //"IR_1mod5"
+let file = "IR_1mod5" //"RLED_3" //
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -32,7 +32,7 @@ println("Num values: \(values.count)")
 // http://www.arc.id.au/FilterDesign.html
 struct FIRFilter {
 //    let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
-    let FIR_coeff = [0.0, 0.2, 0.5, 0.2, 0.0]
+    let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
 
     var queue = [Double]()
     var data: [Double]

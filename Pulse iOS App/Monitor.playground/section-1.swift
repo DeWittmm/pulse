@@ -46,7 +46,7 @@ println("Num values: \(values.count)")
 let maxValue = values.reduce(0.0) { max($0, $1) }
 maxValue
 
-let maxValueTolerance = 0.95
+let maxValueTolerance = 0.75
 println("Max threshold: \(maxValue * maxValueTolerance)")
 var indicies = [(Int, Double)]()
 for (index, value) in enumerate(values) {
@@ -56,7 +56,7 @@ for (index, value) in enumerate(values) {
 }
 
 //MARK: Clustering
-let HR_WIDTH = 40
+let HR_WIDTH = 100
 var peaks = [(Int, Double)]()
 func average(group: [(Int, Double)]) -> (Int, Double) {
     let count = group.count
@@ -82,18 +82,23 @@ for (index, value) in indicies {
 peaks.append(average(cluster))
 println("Number of peaks found: \(peaks.count)")
 
-let PRINT_BIN_TIME  = 727.0
+//MARK: Calculate BPM
+
+let BIN_PRINT_TIME  = 727.0
 let TIME_PER_POINT = 0.17
 func millsBetweenPoints(p1: Double, p2: Double) -> Double {
 //    println((p1, p2))
     let timePts = (p2 - p1) * TIME_PER_POINT
     let numPrintBins = floor((p2 - p1) / 100)
-    let spanWithPrint = PRINT_BIN_TIME * numPrintBins
-    let milis = (timePts + spanWithPrint) / ((numPrintBins != 0 ? numPrintBins : 1) * 1000)
+    let spanWithPrint = BIN_PRINT_TIME * numPrintBins
+    let milis = (timePts + spanWithPrint)
+    
+    //FIXME
+    let 💩 = ((numPrintBins != 0 ? numPrintBins : 1) * 1000)
     return milis
 }
 
-//MARK: Calculate BPM
+let MIN_TIME_SPAN = 100.0
 var timeSpans = [Double]()
 for var i=0; i < peaks.count - 1; i++ {
     let p1 = peaks[i].0
@@ -102,6 +107,10 @@ for var i=0; i < peaks.count - 1; i++ {
     let time = millsBetweenPoints(Double(p1), Double(p2))
     timeSpans.append(time)
 }
+
+let MILLS_PER_MIN = 60000.0
+timeSpans = timeSpans.filter { $0 > MIN_TIME_SPAN }
+timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
 
 var avgMap = [Double]()
 for var i=0; i < timeSpans.count - 1; i++ {
@@ -112,7 +121,7 @@ for var i=0; i < timeSpans.count - 1; i++ {
 }
 
 avgMap
-var sum = timeSpans.reduce(0.0) { $0 + 60/$1 }
+var sum = timeSpans.reduce(0.0) { $0 + $1 }
 let avgBPM = sum/Double(timeSpans.count)
 print("Average HR: \(avgBPM) BPM")
 

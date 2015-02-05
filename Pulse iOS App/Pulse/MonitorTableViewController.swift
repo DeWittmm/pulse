@@ -89,15 +89,15 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     //MARK: BLE Connection (BLEServiceDelegate)
     
-    func characteristicDidUpdateValue(characteristic: CBCharacteristic) {
-        if let data = characteristic.value {
-            var int1: UInt = 0
-            data.getBytes(&int1, length: sizeof(UInt))
-            bpmLabel.text = "\(int1)"
-        }
+    func characteristicDidCollectBin(bin: [Int8]) {
+        println("bin: \(bin)")
+
+        bpmLabel.text = "\(bin)"
     }
     
     func peripheralDidUpdateRSSI(newRSSI: Int) {
+        println("RSSI: \(newRSSI)")
+
         rssiLabel.text = "\(newRSSI)"
     }
     
