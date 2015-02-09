@@ -8,12 +8,12 @@
 
 import UIKit
 
-infix operator + { associativity left precedence 100 }
+//infix operator + { associativity left precedence 100 }
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x:left.x + right.x, y: left.y + right.y)
 }
 
-infix operator - { associativity left precedence 100 }
+//infix operator - { associativity left precedence 100 }
 func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x:left.x - right.x, y: left.y - right.y)
 }

@@ -261,7 +261,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eYO-m2-9O4" userLabel="Blue">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="202"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="207.5"/>
                                 <color key="backgroundColor" red="0.21176470588235294" green="0.53333333333333333" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rE9-W6-9ZI" userLabel="Red">
@@ -269,9 +269,9 @@
                                 <color key="backgroundColor" red="0.97254901960784312" green="0.29803921568627451" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="110 BPM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="101" y="241" width="398" height="118"/>
+                                <rect key="frame" x="121" y="246" width="358" height="107"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="100"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="90"/>
                                 <color key="textColor" red="0.95570943809999997" green="0.95570943809999997" blue="0.95570943809999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>

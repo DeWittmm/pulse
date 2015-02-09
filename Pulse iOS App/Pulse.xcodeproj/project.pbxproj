@@ -140,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				0A9135E71A702202005B2F7A /* UIViewOperators.swift */,
+				0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -196,7 +197,6 @@
 				0A85ED281A7FF54700BD5863 /* Monitor */,
 				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
 				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
-				0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
 				0A9135EA1A7026C6005B2F7A /* Helpers */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,

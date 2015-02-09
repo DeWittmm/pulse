@@ -72,19 +72,15 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        hrGraph.reloadGraph()
+        sp02Graph.reloadGraph()
+        
         bleRead()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    //MARK: TableViewDelegate
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return 6
     }
     
     //MARK: BLE Connection (BLEServiceDelegate)
