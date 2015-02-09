@@ -27,8 +27,8 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "IR_1mod5FILTERED" //"RLED_3
-let ext = file + ".csv"
+let file = "RLED_4mod10" //"IR_1mod5FILTERED" //"RLED_3
+let ext = file + "FILTERED.csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
 

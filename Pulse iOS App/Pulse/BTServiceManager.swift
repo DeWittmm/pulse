@@ -142,13 +142,18 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
                 let elem = bytes[i]
                 arr.append(elem)
             }
-            
-            delegate?.characteristicDidCollectBin(arr)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.characteristicDidCollectBin(arr)
+                return
+            }
         }
     }
     
     func peripheral(peripheral: CBPeripheral!, didReadRSSI RSSI: NSNumber!, error: NSError!) {
-        delegate?.peripheralDidUpdateRSSI(RSSI.integerValue)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.peripheralDidUpdateRSSI(RSSI.integerValue)
+            return
+        }
     }
     
     func readFromConnectedCharacteristics() {
@@ -166,9 +171,8 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     // Mark: Private
     
     func sendBTServiceNotification(# isBluetoothConnected: Bool) {
-        let connectionDetails = ["isConnected": isBluetoothConnected]
-        postNotification(Notification<[String: Bool]>(name: BLEServiceChangedStatusNotification), connectionDetails)
-        NSNotificationCenter.defaultCenter().postNotificationName(BLEServiceChangedStatusNotification, object: self, userInfo: connectionDetails)
+//        let connectionDetails = ["isConnected": isBluetoothConnected]
+        postNotification(Notification<Bool>(name: BLEServiceChangedStatusNotification), isBluetoothConnected)
     }
     
 }

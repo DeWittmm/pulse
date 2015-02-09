@@ -1,5 +1,5 @@
 //
-//  HRGraphDelegate.swift
+//  graphViewDelegate.swift
 //  Pulse
 //
 //  Created by Michael DeWitt on 2/9/15.
@@ -20,8 +20,14 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         graphView = graph
         super.init()
 
-        graphView.widthLine = 3.0
+        graphView.colorTop = UIColor.clearColor()
+        graphView.colorBottom = UIColor.clearColor()
+        graphView.backgroundColor = UIColor.clearColor()
+        graphView.widthLine = 4.0
+        graphView.enableTouchReport = true
         graphView.enablePopUpReport = true
+        graphView.enableYAxisLabel = true
+        graphView.autoScaleYAxis = true
         graphView.delegate = self
         graphView.dataSource = self
     }

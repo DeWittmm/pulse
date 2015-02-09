@@ -13,12 +13,17 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     //MARK: Outlets
     
+    @IBOutlet weak var monitorLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var bpmLabel: UILabel!
     @IBOutlet weak var spO2Label: UILabel!
     @IBOutlet weak var rssiLabel: UILabel!
     @IBOutlet weak var peripheralIDLabel: UILabel!
+    @IBOutlet weak var packetSize: UILabel!
     
     @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
+    @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
     
@@ -26,19 +31,41 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         GraphDelegate(graph: self.hrGraph)
     }()
     
+    lazy var sp02GraphDelegate: GraphDelegate = {
+        GraphDelegate(graph: self.sp02Graph)
+    }()
+    
+    var isConnected: Bool = false {
+        didSet {
+            if (isConnected) {
+                monitorLabel.text = "Monitor"
+                activityIndicator.stopAnimating()
+            }
+            else {
+                monitorLabel.text = "Searching..."
+                activityIndicator.startAnimating()
+                println("BLE Disconnected")
+            }
+        }
+    }
+    
     let btDiscovery = btDiscoverySharedInstance
     
     //Observers
-    let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)
+    let bleStatusNotification: Notification<Bool> = Notification(name:BLEServiceChangedStatusNotification)
     private lazy var observer: NotificationObserver = {
-        NotificationObserver(notification: self.bleStatusNotification, self.bleConnectionChanged)
+        NotificationObserver(notification: self.bleStatusNotification, block: self.bleConnectionChanged)
     }()
     
     override func viewDidLoad() {
+        isConnected = false
+        
         super.viewDidLoad()
         
         btDiscovery.startScanning()
+        
         hrGraphDelegate.addData([1.7, 1.9, 1.3, 0.7, 9.9, 12.8])
+        sp02GraphDelegate.addData([1.7, 1.9, 1.3, 0.7, 9.9, 12.8])
         observer.observer //simply instantiating lazy var
     }
     
@@ -56,44 +83,16 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     //MARK: TableViewDelegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if btDiscovery.bleService != nil {
-            tableView.backgroundView = nil
-            return 5
-        }
         
-        createEmptyTableView()
-        return 5
-    }
-        
-    func createEmptyTableView() {
-        let scanView = UIView(frame: CGRect(origin: CGPointZero, size: tableView.frame.size))
-        scanView.backgroundColor = UIColor.whiteColor()
-        
-        let label = UILabel()
-        
-        label.center = tableView.center - CGPoint(x: 100, y: 40)
-        label.text = "Scanning for BLE devices..."
-        label.textAlignment = .Center
-        label.sizeToFit()
-
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = scanView.center
-        activityIndicator.startAnimating()
-        activityIndicator.color = UIColor.blackColor()
-        
-        scanView.addSubview(label)
-        scanView.addSubview(activityIndicator)
-        scanView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        
-        tableView.separatorColor = UIColor.clearColor()
-        tableView.backgroundView = scanView
+        return 6
     }
     
     //MARK: BLE Connection (BLEServiceDelegate)
     
     func characteristicDidCollectBin(bin: [Int8]) {
         println("bin: \(bin)")
-
+        
+        packetSize.text = "\(bin.count)"
         bpmLabel.text = "\(bin)"
     }
     
@@ -103,20 +102,15 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         rssiLabel.text = "\(newRSSI)"
     }
     
-    func bleConnectionChanged(userInfo: [String: Bool]) {
+    func bleConnectionChanged(connected: Bool) {
         // Indicate Connection status changed.
-    
-        dispatch_async(dispatch_get_main_queue(), {
-            if let isConnected: Bool = userInfo["isConnected"] {
-                if isConnected {
-                    self.tableView.reloadData()
-                    self.beginBLEReading()
-                } else {
-                    self.tableView.reloadData()
-                    println("BLE Disconnected")
-                }
-            }
-        });
+        isConnected = connected;
+        
+        if connected {
+            self.beginBLEReading()
+        }
+        
+        self.tableView.reloadData()
     }
     
     func beginBLEReading() {

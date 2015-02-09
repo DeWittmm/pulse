@@ -21,8 +21,8 @@ func postNotification<A>(note: Notification<A>, value: A) {
 class NotificationObserver {
     let observer: NSObjectProtocol
     
-    init<A>(notification: Notification<A>, block aBlock: A -> ()) {
-        observer = NSNotificationCenter.defaultCenter().addObserverForName(notification.name, object: nil, queue: nil) { note in
+    init<A>(notification: Notification<A>, block aBlock: A -> (), opQueue: NSOperationQueue = NSOperationQueue.mainQueue()) {
+        observer = NSNotificationCenter.defaultCenter().addObserverForName(notification.name, object: nil, queue: opQueue) { note in
             if let value = (note.userInfo?["value"] as? Box<A>)?.unbox {
                 aBlock(value)
             } else {
