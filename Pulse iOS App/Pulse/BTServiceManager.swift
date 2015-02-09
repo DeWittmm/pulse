@@ -10,7 +10,7 @@ import Foundation
 import CoreBluetooth
 
 protocol BLEServiceDelegate {
-    func characteristicDidCollectBin(bin: [Int8])
+    func characteristicDidCollectBin(bin: [UInt8])
     func peripheralDidUpdateRSSI(newRSSI: Int)
 }
 
@@ -26,6 +26,9 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     //MARK: Properties
     
     var delegate: BLEServiceDelegate?
+    
+    let binCapacity = 500
+    var dataBin = [UInt8]()
     
     var peripheral: CBPeripheral
     var heartRateCharacteristic: CBCharacteristic?
@@ -136,15 +139,22 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
 //            var values = [Int8](count: data.length, repeatedValue: 0)
 //            data.getBytes(&values)
             
-            var bytes = UnsafePointer<Int8>(data.bytes)
-            var arr = [Int8]()
+            var bytes = UnsafePointer<UInt8>(data.bytes)
+            var arr = [UInt8]()
             for var i = 0; i < data.length; i++ {
                 let elem = bytes[i]
                 arr.append(elem)
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                self.delegate?.characteristicDidCollectBin(arr)
-                return
+            dataBin += arr
+            
+            if (dataBin.count > binCapacity) {
+            
+                let bin = dataBin
+                dataBin.removeAll(keepCapacity: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.characteristicDidCollectBin(bin)
+                    return
+                }
             }
         }
     }

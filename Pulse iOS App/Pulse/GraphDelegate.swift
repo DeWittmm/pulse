@@ -10,11 +10,21 @@ import Foundation
 
 class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate {
     
-    //MARK: Properties
-    var dataBinSize = 100
-    
+    //MARK: Properties    
     private var graphView: BEMSimpleLineGraphView
-    private var data = [CGFloat]()
+    
+    private var refreshDate = NSDate()
+    private var minRefreshTime: NSTimeInterval = 2.5
+    
+    var data:[Double] = [Double]() {
+        didSet {
+            let interval = -self.refreshDate.timeIntervalSinceNow
+            if  interval > minRefreshTime {
+                graphView.reloadGraph()
+                refreshDate = NSDate()
+            }
+        }
+    }
     
     init(graph: BEMSimpleLineGraphView) {
         graphView = graph
@@ -30,15 +40,6 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         graphView.autoScaleYAxis = true
         graphView.delegate = self
         graphView.dataSource = self
-    }
-    
-    func addData(newData: [CGFloat]) {
-        data += newData
-        if data.count > dataBinSize {
-            data.removeRange(dataBinSize...data.count)
-        }
-        
-        graphView.reloadGraph()
     }
     
     //MARK: LineGraphDelegate
@@ -57,7 +58,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     
     func lineGraph(graph: BEMSimpleLineGraphView!, valueForPointAtIndex index: Int) -> CGFloat {
         
-        return data[index]
+        return CGFloat(data[index])
     }
     
 }

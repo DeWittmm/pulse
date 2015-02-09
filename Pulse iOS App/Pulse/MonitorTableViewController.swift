@@ -64,8 +64,8 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         
         btDiscovery.startScanning()
         
-        hrGraphDelegate.addData([1.7, 1.9, 1.3, 0.7, 9.9, 12.8])
-        sp02GraphDelegate.addData([1.7, 1.9, 1.3, 0.7, 9.9, 12.8])
+        hrGraphDelegate.data = [0.0, 0.0]
+        sp02GraphDelegate.data = [0.0, 0.0]
         observer.observer //simply instantiating lazy var
     }
     
@@ -89,11 +89,16 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     //MARK: BLE Connection (BLEServiceDelegate)
     
-    func characteristicDidCollectBin(bin: [Int8]) {
-        println("bin: \(bin)")
+    func characteristicDidCollectBin(bin: [UInt8]) {
+        println("Bin: \(bin)")
         
         packetSize.text = "\(bin.count)"
-        bpmLabel.text = "\(bin)"
+
+        let data = DataCruncher(rawData: bin)
+        hrGraphDelegate.data = data?.filteredValues ?? [0.0, 0.0]
+        
+        let heartRate = data?.calculateHeartRate()
+        bpmLabel.text = "\(heartRate ?? 0) BPM"
     }
     
     func peripheralDidUpdateRSSI(newRSSI: Int) {

@@ -31,3 +31,17 @@ add((1, 5.0), (2, 1.7))
 var dataPoint: (point: Int, value: Double)
 
 DataPoint(point: 1, value: 5.0)
+
+let refreshDate = NSDate(timeIntervalSince1970: 1000)
+let interval = NSDate.timeIntervalSinceDate(refreshDate)
+
+interval(refreshDate)
+
+let date = NSDate(timeInterval: 100, sinceDate: NSDate())
+date.timeIntervalSinceNow
+
+var intArr = [UInt](count: 100, repeatedValue: 0)
+intArr.count
+
+intArr.removeAll(keepCapacity: true)
+intArr.count
