@@ -87,6 +87,7 @@ BGLib ble112((HardwareSerial *)&bleSerialPort, 0, 1);
 
 // initialization sequence
 void setup() {
+    Serial.begin(9600);
     // initialize status LED
     pinMode(LED_PIN, OUTPUT);
     digitalWrite(LED_PIN, LOW);
@@ -130,14 +131,19 @@ void loop() {
     //  - 3 pulses per second = CONNECTED_SLAVE with encryption
     uint16_t slice = millis() % 1000;
     if (ble_state == BLE_STATE_STANDBY) {
-        digitalWrite(LED_PIN, HIGH);
+        //digitalWrite(LED_PIN, HIGH);
     } else if (ble_state == BLE_STATE_ADVERTISING) {
-        digitalWrite(LED_PIN, slice < 100);
+        //digitalWrite(LED_PIN, slice < 100);
     } else if (ble_state == BLE_STATE_CONNECTED_SLAVE) {
+    
+        // Send array of three bytes
+        const uint8 data[] = {1, 2, 3};
+        ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, 3, data);
+       
         if (!ble_encrypted) {
-            digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300));
+            //digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300));
         } else {
-            digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300) || (slice > 400 && slice < 500));
+            //digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300) || (slice > 400 && slice < 500));
         }
     }
 }
