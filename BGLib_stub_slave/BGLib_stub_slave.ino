@@ -146,7 +146,7 @@ void loop() {
       
         for(int i = 0; i < BINSIZE; i++) {
           sensorValue = analogRead(SENSOR);
-          infraredReadings[i++] = sensorValue;
+          infraredReadings[i] = sensorValue;
         }
 
         ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, BINSIZE, infraredReadings);
@@ -158,7 +158,6 @@ void loop() {
         }
     }
 }
-
 
 
 // ================================================================
