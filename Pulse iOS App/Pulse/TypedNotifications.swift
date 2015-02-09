@@ -12,14 +12,10 @@ struct Notification<A> {
     let name: String
 }
 
-func postNotification<A>(note: Notification<A>, value: A, queue:
-    
-    dispatch_queue_t = dispatch_get_main_queue()) {
+func postNotification<A>(note: Notification<A>, value: A) {
    
-    dispatch_async(queue, { () -> Void in
-        let userInfo = ["value": Box(value)]
-        NSNotificationCenter.defaultCenter().postNotificationName(note.name, object: nil, userInfo: userInfo)
-    })
+    let userInfo = ["value": Box(value)]
+    NSNotificationCenter.defaultCenter().postNotificationName(note.name, object: nil, userInfo: userInfo)
 }
 
 class NotificationObserver {

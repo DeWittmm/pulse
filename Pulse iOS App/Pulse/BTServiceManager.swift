@@ -167,7 +167,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     func sendBTServiceNotification(# isBluetoothConnected: Bool) {
         let connectionDetails = ["isConnected": isBluetoothConnected]
-//        postNotification(Notification<[String: Bool]>(name: BLEServiceChangedStatusNotification), connectionDetails)
+        postNotification(Notification<[String: Bool]>(name: BLEServiceChangedStatusNotification), connectionDetails)
         NSNotificationCenter.defaultCenter().postNotificationName(BLEServiceChangedStatusNotification, object: self, userInfo: connectionDetails)
     }
     

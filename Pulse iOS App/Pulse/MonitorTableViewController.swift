@@ -18,27 +18,28 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     @IBOutlet weak var rssiLabel: UILabel!
     @IBOutlet weak var peripheralIDLabel: UILabel!
     
+    @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
     
     //MARK: Properties
     
+    lazy var hrGraphDelegate: GraphDelegate = {
+        GraphDelegate(graph: self.hrGraph)
+    }()
+    
     let btDiscovery = btDiscoverySharedInstance
+    
+    //Observers
+    let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)
+    private lazy var observer: NotificationObserver = {
+        NotificationObserver(notification: self.bleStatusNotification, self.bleConnectionChanged)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         btDiscovery.startScanning()
-        
-        // Watch Bluetooth connection
-//        let bleStatusNotification: Notification<[String : Bool]> = Notification(name:BLEServiceChangedStatusNotification)        
-//        NotificationObserver(notification: bleStatusNotification) { userInfo in
-//            self.bleConnectionChanged(userInfo)
-//        }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("bleConnectionChanged:"), name: BLEServiceChangedStatusNotification, object: nil)
-    }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: BLEServiceChangedStatusNotification, object: nil)
+        hrGraphDelegate.addData([1.7, 1.9, 1.3, 0.7, 9.9, 12.8])
+        observer.observer //simply instantiating lazy var
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -56,11 +57,12 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if btDiscovery.bleService != nil {
+            tableView.backgroundView = nil
             return 5
         }
         
         createEmptyTableView()
-        return 0
+        return 5
     }
         
     func createEmptyTableView() {
@@ -101,10 +103,8 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         rssiLabel.text = "\(newRSSI)"
     }
     
-//    func bleConnectionChanged(userInfo: [String: Bool]) {
-    func bleConnectionChanged(notification: NSNotification) {
-        // Connection status changed. Indicate on GUI.
-        let userInfo = notification.userInfo as [String: Bool]
+    func bleConnectionChanged(userInfo: [String: Bool]) {
+        // Indicate Connection status changed.
     
         dispatch_async(dispatch_get_main_queue(), {
             if let isConnected: Bool = userInfo["isConnected"] {

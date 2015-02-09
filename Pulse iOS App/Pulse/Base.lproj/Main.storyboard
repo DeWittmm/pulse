@@ -41,6 +41,10 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXX-a9-S0q" id="zlQ-yl-TPa">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSh-sY-DqJ" customClass="BEMSimpleLineGraphView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--- BPM" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6do-Zq-dwj">
                                                     <rect key="frame" x="402" y="15" width="204" height="172"/>
                                                     <constraints>
@@ -53,9 +57,13 @@
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="leading" secondItem="zlQ-yl-TPa" secondAttribute="leading" id="5g7-CH-UH4"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="6do-Zq-dwj" secondAttribute="bottom" constant="4.5" id="Xj5-6P-RF4"/>
+                                                <constraint firstAttribute="trailing" secondItem="OSh-sY-DqJ" secondAttribute="trailing" id="XvK-0r-Ggv"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="6do-Zq-dwj" secondAttribute="trailing" constant="-14" id="ZxV-1p-xtI"/>
+                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="top" secondItem="zlQ-yl-TPa" secondAttribute="top" id="b83-wg-qr1"/>
                                                 <constraint firstItem="6do-Zq-dwj" firstAttribute="top" secondItem="zlQ-yl-TPa" secondAttribute="topMargin" constant="7" id="bpL-28-ZIT"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="OSh-sY-DqJ" secondAttribute="bottom" constant="-8.5" id="sQZ-fh-XUG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -165,6 +173,7 @@
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="sxK-Vq-uwo"/>
                     <connections>
                         <outlet property="bpmLabel" destination="6do-Zq-dwj" id="FRF-fU-cvi"/>
+                        <outlet property="hrGraph" destination="OSh-sY-DqJ" id="VLH-Rl-2jg"/>
                         <outlet property="peripheralIDLabel" destination="C9W-Nv-NPH" id="NQY-nW-c4U"/>
                         <outlet property="rssiLabel" destination="yaJ-56-F7n" id="yOu-tC-emJ"/>
                         <outlet property="spO2Label" destination="4np-hf-7Yr" id="VMz-ak-41O"/>
