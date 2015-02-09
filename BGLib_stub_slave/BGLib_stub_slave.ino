@@ -32,6 +32,12 @@ THE SOFTWARE.
 #include <SoftwareSerial.h>
 #include "BGLib.h"
 
+//SpO2 #defines
+#define IR_LED    7
+#define RED_LED   8
+#define SENSOR A0
+#define BINSIZE 15
+
 // uncomment the following line for debug serial output
 #define DEBUG
 
@@ -135,11 +141,16 @@ void loop() {
     } else if (ble_state == BLE_STATE_ADVERTISING) {
         //digitalWrite(LED_PIN, slice < 100);
     } else if (ble_state == BLE_STATE_CONNECTED_SLAVE) {
-    
-        // Send array of three bytes
-        const uint8 data[] = {1, 2, 3};
-        ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, 3, data);
-       
+        uint8_t sensorValue;
+        uint8_t infraredReadings[BINSIZE];
+      
+        for(int i = 0; i < BINSIZE; i++) {
+          sensorValue = analogRead(SENSOR);
+          infraredReadings[i++] = sensorValue;
+        }
+
+        ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, BINSIZE, infraredReadings);
+        
         if (!ble_encrypted) {
             //digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300));
         } else {
