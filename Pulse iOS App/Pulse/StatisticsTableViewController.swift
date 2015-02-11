@@ -40,7 +40,7 @@ class StatisticsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SegmentedCellIdentifier, forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(SegmentedCellIdentifier, forIndexPath: indexPath) as! UITableViewCell
 
         return cell
     }

@@ -36,8 +36,10 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         graphView.widthLine = 4.0
         graphView.enableTouchReport = true
         graphView.enablePopUpReport = true
-        graphView.enableYAxisLabel = true
-        graphView.autoScaleYAxis = true
+//        graphView.enableYAxisLabel = true
+//        graphView.autoScaleYAxis = true
+        graphView.enableReferenceYAxisLines = true
+//        graphView.alwaysDisplayDots = true
         graphView.delegate = self
         graphView.dataSource = self
     }
@@ -46,6 +48,14 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     
     func lineGraph(graph: BEMSimpleLineGraphView!, alwaysDisplayPopUpAtIndex index: CGFloat) -> Bool {
         return true
+    }
+    
+    func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 4.5
+    }
+    
+    func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 0.0
     }
     
     //MARK: LineGraphDataSource

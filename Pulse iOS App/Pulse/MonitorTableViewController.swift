@@ -86,15 +86,15 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     //MARK: BLE Connection (BLEServiceDelegate)
     
     func characteristicDidCollectBin(bin: [UInt8]) {
-        println("Bin: \(bin)")
-        
         packetSize.text = "\(bin.count)"
 
         let data = DataCruncher(rawData: bin)
+        println("Data: \(data?.filteredValues ?? [0.0,0.0])")
+
         hrGraphDelegate.data = data?.filteredValues ?? [0.0, 0.0]
         
         let heartRate = data?.calculateHeartRate()
-        bpmLabel.text = "\(heartRate ?? 0) BPM"
+        bpmLabel.text = String(format:"%.01f BPM", arguments: [heartRate ?? 0])
     }
     
     func peripheralDidUpdateRSSI(newRSSI: Int) {

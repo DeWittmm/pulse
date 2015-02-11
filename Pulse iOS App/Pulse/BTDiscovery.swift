@@ -21,7 +21,7 @@ let btDiscoverySharedInstance = BTDiscovery();
 
 class BTDiscovery: NSObject, CBCentralManagerDelegate {
     
-    private let centralManager: CBCentralManager!
+    private var centralManager: CBCentralManager! //Would be much better as let
     private var peripheralBLE: CBPeripheral?
     
     var bleService: BTServiceManager? {
@@ -34,11 +34,12 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         super.init()
         
-        let centralQueue = dispatch_queue_create("com.centralBLEServiceQueue", DISPATCH_QUEUE_SERIAL)
+        let centralQueue = dispatch_queue_create("com.centralBLEManagerQueue", DISPATCH_QUEUE_SERIAL)
         centralManager = CBCentralManager(delegate:self, queue: centralQueue)
     }
     
     func startScanning() {
+        //Although "Not recommended" passing nil for the BLEServiceUUID's will search for all devices
         centralManager.scanForPeripheralsWithServices([BLEServiceUUID], options: nil)
     }
     

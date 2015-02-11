@@ -11,14 +11,14 @@ import Foundation
 //Finite Impulse Response (FIR) filter
 // http://www.arc.id.au/FilterDesign.html
 struct FIRFilter {
-    //    let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
-    let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
+    //    static let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
+    static let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
     
     var queue = [Double]()
     var data: [Double]
     
     init?(inputData: [Double]) {
-        let count = FIR_coeff.count
+        let count = FIRFilter.FIR_coeff.count
         if count > inputData.count {
             return nil
         }
@@ -34,7 +34,7 @@ struct FIRFilter {
             
             var output = 0.0
             for (index,value) in enumerate(self.queue) {
-                output += value * self.FIR_coeff[index]
+                output += value * FIRFilter.FIR_coeff[index]
             }
             return output
         }
@@ -58,7 +58,6 @@ class DataCruncher {
     
     //MARK: Private Properties
     
-    private let conversionFactor = 1024/5.0
     
     //MARK: Properties
 
@@ -66,7 +65,9 @@ class DataCruncher {
     
     init?(rawData: [UInt8]) {
         
-        let voltageValues = rawData.map { Double($0) * 1024/5.0 }
+        // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
+        let conversionFactor = 4.0 / 1023.0
+        let voltageValues = rawData.map { Double($0) * conversionFactor }
         
         //Filtering
         if var lowPass =  FIRFilter(inputData: voltageValues) {
@@ -127,7 +128,6 @@ class DataCruncher {
         maxValue
         
         let maxValueTolerance = 0.75
-        println("Max threshold: \(maxValue * maxValueTolerance)")
         var indicies = [DataPoint]()
         for (index, value) in enumerate(filteredValues) {
             if value >= maxValue * maxValueTolerance {

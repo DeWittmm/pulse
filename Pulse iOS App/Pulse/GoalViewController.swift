@@ -11,6 +11,9 @@ import UIKit
 class GoalViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var bottomBlueConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topRedConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomLabelConstraint: NSLayoutConstraint!
     
     private let MAX_HR = 180
     private let MIN_HR = 60
@@ -29,6 +32,22 @@ class GoalViewController: UIViewController {
     @IBAction func panGesture(sender: UIPanGestureRecognizer) {
         
         let point = sender.locationInView(view)
+        if sender.state == .Ended || sender.state == .Began {
+            sender.setTranslation(CGPointZero, inView: view)
+        }
+        
+//        var translation = sender.translationInView(view).y / 15.0
+//        topRedConstraint.constant += translation
+//        bottomBlueConstraint.constant += translation
+//        bottomLabelConstraint.constant += translation
+        
+        if point.y > 0 {
+            view.layoutIfNeeded()
+            topRedConstraint.constant = point.y
+            bottomBlueConstraint.constant = point.y + 30
+            bottomLabelConstraint.constant = point.y - label.frame.size.height/2 + 2
+        }
+        
         let step = CGFloat(MAX_HR - MIN_HR) / view.frame.height
         
         let value = MAX_HR - Int(point.y * step)

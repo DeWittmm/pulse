@@ -13,13 +13,18 @@ protocol BLEServiceDelegate {
     func characteristicDidCollectBin(bin: [UInt8])
     func peripheralDidUpdateRSSI(newRSSI: Int)
 }
-
-// MARK: Services & Characteristics UUIDs for BLUETOOTH LOW ENERGY TINYSHIELD - REV 2
-let BLEServiceUUID = CBUUID(string: "195ae58a-437a-489b-b0cd-b7c9c394bae4")
-let BLEChar1UUID = CBUUID(string: "5fc569a0-74a9-4fa4-b8b7-8354c86e45a4")
-let BLEChar2UUID = CBUUID(string: "21819ab0-c937-4188-b0db-b9621e1696cd")
-
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
+
+// MARK: Services & Characteristics UUIDs for: BLUETOOTH LOW ENERGY TINYSHIELD - REV 2
+//let BLEServiceUUID = CBUUID(string: "195ae58a-437a-489b-b0cd-b7c9c394bae4")
+//let BLEChar1UUID = CBUUID(string: "5fc569a0-74a9-4fa4-b8b7-8354c86e45a4")
+//let BLEChar2UUID = CBUUID(string: "21819ab0-c937-4188-b0db-b9621e1696cd")
+
+//REDBEAR LAB
+let BLEServiceUUID = CBUUID(string: "713D0000-503E-4C75-BA94-3148F18D941E")
+let BLEChar1UUID = CBUUID(string:  "713D0002-503E-4C75-BA94-3148F18D941E") //RBL_CHAR_TX_UUID
+let BLEChar2UUID = CBUUID(string: "713D0003-503E-4C75-BA94-3148F18D941E") //RBL_CHAR_RX_UUID
+
 
 class BTServiceManager: NSObject, CBPeripheralDelegate {
     
@@ -27,7 +32,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     var delegate: BLEServiceDelegate?
     
-    let binCapacity = 500
+    let binCapacity = 250
     var dataBin = [UInt8]()
     
     var peripheral: CBPeripheral
@@ -52,11 +57,6 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     }
     
     func reset() {
-        //TODO: Is this a better approach than an optional peripheral"?"
-        // Resetting to general CBPeripheral
-        
-        //FIXME: Causes Crash
-//        peripheral = CBPeripheral()
         
         // Deallocating therefore send notification
         sendBTServiceNotification(isBluetoothConnected: false)
@@ -83,10 +83,13 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         println("Found \(peripheral.services.count) services")
-        for service in peripheral.services {
-            if service.UUID == BLEServiceUUID {
-                peripheral.discoverCharacteristics(uuidsForBTService, forService: service as CBService)
-            }
+        for service in peripheral.services as! [CBService] {
+            //FIXME: REDBEARLAB
+            peripheral.discoverCharacteristics(nil, forService: service)
+
+//            if service.UUID == BLEServiceUUID { //Redundant check
+//                peripheral.discoverCharacteristics(uuidsForBTService, forService: service as! CBService)
+//            }
         }
     }
     
@@ -102,21 +105,21 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         println("Found \(service.characteristics.count) characteristics")
-        for characteristic in service.characteristics {
+        for characteristic in service.characteristics as! [CBCharacteristic] {
             
             //TODO: Identify HR vs. BloodO2 characteristic
             if characteristic.UUID == BLEChar1UUID {
                 println("--- BLEChar1")
-                heartRateCharacteristic = (characteristic as CBCharacteristic)
-                peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
+                heartRateCharacteristic = characteristic
+                peripheral.setNotifyValue(true, forCharacteristic: characteristic)
                 
                 // Send notification that Bluetooth is connected and all required characteristics are discovered
                 sendBTServiceNotification(isBluetoothConnected: true)
             }
             else if characteristic.UUID == BLEChar2UUID {
                 println("--- BLEChar2")
-                pulseOxCharacteristic = (characteristic as CBCharacteristic)
-                peripheral.setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
+                pulseOxCharacteristic = characteristic
+                peripheral.setNotifyValue(true, forCharacteristic: characteristic)
                 
                 // Send notification that Bluetooth is connected and all required characteristics are discovered
                 sendBTServiceNotification(isBluetoothConnected: true)
@@ -124,15 +127,13 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
     }
     
-    func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
-        
-    }
+    func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {}
     
     //Mark: Update Delegate
     
     func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
         if let error = error {
-            println(error.localizedDescription)
+            println("ERROR (value from Char): \(error.localizedDescription)")
         }
         
         if let data = characteristic.value {
@@ -156,6 +157,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
                     return
                 }
             }
+            println("Building Bin: \(dataBin.count)")
         }
     }
     
@@ -181,7 +183,6 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     // Mark: Private
     
     func sendBTServiceNotification(# isBluetoothConnected: Bool) {
-//        let connectionDetails = ["isConnected": isBluetoothConnected]
         postNotification(Notification<Bool>(name: BLEServiceChangedStatusNotification), isBluetoothConnected)
     }
     
