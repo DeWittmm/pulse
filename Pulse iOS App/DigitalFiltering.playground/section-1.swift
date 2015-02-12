@@ -11,7 +11,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "RLED_4mod10" //"IR_1mod5" //
+let file = "RealDealArduino2"//"RLED_4mod10" //"IR_1mod5" //
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -21,7 +21,7 @@ if csvFileContents == nil {
     abort()
 }
 
-let strValues = csvFileContents!.componentsSeparatedByString(",\n")
+let strValues = csvFileContents!.componentsSeparatedByString(",")
 
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
@@ -38,7 +38,8 @@ struct FIRFilter {
     var data: [Double]
     
     init(inputData: [Double]) {
-        let count = FIR_coeff.count
+
+        let count = 5
         data = Array(inputData[count..<inputData.count])
         queue += inputData[0..<count]
     }
@@ -59,8 +60,12 @@ struct FIRFilter {
 
 
 //FIXME: Slicing for speed
-let someValues = Array(values[0..<800])
-var lowpass = FIRFilter(inputData: someValues) //mutating
+let someValues = Array(values[0..<values.count/2])
+//let reasonableValues = someValues.filter { $0 < 1000.0 && $0 > 200 }
+let conversionFactor = 4.0 / 1023.0
+let voltageValues = someValues.map { Double($0) * conversionFactor }
+
+var lowpass = FIRFilter(inputData: voltageValues) //mutating
 let filValues = lowpass.filter()
 
 func writeValueAsCSV(value: String, toFilePath filePath: String) {

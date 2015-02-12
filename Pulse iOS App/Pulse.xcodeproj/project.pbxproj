@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
@@ -63,6 +65,7 @@
 		0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
 		0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTServiceManager.swift; sourceTree = "<group>"; };
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
+		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCruncher.swift; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 			children = (
 				0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */,
 				0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */,
+				0A2276371A8D1BE60040A30E /* UUIDConstants.swift */,
 			);
 			name = BT;
 			sourceTree = "<group>";
@@ -417,6 +421,7 @@
 			files = (
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
+				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
@@ -434,6 +439,7 @@
 			files = (
 				0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A9135F61A702770005B2F7A /* GoalViewController.swift in Sources */,
+				0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A3DBDDD1A89697C00DE8065 /* DataCruncher.swift in Sources */,

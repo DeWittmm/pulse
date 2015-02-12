@@ -19,7 +19,6 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     @IBOutlet weak var bpmLabel: UILabel!
     @IBOutlet weak var spO2Label: UILabel!
     @IBOutlet weak var rssiLabel: UILabel!
-    @IBOutlet weak var peripheralIDLabel: UILabel!
     @IBOutlet weak var packetSize: UILabel!
     
     @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
@@ -38,8 +37,10 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     var isConnected: Bool = false {
         didSet {
             if (isConnected) {
-                monitorLabel.text = "Monitor"
-                activityIndicator.stopAnimating()
+                if let service = btDiscovery.bleService {
+                    monitorLabel.text = "\(service.peripheral.name)"
+                    activityIndicator.stopAnimating()
+                }
             }
             else {
                 monitorLabel.text = "Searching..."
@@ -67,13 +68,16 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         hrGraphDelegate.data = [0.0, 0.0]
         sp02GraphDelegate.data = [0.0, 0.0]
         observer.observer //simply instantiating lazy var
+        
+        sp02Graph.colorLine = UIColor.blueColor()
+        hrGraph.colorLine = UIColor.redColor()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        hrGraph.reloadGraph()
+
         sp02Graph.reloadGraph()
+        hrGraph.reloadGraph()
         
         bleRead()
     }
@@ -85,11 +89,11 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
     
     //MARK: BLE Connection (BLEServiceDelegate)
     
-    func characteristicDidCollectBin(bin: [UInt8]) {
+    func characteristic(characteristic: CBCharacteristic, didCollectDataBin bin: [UInt8]) {
+        println("Bin: \(bin)")
         packetSize.text = "\(bin.count)"
 
         let data = DataCruncher(rawData: bin)
-        println("Data: \(data?.filteredValues ?? [0.0,0.0])")
 
         hrGraphDelegate.data = data?.filteredValues ?? [0.0, 0.0]
         
@@ -97,7 +101,12 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         bpmLabel.text = String(format:"%.01f BPM", arguments: [heartRate ?? 0])
     }
     
-    func peripheralDidUpdateRSSI(newRSSI: Int) {
+    func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double) {
+        
+    }
+    
+    func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
+        
         println("RSSI: \(newRSSI)")
 
         rssiLabel.text = "\(newRSSI)"
@@ -118,15 +127,12 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         if let service = btDiscovery.bleService {
             service.delegate = self
             service.readFromConnectedCharacteristics()
-            
-            peripheralIDLabel.text = "\(service.peripheral.name)"
         }
     }
     
     func bleRead() {
         if let service = btDiscovery.bleService {
             service.readFromConnectedCharacteristics()
-            peripheralIDLabel.text = "\(service.peripheral.name)"
         }
     }
 

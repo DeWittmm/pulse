@@ -40,7 +40,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     
     func startScanning() {
         //Although "Not recommended" passing nil for the BLEServiceUUID's will search for all devices
-        centralManager.scanForPeripheralsWithServices([BLEServiceUUID], options: nil)
+        centralManager.scanForPeripheralsWithServices([REDBearShield.ServiceUUID, TinyShield.ServiceUUID], options: nil)
     }
     
     // MARK: CBCentralManagerDelegate

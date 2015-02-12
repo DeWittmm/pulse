@@ -66,7 +66,7 @@ class DataCruncher {
     init?(rawData: [UInt8]) {
         
         // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
-        let conversionFactor = 4.0 / 1023.0
+        let conversionFactor = 1.0 //4.0 / 1023.0
         let voltageValues = rawData.map { Double($0) * conversionFactor }
         
         //Filtering

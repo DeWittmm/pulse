@@ -27,7 +27,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "RLED_4mod10" //"IR_1mod5FILTERED" //"RLED_3
+let file = "RealDealArduino2" //"IR_1mod5FILTERED" //"RLED_3
 let ext = file + "FILTERED.csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -46,7 +46,7 @@ println("Num values: \(values.count)")
 let maxValue = values.reduce(0.0) { max($0, $1) }
 maxValue
 
-let maxValueTolerance = 0.75
+let maxValueTolerance = 0.85
 println("Max threshold: \(maxValue * maxValueTolerance)")
 var indicies = [(Int, Double)]()
 for (index, value) in enumerate(values) {

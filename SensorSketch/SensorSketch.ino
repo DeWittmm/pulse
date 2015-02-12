@@ -20,7 +20,7 @@ const int sensorPin = A0;
 const int boardLED = 13;
 
 //Variables
-const int binSize = 30;
+const int binSize = 100;
 uint8_t dataBin[binSize]; //Size should correspond with packet sent via BLE
 int i = 0;
 
