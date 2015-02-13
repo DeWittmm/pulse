@@ -24,7 +24,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     private var centralManager: CBCentralManager! //Would be much better as let
     private var peripheralBLE: CBPeripheral?
     
-    var bleService: BTServiceManager? {
+    var bleService: BTDataTransferManager? {
         didSet {
             bleService?.startDiscoveringServices()
         }
@@ -73,7 +73,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         // Create new service class
         if (peripheral == peripheralBLE) {
-            bleService = BTServiceManager(initWithPeripheral: peripheral)
+            bleService = BTDataTransferManager(initWithPeripheral: peripheral)
         }
         
         // Stop scanning for new devices

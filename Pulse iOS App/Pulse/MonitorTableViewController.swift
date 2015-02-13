@@ -9,12 +9,13 @@
 import UIKit
 import CoreBluetooth
 
-class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
+class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
     @IBOutlet weak var monitorLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var progressBar: UIProgressView!
     
     @IBOutlet weak var bpmLabel: UILabel!
     @IBOutlet weak var spO2Label: UILabel!
@@ -99,10 +100,17 @@ class MonitorTableViewController: UITableViewController, BLEServiceDelegate {
         
         let heartRate = data?.calculateHeartRate()
         bpmLabel.text = String(format:"%.01f BPM", arguments: [heartRate ?? 0])
+        
+        //FIXME: Untested
+        if let service = btDiscovery.bleService {
+            service.writeValueToConnectedCharacteristics(200)
+        }
     }
     
     func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double) {
+        println("Collected \(percentage)%")
         
+        progressBar.progress = Float(percentage)
     }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {

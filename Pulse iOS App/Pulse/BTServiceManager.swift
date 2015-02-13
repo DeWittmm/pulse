@@ -6,30 +6,17 @@
 
 //  Modified by: Michael DeWitt 1/19/2015
 
-import Foundation
 import CoreBluetooth
 
-protocol BLEServiceDelegate {
-    func characteristic(characteristic: CBCharacteristic, didCollectDataBin bin: [UInt8])
-    func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int)
-    
-    func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double)
-}
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
-
 
 class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     //MARK: Properties
     
-    var delegate: BLEServiceDelegate?
-    
-    let binCapacity = 500
-    var dataBin = [UInt8]()
-    
     var peripheral: CBPeripheral
-    var readCharacteristic: CBCharacteristic?
-    var writeCharacteristic: CBCharacteristic?
+    var readCharacteristics = [CBCharacteristic?]()
+    var writeCharacteristics = [CBCharacteristic?]()
 
     init(initWithPeripheral peripheral: CBPeripheral) {
         self.peripheral = peripheral
@@ -96,7 +83,13 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
             
             if find(characteristicUUIDS, characteristic.UUID) != nil {
                 println("--- \(characteristic.UUID.description)")
-                readCharacteristic = characteristic
+                
+                if characteristic.properties == CBCharacteristicProperties.Read {
+                    readCharacteristics.append(characteristic)
+                }
+                else if characteristic.properties == CBCharacteristicProperties.Write {
+                    writeCharacteristics.append(characteristic)
+                }
                 
                 peripheral.setNotifyValue(true, forCharacteristic: characteristic)
                 
@@ -107,53 +100,6 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
     }
     
     func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {}
-    
-    //Mark: Update Delegate
-    
-    func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
-        if let error = error {
-            println("ERROR (value from Char): \(error.localizedDescription)")
-        }
-        
-        if let data = characteristic.value {
-//            var values = [Int8](count: data.length, repeatedValue: 0)
-//            data.getBytes(&values)
-            
-            var bytes = UnsafePointer<UInt8>(data.bytes)
-            var arr = [UInt8]()
-            for var i = 0; i < data.length; i++ {
-                let elem = bytes[i]
-                arr.append(elem)
-            }
-            dataBin += arr
-            
-            if (dataBin.count > binCapacity) {
-            
-                let bin = dataBin
-                dataBin.removeAll(keepCapacity: true)
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.characteristic(characteristic, didCollectDataBin: bin)
-                    return
-                }
-            }
-            self.delegate?.characteristic(characteristic, hasCollectedPercentageOfBin: Double(dataBin.count)/Double(binCapacity))
-        }
-    }
-    
-    func peripheral(peripheral: CBPeripheral!, didReadRSSI RSSI: NSNumber!, error: NSError!) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.peripheral(peripheral, DidUpdateRSSI: RSSI.integerValue)
-            return
-        }
-    }
-    
-    func readFromConnectedCharacteristics() {
-        peripheral.readRSSI()
-        
-        if let charcteristic = readCharacteristic {
-            peripheral.readValueForCharacteristic(readCharacteristic)
-        }
-    }
     
     // Mark: Private
     

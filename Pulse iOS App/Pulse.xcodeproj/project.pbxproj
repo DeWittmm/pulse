@@ -29,6 +29,8 @@
 		0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */; };
 		0A98EB561A15587D0040544B /* BLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB551A15587D0040544B /* BLETests.swift */; };
 		0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
+		0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
+		0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
 		0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
 		0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2419FDB3C10024ACC7 /* Main.storyboard */; };
 		0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2719FDB3C10024ACC7 /* Images.xcassets */; };
@@ -78,6 +80,7 @@
 		0A98EB4E1A15572C0040544B /* PulseTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PulseTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A98EB551A15587D0040544B /* BLETests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLETests.swift; sourceTree = "<group>"; };
 		0A98EB591A155C6D0040544B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDataTransferManager.swift; sourceTree = "<group>"; };
 		0AB19E1919FDB3C10024ACC7 /* Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB19E1D19FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,9 +126,10 @@
 		0A0F81581A30FB0B00622383 /* BT */ = {
 			isa = PBXGroup;
 			children = (
+				0A2276371A8D1BE60040A30E /* UUIDConstants.swift */,
 				0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */,
 				0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */,
-				0A2276371A8D1BE60040A30E /* UUIDConstants.swift */,
+				0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */,
 			);
 			name = BT;
 			sourceTree = "<group>";
@@ -425,6 +429,7 @@
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
+				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0A3DBDDC1A89697C00DE8065 /* DataCruncher.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
@@ -443,6 +448,7 @@
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A3DBDDD1A89697C00DE8065 /* DataCruncher.swift in Sources */,
+				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,

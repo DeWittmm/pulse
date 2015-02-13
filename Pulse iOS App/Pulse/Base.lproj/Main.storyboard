@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7515.2" systemVersion="14C99d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7515.2" systemVersion="14D72i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7512"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -32,11 +32,18 @@
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hPu-iP-iD7">
                                                     <rect key="frame" x="232" y="42" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IeB-Lh-3cW">
+                                                    <rect key="frame" x="-6" y="73" width="612" height="2"/>
+                                                </progressView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="leading" secondItem="hPu-iP-iD7" secondAttribute="trailing" constant="8" symbolic="YES" id="9Jl-jI-jZn"/>
                                                 <constraint firstItem="hPu-iP-iD7" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="34" id="G82-oz-e0b"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="centerX" secondItem="Pkj-bp-CSz" secondAttribute="centerX" id="OUt-j6-Ceg"/>
+                                                <constraint firstAttribute="centerX" secondItem="IeB-Lh-3cW" secondAttribute="centerX" id="Ocr-3v-8kY"/>
+                                                <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="b4F-W7-Poz"/>
+                                                <constraint firstItem="IeB-Lh-3cW" firstAttribute="centerX" secondItem="R98-dB-FHb" secondAttribute="centerX" id="bF4-Zi-hpd"/>
+                                                <constraint firstAttribute="bottom" secondItem="IeB-Lh-3cW" secondAttribute="bottom" id="jIy-Dn-8Zt"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="29" id="khX-KN-Vrf"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -249,6 +256,7 @@
                         <outlet property="hrGraph" destination="OSh-sY-DqJ" id="VLH-Rl-2jg"/>
                         <outlet property="monitorLabel" destination="R98-dB-FHb" id="e0Z-qU-BOy"/>
                         <outlet property="packetSize" destination="Pbz-Rq-h31" id="ICE-nl-alp"/>
+                        <outlet property="progressBar" destination="IeB-Lh-3cW" id="l52-Ld-Sd0"/>
                         <outlet property="rssiLabel" destination="yaJ-56-F7n" id="yOu-tC-emJ"/>
                         <outlet property="sp02Graph" destination="92j-M9-zVe" id="LrE-WB-uFn"/>
                         <outlet property="spO2Label" destination="C9W-Nv-NPH" id="Njo-6i-Lr0"/>
@@ -386,7 +394,7 @@
                     <navigationItem key="navigationItem" id="2GN-7n-IRu">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="Qp4-nZ-MYj">
-                            <rect key="frame" x="125.5" y="7" width="349" height="30"/>
+                            <rect key="frame" x="126" y="7" width="349" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Day"/>
