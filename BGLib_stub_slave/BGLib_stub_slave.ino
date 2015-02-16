@@ -161,7 +161,11 @@ void stuff() {
       infraredReadings[i] = sensorValue;
     }
 
-    ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, BINSIZE, infraredReadings);
+    ble_write_bytes
+}
+
+void ble_write_bytes(unsigned char *data, unsigned char binSize) {
+    ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, binSize, data);
 }
 
 // ================================================================
