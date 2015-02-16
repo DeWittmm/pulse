@@ -18,6 +18,11 @@
 #define MAX_RX_BUFF 64
 #define BLE_BAUD_RATE 57600
 
+// Bitmasks
+#define BYTE_1 0xFF // grabs lowest-order byte of unsigned long
+#define BYTE_2 0xFF00 // grabs second lowest-order byte of unsigned long
+#define MAX_UINT16 0xFFFF
+
 // Constants
 const int infraredPin = 3;
 const int redPin = 2; 
@@ -42,15 +47,23 @@ void setup() {
 
 void loop() {
   uint8_t dataBin[binSize], sensorValue;
-  int currPin = togglePin(infraredPin);
+  int currPin;
+  unsigned long startTime, endTime;
 
-  dataBin[0] = pinCode(currPin); // Pin header (IR = -1, R = -2)
-  for(int i = 1; i < binSize; i++) {
+  currPin = togglePin(infraredPin);
+
+  startTime = millis() % (MAX_UINT16 + 1); // Wrap around when time greater than 2 bytes
+  for(int i = 5; i < binSize; i++) {
     dataBin[i] = analogRead(sensorPin);
-    dataBin[i] = i;
-    Serial.print(dataBin[i] + ", ");
+    //Serial.print(dataBin[i] + ", ");
   }
-  Serial.println();
+  endTime = millis() % (MAX_UINT16 + 1);
+
+  dataBin[0] = pinCode(currPin); // Pin header (R = 0, IR = 1)
+  dataBin[1] = startTime & BYTE_1;
+  dataBin[2] = (startTime & BYTE_2) >> 8;
+  dataBin[3] = endTime & BYTE_1;
+  dataBin[4] = (endTime & BYTE_2) >> 8;
 
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
 
@@ -59,18 +72,13 @@ void loop() {
   ble_do_events();
 }
 
-// IR = -1, R = -2
+// R = 0, IR = 1
 int pinCode(int pin) {
-  return pin - 4;
+  return pin - 2;
 }
 
 int togglePin(int prevPin) {
-  int currPin;
-  if(prevPin == infraredPin) {
-    currPin = redPin;
-  } else {
-    currPin = infraredPin;
-  }
+  int currPin = (prevPin == infraredPin) ? redPin : infraredPin;
 
   digitalWrite(currPin, HIGH);
   digitalWrite(prevPin, LOW);
