@@ -30,6 +30,9 @@ const int sensorPin = A0;
 const int boardLED = 13;
 const int binSize = MAX_TX_BUFF;
 
+// Variables
+int prevPin = infraredPin;
+
 void setup() {
   //BLE Setup
   ble_begin();
@@ -50,7 +53,7 @@ void loop() {
   int currPin;
   unsigned long startTime, endTime;
 
-  currPin = togglePin(infraredPin);
+  currPin = togglePin(prevPin); // Toggle red / ir 
 
   startTime = millis() % (MAX_UINT16 + 1); // Wrap around when time greater than 2 bytes
   for(int i = 5; i < binSize; i++) {
@@ -59,17 +62,20 @@ void loop() {
   }
   endTime = millis() % (MAX_UINT16 + 1);
 
+  // Header values
   dataBin[0] = pinCode(currPin); // Pin header (R = 0, IR = 1)
-  dataBin[1] = startTime & BYTE_1;
-  dataBin[2] = (startTime & BYTE_2) >> 8;
-  dataBin[3] = endTime & BYTE_1;
-  dataBin[4] = (endTime & BYTE_2) >> 8;
+  dataBin[1] = startTime & BYTE_1; // first byte of startTime
+  dataBin[2] = (startTime & BYTE_2) >> 8; // second byte of startTime
+  dataBin[3] = endTime & BYTE_1; // first byte of endTime
+  dataBin[4] = (endTime & BYTE_2) >> 8; // second byte of endTime
 
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
 
   // Updates status of the BLE connection (connected, available, busy, etc.)
   // Transmits and recieves data using buffer arrays built from ble_write, ble_read, etc.
   ble_do_events();
+
+  prevPin = currPin;
 }
 
 // R = 0, IR = 1
