@@ -21,7 +21,7 @@
 // Bitmasks
 #define BYTE_1 0xFF // grabs lowest-order byte of unsigned long
 #define BYTE_2 0xFF00 // grabs second lowest-order byte of unsigned long
-#define MAX_UINT16 0xFFFF
+#define MAX_UINT16 0x10000
 
 // Constants
 const int infraredPin = 3;
@@ -55,12 +55,11 @@ void loop() {
 
   currPin = togglePin(prevPin); // Toggle red / ir 
 
-  startTime = millis() % (MAX_UINT16 + 1); // Wrap around when time greater than 2 bytes
+  startTime = millis() % MAX_UINT16; // Wrap around when time greater than 2 bytes
   for(int i = 5; i < binSize; i++) {
     dataBin[i] = analogRead(sensorPin);
-    //Serial.print(dataBin[i] + ", ");
   }
-  endTime = millis() % (MAX_UINT16 + 1);
+  endTime = millis() % MAX_UINT16;
 
   // Header values
   dataBin[0] = pinCode(currPin); // Pin header (R = 0, IR = 1)
@@ -68,6 +67,11 @@ void loop() {
   dataBin[2] = (startTime & BYTE_2) >> 8; // second byte of startTime
   dataBin[3] = endTime & BYTE_1; // first byte of endTime
   dataBin[4] = (endTime & BYTE_2) >> 8; // second byte of endTime
+
+  Serial.println(startTime);
+  Serial.println(dataBin[1]);
+  Serial.println(dataBin[2]);
+  Serial.println();
 
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
 
