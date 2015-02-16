@@ -14,8 +14,8 @@
 #include <RBL_services.h>
 
 // BLE shield contraints
-#define MAX_TX_BUFF 64  // For Tinyshield, 20
-#define MAX_RX_BUFF 64  // For Tinyshield, 20
+#define MAX_TX_BUFF 64
+#define MAX_RX_BUFF 64
 #define BLE_BAUD_RATE 57600
 
 // Constants
@@ -42,15 +42,15 @@ void setup() {
 
 void loop() {
   uint8_t dataBin[binSize], sensorValue;
-  int isRed = ble_read();
-  togglePin(isRed);
-  Serial.println(isRed);
+  int currPin = togglePin(infraredPin);
 
-  //Serial.println();   // Debugging
-  for(int i = 0; i < binSize; i++) {
+  dataBin[0] = pinCode(currPin); // Pin header (IR = -1, R = -2)
+  for(int i = 1; i < binSize; i++) {
     dataBin[i] = analogRead(sensorPin);
-    //Serial.println(dataBin[i]);   // Debugging
+    dataBin[i] = i;
+    Serial.print(dataBin[i] + ", ");
   }
+  Serial.println();
 
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
 
@@ -59,14 +59,21 @@ void loop() {
   ble_do_events();
 }
 
-// isRed = 1 -> turn on red pin, turn off ir pin
-// isRed = 0 -> turn on ir pin, turn off red pin
-void togglePin(int isRed) {
-  if(isRed) {
-    digitalWrite(redPin, HIGH);
-    digitalWrite(infraredPin, LOW);
+// IR = -1, R = -2
+int pinCode(int pin) {
+  return pin - 4;
+}
+
+int togglePin(int prevPin) {
+  int currPin;
+  if(prevPin == infraredPin) {
+    currPin = redPin;
   } else {
-    digitalWrite(infraredPin, HIGH);
-    digitalWrite(redPin, LOW);
+    currPin = infraredPin;
   }
+
+  digitalWrite(currPin, HIGH);
+  digitalWrite(prevPin, LOW);
+
+  return currPin;
 }
