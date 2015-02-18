@@ -9,17 +9,11 @@
 import CoreBluetooth
 
 protocol BLEDataTransferDelegate {
-    func characteristic(characteristic: CBCharacteristic, didCollectDataBin bin: [UInt8])
-    func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int)
-    
-    func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double)
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8])
 }
-
-let binCapacity = 500
 
 class BTDataTransferManager: BTServiceManager {
     
-    var dataBin = [UInt8]()
     
     var delegate: BLEDataTransferDelegate?
     
@@ -31,31 +25,14 @@ class BTDataTransferManager: BTServiceManager {
         }
         
         if let data = characteristic.value {
-            //            var values = [Int8](count: data.length, repeatedValue: 0)
-            //            data.getBytes(&values)
+            var values = [UInt8](count: data.length, repeatedValue: 0)
+            data.getBytes(&values)
             
-            var bytes = UnsafePointer<UInt8>(data.bytes)
-            var arr = [UInt8]()
-            for var i = 0; i < data.length; i++ {
-                let elem = bytes[i]
-                arr.append(elem)
-            }
-            dataBin += arr
-            
-            if (dataBin.count > binCapacity) {
-                
-                let bin = dataBin
-                dataBin.removeAll(keepCapacity: true)
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.characteristic(characteristic, didCollectDataBin: bin)
-                    return
-                }
-            }
-            
-            self.delegate?.characteristic(characteristic, hasCollectedPercentageOfBin: Double(dataBin.count)/Double(binCapacity))
+            self.delegate?.characteristic(characteristic, didRecieveData: values)
         }
     }
+    
+    //MARK: Read/ Write
     
     func readFromConnectedCharacteristics() {
         peripheral.readRSSI()

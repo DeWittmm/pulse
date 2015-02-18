@@ -348,7 +348,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="736" y="-484"/>
+            <point key="canvasLocation" x="736" y="-469"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -412,7 +412,7 @@
         <!--Navigation Controller-->
         <scene sceneID="tg4-Pl-sXP">
             <objects>
-                <navigationController id="u8h-LX-CDC" sceneMemberID="viewController">
+                <navigationController hidesBarsWhenKeyboardAppears="YES" id="u8h-LX-CDC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="wpA-f2-Zfj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uCD-9V-9uQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -424,7 +424,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C7B-VV-Df5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="-484"/>
+            <point key="canvasLocation" x="1480" y="-469"/>
         </scene>
     </scenes>
 </document>

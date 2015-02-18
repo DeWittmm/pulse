@@ -9,7 +9,7 @@
 import UIKit
 import CoreBluetooth
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate {
+class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate {
     
     //MARK: Outlets
     
@@ -26,6 +26,8 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
+    
+    let dataCruncher = DataCruncher()
     
     lazy var hrGraphDelegate: GraphDelegate = {
         GraphDelegate(graph: self.hrGraph)
@@ -64,6 +66,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         
         super.viewDidLoad()
         
+        dataCruncher.delegate = self
         btDiscovery.startScanning()
         
         hrGraphDelegate.data = [0.0, 0.0]
@@ -88,35 +91,39 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: BLE Connection (BLEServiceDelegate)
+    //MARK: DataAnalysisDelegate
     
-    func characteristic(characteristic: CBCharacteristic, didCollectDataBin bin: [UInt8]) {
-        println("Bin: \(bin)")
-        packetSize.text = "\(bin.count)"
-
-        let data = DataCruncher(rawData: bin)
-
-        hrGraphDelegate.data = data?.filteredValues ?? [0.0, 0.0]
-        
-        let heartRate = data?.calculateHeartRate()
-        bpmLabel.text = String(format:"%.01f BPM", arguments: [heartRate ?? 0])
-        
-        //FIXME: Untested
-        if let service = btDiscovery.bleService {
-            service.writeValueToConnectedCharacteristics(200)
-        }
+    func analysisingData(InfaredData: [Double], RedLEDData: [Double]) {
+        hrGraphDelegate.data = RedLEDData
+        sp02GraphDelegate.data = InfaredData
     }
     
-    func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double) {
-        println("Collected \(percentage)%")
-        
-        progressBar.progress = Float(percentage)
+    func analysisFoundHeartRate(hr: Double)  {
+        bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+    }
+    
+    //MARK: BLE Connection (BLEServiceDelegate)
+    
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        println("Bin: \(data)")
+        packetSize.text = "\(data.count)"
+
+        if let data = DataPacket(rawData: data) {
+            dataCruncher.addDataPacket(data)
+            
+            //FIXME: Might have a threading issue here
+            dispatch_async(dispatch_get_main_queue()) {
+
+                println("Collected \(self.dataCruncher.binPercentage)%")
+                self.progressBar.progress = Float(self.dataCruncher.binPercentage)
+            }
+        }
+
     }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
         
         println("RSSI: \(newRSSI)")
-
         rssiLabel.text = "\(newRSSI)"
     }
     

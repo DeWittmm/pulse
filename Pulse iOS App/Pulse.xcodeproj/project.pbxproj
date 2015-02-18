@@ -16,6 +16,8 @@
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDC1A89697C00DE8065 /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
 		0A3DBDDD1A89697C00DE8065 /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
+		0A6533AC1A946319007A403D /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6533AB1A946319007A403D /* DataPacket.swift */; };
+		0A6533AD1A9469A8007A403D /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6533AB1A946319007A403D /* DataPacket.swift */; };
 		0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
@@ -70,6 +72,7 @@
 		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCruncher.swift; sourceTree = "<group>"; };
+		0A6533AB1A946319007A403D /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* Monitor.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Monitor.playground; sourceTree = SOURCE_ROOT; };
@@ -140,6 +143,7 @@
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
 				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
 				0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */,
+				0A6533AB1A946319007A403D /* DataPacket.swift */,
 			);
 			name = Monitor;
 			sourceTree = "<group>";
@@ -426,6 +430,7 @@
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
+				0A6533AC1A946319007A403D /* DataPacket.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
@@ -453,6 +458,7 @@
 				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */,
+				0A6533AD1A9469A8007A403D /* DataPacket.swift in Sources */,
 				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
 			);

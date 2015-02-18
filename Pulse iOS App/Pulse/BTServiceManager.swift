@@ -9,10 +9,14 @@
 import CoreBluetooth
 
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
+protocol PeripheralUpdateDelegate {
+    func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int)
+}
 
 class BTServiceManager: NSObject, CBPeripheralDelegate {
     
     //MARK: Properties
+    var updateDelegate: PeripheralUpdateDelegate?
     
     var peripheral: CBPeripheral
     var readCharacteristics = [CBCharacteristic?]()
@@ -20,8 +24,8 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
 
     init(initWithPeripheral peripheral: CBPeripheral) {
         self.peripheral = peripheral
-
         super.init()
+        
         self.peripheral.delegate = self
     }
     
@@ -96,6 +100,13 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
                 // Send notification that Bluetooth is connected and all required characteristics are discovered
                 sendBTServiceNotification(isBluetoothConnected: true)
             }
+        }
+    }
+    
+    func peripheral(peripheral: CBPeripheral!, didReadRSSI RSSI: NSNumber!, error: NSError!) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.updateDelegate?.peripheral(peripheral, DidUpdateRSSI: RSSI.integerValue)
+            return
         }
     }
     

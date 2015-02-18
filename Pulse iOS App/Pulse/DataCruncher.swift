@@ -6,85 +6,73 @@
 //  Copyright (c) 2015 Biomedical Engineering Design. All rights reserved.
 //
 
-import Foundation
+import CoreBluetooth
 
-//Finite Impulse Response (FIR) filter
-// http://www.arc.id.au/FilterDesign.html
-struct FIRFilter {
-    //    static let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
-    static let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
-    
-    var queue = [Double]()
-    var data: [Double]
-    
-    init?(inputData: [Double]) {
-        let count = FIRFilter.FIR_coeff.count
-        if count > inputData.count {
-            return nil
-        }
-        
-        data = Array(inputData[count..<inputData.count])
-        queue += inputData[0..<count]
-    }
-    
-    mutating func filter() -> [Double] {
-        return data.map { value in
-            self.queue.insert(value, atIndex: 0)
-            self.queue.removeLast()
-            
-            var output = 0.0
-            for (index,value) in enumerate(self.queue) {
-                output += value * FIRFilter.FIR_coeff[index]
-            }
-            return output
-        }
-    }
-}
+// Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
+let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
+let binCapacity = 500
 
-struct DataPoint {
-    let point: Int
-    let value: Double
-    
-    static func Zero() -> DataPoint {
-        return DataPoint(point: 0, value: 0.0)
-    }
-}
-
-func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
-    return DataPoint(point: p1.point + p2.point, value: p1.value + p2.value)
+protocol DataAnalysisDelegate: class {
+    func analysisingData(InfaredData: [Double], RedLEDData: [Double])
+    func analysisFoundHeartRate(hr: Double)
 }
 
 class DataCruncher {
     
     //MARK: Private Properties
-    
-    
-    //MARK: Properties
+    private var currentPacket: DataPacket?
 
-    let filteredValues: [Double]
+    //MARK: Properties
+    var IRDataBin = [Double]()
+    var LEDDataBin = [Double]()
+
+    weak var delegate: DataAnalysisDelegate?
     
-    init?(rawData: [UInt8]) {
+    var binPercentage: Double {
+        return Double(self.IRDataBin.count)/Double(binCapacity)
+    }
+    
+    //MARK: Build filteredDataBin
+    
+    func addDataPacket(packet: DataPacket) {
+        currentPacket = packet
         
-        // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
-        let conversionFactor = 1.0 //4.0 / 1023.0
-        let voltageValues = rawData.map { Double($0) * conversionFactor }
+        let voltageValues = packet.dataPoints.map { $0.value * ArudinoVoltageConversionFactor }
         
         //Filtering
         if var lowPass =  FIRFilter(inputData: voltageValues) {
-            filteredValues = lowPass.filter()
-        }
-        else {
-            filteredValues = [0.0]
-            return nil
+            let filteredValues = lowPass.filter()
+            
+            switch packet.lightSource {
+            case .IR:
+                IRDataBin += filteredValues
+            case .RedLED:
+                LEDDataBin += filteredValues
+            }
+            
+            if IRDataBin.count > binCapacity {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.analysisingData(self.IRDataBin, RedLEDData: self.LEDDataBin)
+                }
+                
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    // FIXME
+                    let hr = calculateHeartRate(LEDDataBin)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.delegate?.analysisFoundHeartRate(hr)
+                        }
+                }
+            }
         }
     }
     
+    //MARK: Calculations
+    
     let MIN_TIME_SPAN = 100.0
     let MILLS_PER_MIN = 60000.0
-
-    func calculateHeartRate() -> Double {
+    func calculateHeartRate(data: [Double]) -> Double {
         
-        let peaks = findPeaks()
+        let peaks = findPeaks(data)
         
         var timeSpans = [Double]()
         for var i=0; i < peaks.count - 1; i++ {
@@ -114,6 +102,7 @@ class DataCruncher {
     
     let BIN_PRINT_TIME  = 727.0
     let TIME_PER_POINT = 0.17
+    
     private func millsBetweenPoints(p1: Double, p2: Double) -> Double {
         let timePts = (p2 - p1) * TIME_PER_POINT
         let numPrintBins = floor((p2 - p1) / 100)
@@ -123,13 +112,13 @@ class DataCruncher {
         return milis
     }
     
-    private func findPeaks() -> [DataPoint] {
-        let maxValue = filteredValues.reduce(0.0) { max($0, $1) }
+    private func findPeaks(data: [Double]) -> [DataPoint] {
+        let maxValue = data.reduce(0.0) { max($0, $1) }
         maxValue
         
         let maxValueTolerance = 0.75
         var indicies = [DataPoint]()
-        for (index, value) in enumerate(filteredValues) {
+        for (index, value) in enumerate(data) {
             if value >= maxValue * maxValueTolerance {
                 indicies.append(DataPoint(point: index, value: value))
             }
@@ -163,5 +152,38 @@ class DataCruncher {
         peaks.append(average(cluster))
         
         return peaks
+    }
+}
+
+//Finite Impulse Response (FIR) filter
+// http://www.arc.id.au/FilterDesign.html
+struct FIRFilter {
+    //    static let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
+    static let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
+    
+    var queue = [Double]()
+    var data: [Double]
+    
+    init?(inputData: [Double]) {
+        let count = FIRFilter.FIR_coeff.count
+        if count > inputData.count {
+            return nil
+        }
+        
+        data = Array(inputData[count..<inputData.count])
+        queue += inputData[0..<count]
+    }
+    
+    mutating func filter() -> [Double] {
+        return data.map { value in
+            self.queue.insert(value, atIndex: 0)
+            self.queue.removeLast()
+            
+            var output = 0.0
+            for (index,value) in enumerate(self.queue) {
+                output += value * FIRFilter.FIR_coeff[index]
+            }
+            return output
+        }
     }
 }
