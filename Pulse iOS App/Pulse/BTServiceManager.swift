@@ -9,6 +9,7 @@
 import CoreBluetooth
 
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
+
 protocol PeripheralUpdateDelegate {
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int)
 }

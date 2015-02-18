@@ -9,7 +9,7 @@
 import UIKit
 import CoreBluetooth
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate {
+class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, PeripheralUpdateDelegate, DataAnalysisDelegate {
     
     //MARK: Outlets
     
@@ -94,8 +94,16 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     //MARK: DataAnalysisDelegate
     
     func analysisingData(InfaredData: [Double], RedLEDData: [Double]) {
-        hrGraphDelegate.data = RedLEDData
-        sp02GraphDelegate.data = InfaredData
+        if !InfaredData.isEmpty {
+//            sp02GraphDelegate.data = InfaredData
+
+        }
+        
+        if !RedLEDData.isEmpty {
+            hrGraphDelegate.data = RedLEDData
+        }
+        
+        self.progressBar.progress = 0.0
     }
     
     func analysisFoundHeartRate(hr: Double)  {
@@ -105,7 +113,6 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     //MARK: BLE Connection (BLEServiceDelegate)
     
     func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
-        println("Bin: \(data)")
         packetSize.text = "\(data.count)"
 
         if let data = DataPacket(rawData: data) {
@@ -114,7 +121,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
             //FIXME: Might have a threading issue here
             dispatch_async(dispatch_get_main_queue()) {
 
-                println("Collected \(self.dataCruncher.binPercentage)%")
+//                println("Collected \(self.dataCruncher.binPercentage)%")
                 self.progressBar.progress = Float(self.dataCruncher.binPercentage)
             }
         }
@@ -122,7 +129,6 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
-        
         println("RSSI: \(newRSSI)")
         rssiLabel.text = "\(newRSSI)"
     }
@@ -141,6 +147,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     func beginBLEReading() {
         if let service = btDiscovery.bleService {
             service.delegate = self
+            service.updateDelegate = self
             service.readFromConnectedCharacteristics()
         }
     }

@@ -48,7 +48,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HeartRateCell" rowHeight="275" id="tXX-a9-S0q">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HeartRateCell" rowHeight="275" id="tXX-a9-S0q">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXX-a9-S0q" id="zlQ-yl-TPa">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -64,14 +64,14 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="top" secondItem="zlQ-yl-TPa" secondAttribute="top" id="JTj-wy-Jbi"/>
-                                                <constraint firstAttribute="bottom" secondItem="92j-M9-zVe" secondAttribute="bottom" id="Jng-wM-VCg"/>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="trailing" secondItem="92j-M9-zVe" secondAttribute="trailing" id="UTZ-Mh-zTS"/>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="top" secondItem="92j-M9-zVe" secondAttribute="top" id="X30-ja-Yoj"/>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="leading" secondItem="92j-M9-zVe" secondAttribute="leading" id="acI-cM-KUJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="OSh-sY-DqJ" secondAttribute="trailing" id="c0N-lE-qVI"/>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="bottom" secondItem="92j-M9-zVe" secondAttribute="bottom" id="j2J-wz-exL"/>
-                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="leading" secondItem="zlQ-yl-TPa" secondAttribute="leading" id="y7Q-cm-16O"/>
+                                                <constraint firstItem="92j-M9-zVe" firstAttribute="bottom" secondItem="OSh-sY-DqJ" secondAttribute="bottom" id="3Hn-hI-GKo"/>
+                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="top" secondItem="zlQ-yl-TPa" secondAttribute="top" id="7eO-C7-C9c"/>
+                                                <constraint firstItem="92j-M9-zVe" firstAttribute="top" secondItem="OSh-sY-DqJ" secondAttribute="top" id="JcA-cI-L3p"/>
+                                                <constraint firstItem="92j-M9-zVe" firstAttribute="trailing" secondItem="OSh-sY-DqJ" secondAttribute="trailing" id="Rp3-7u-eul"/>
+                                                <constraint firstAttribute="trailing" secondItem="OSh-sY-DqJ" secondAttribute="trailing" id="TYP-CS-y4H"/>
+                                                <constraint firstItem="92j-M9-zVe" firstAttribute="leading" secondItem="OSh-sY-DqJ" secondAttribute="leading" id="ma2-hT-upM"/>
+                                                <constraint firstAttribute="bottom" secondItem="92j-M9-zVe" secondAttribute="bottom" id="mps-7p-XWP"/>
+                                                <constraint firstItem="OSh-sY-DqJ" firstAttribute="leading" secondItem="zlQ-yl-TPa" secondAttribute="leading" id="nGh-Ep-FYP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

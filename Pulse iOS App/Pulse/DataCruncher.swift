@@ -10,7 +10,8 @@ import CoreBluetooth
 
 // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
 let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
-let binCapacity = 500
+let binCapacity = 800
+let MAX_TIME = 65535
 
 protocol DataAnalysisDelegate: class {
     func analysisingData(InfaredData: [Double], RedLEDData: [Double])
@@ -20,12 +21,15 @@ protocol DataAnalysisDelegate: class {
 class DataCruncher {
     
     //MARK: Private Properties
-    private var currentPacket: DataPacket?
+    private var currentPacket = DataPacket()
 
     //MARK: Properties
     var IRDataBin = [Double]()
     var LEDDataBin = [Double]()
-
+    
+    var timeBetweenPackets = [Int]()
+    var timeInPackets = [Double]()
+    
     weak var delegate: DataAnalysisDelegate?
     
     var binPercentage: Double {
@@ -35,6 +39,14 @@ class DataCruncher {
     //MARK: Build filteredDataBin
     
     func addDataPacket(packet: DataPacket) {
+        
+        var startTime = packet.startTime
+        if currentPacket.endTime > startTime {
+             startTime += MAX_TIME
+        }
+        
+        timeInPackets += [packet.timePerPoint * Double(packet.dataPoints.count)]
+        timeBetweenPackets += [Int(startTime - currentPacket.endTime)]
         currentPacket = packet
         
         let voltageValues = packet.dataPoints.map { $0.value * ArudinoVoltageConversionFactor }
@@ -50,20 +62,46 @@ class DataCruncher {
                 LEDDataBin += filteredValues
             }
             
-            if IRDataBin.count > binCapacity {
+            if LEDDataBin.count > binCapacity {
+                let hr = calculateHeartRate(LEDDataBin)
+                
+                let ledData = LEDDataBin
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysisingData(self.IRDataBin, RedLEDData: self.LEDDataBin)
+                    self.delegate?.analysisingData([], RedLEDData: ledData)
+                    self.delegate?.analysisFoundHeartRate(hr)
                 }
                 
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    // FIXME
-                    let hr = calculateHeartRate(LEDDataBin)
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.delegate?.analysisFoundHeartRate(hr)
-                        }
+                totalTime()
+                LEDDataBin.removeAll(keepCapacity: true)
+                clear()
+            }
+            
+            if IRDataBin.count > binCapacity {
+                let hr = calculateHeartRate(IRDataBin)
+                
+                let irData = IRDataBin
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.analysisingData(irData, RedLEDData:[])
+                    self.delegate?.analysisFoundHeartRate(hr)
                 }
+                
+                IRDataBin.removeAll(keepCapacity: true)
+                clear()
             }
         }
+    }
+    
+    func clear() {
+        timeBetweenPackets.removeAll(keepCapacity: true)
+        timeInPackets.removeAll(keepCapacity: true)
+    }
+    
+    func totalTime() {
+        let totalTimeBtw = timeBetweenPackets.reduce(0){ $0 + $1 }
+        let totalTimeIn = timeInPackets.reduce(0.0){ $0 + $1 }
+        let total = Double(totalTimeBtw) + totalTimeIn
+        println("TimeBtw: \(totalTimeBtw) TimeIn: \(totalTimeIn)")
+        println("Total TimeGraphs: \(total)")
     }
     
     //MARK: Calculations

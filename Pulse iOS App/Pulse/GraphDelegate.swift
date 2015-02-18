@@ -18,11 +18,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     
     var data:[Double] = [Double]() {
         didSet {
-            let interval = -self.refreshDate.timeIntervalSinceNow
-            if  interval > minRefreshTime {
-                graphView.reloadGraph()
-                refreshDate = NSDate()
-            }
+            refresh()
         }
     }
     
@@ -38,10 +34,21 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         graphView.enablePopUpReport = true
 //        graphView.enableYAxisLabel = true
         graphView.autoScaleYAxis = true
-        graphView.enableReferenceYAxisLines = true
+//        graphView.enableReferenceYAxisLines = true
 //        graphView.alwaysDisplayDots = true
         graphView.delegate = self
         graphView.dataSource = self
+    }
+    
+    func refresh() {
+        let interval = -self.refreshDate.timeIntervalSinceNow
+        if  interval > minRefreshTime {
+            graphView.reloadGraph()
+            refreshDate = NSDate()
+            
+//            println("MaxValue: \(graphView.calculateMaximumPointValue())")
+//            println("MinValue: \(graphView.calculateMinimumPointValue())")
+        }
     }
     
     //MARK: LineGraphDelegate
@@ -50,13 +57,13 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         return true
     }
     
-//    func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-//        return 4.5
-//    }
-//    
-//    func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-//        return 0.0
-//    }
+    func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 450.0
+    }
+
+    func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 150.0
+    }
     
     //MARK: LineGraphDataSource
     

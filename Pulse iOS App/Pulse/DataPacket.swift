@@ -22,13 +22,17 @@ func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
 }
 
 enum LightSource: UInt8 {
-    case RedLED = 2
-    case IR = 10
+    case RedLED = 0
+    case IR = 1
 }
+
+private let PACKET_SIZE = 19
 
 class DataPacket {
     
     let dataPoints: [DataPoint]
+    let startTime: Int
+    let endTime: Int
     let timePerPoint: Double
     let lightSource:LightSource
     
@@ -40,30 +44,32 @@ class DataPacket {
         return dataPoints.map { $0.point }
     }
     
-    init(values: [Double], points: [Int], timePerPoint: Double, lightSource: LightSource) {
-        
-        var i = 0
-        dataPoints = values.map { DataPoint(point: points[i++], value: $0) }
-        self.timePerPoint = timePerPoint
-        self.lightSource = lightSource
-    }
-    
     init?(rawData: [UInt8]) {
+//        println("DataPacet: \(rawData)")
         
-        if rawData.count < 3 {
+        if rawData.count < PACKET_SIZE || (LightSource(rawValue: rawData[0]) == nil) {
             dataPoints = []
             timePerPoint = 0.0
+            startTime = 0
+            endTime = 0
             lightSource = .RedLED
             return nil
         }
         
         //Extract Header Info
         lightSource = LightSource(rawValue: rawData[0])!
-        let startmillis = rawData[1]
-        let endmilis = rawData[2]
+        var startmillis = Int(rawData[2])
+        startmillis <<= 8
+        startmillis |= Int(rawData[1])
+        startTime = startmillis
         
-        let rawValues = Array(rawData[3..<rawData.count])
-        timePerPoint = Double(endmilis - startmillis) / Double(rawValues.count)
+        var endmillis = Int(rawData[4])
+        endmillis <<= 8
+        endmillis |= Int(rawData[3])
+        endTime = endmillis
+        
+        let rawValues = Array(rawData[5..<rawData.count])
+        timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
         
         var indicies = [DataPoint]()
         for (index, value) in enumerate(rawValues) {
@@ -74,6 +80,15 @@ class DataPacket {
         if dataPoints.isEmpty || timePerPoint < 0 {
             return nil
         }
+    }
+    
+    init() {
+        
+        dataPoints = [DataPoint(point: 0, value: 0.0)]
+        self.timePerPoint = 0
+        self.lightSource = .RedLED
+        self.startTime = 0
+        self.endTime = 0
     }
     
 }

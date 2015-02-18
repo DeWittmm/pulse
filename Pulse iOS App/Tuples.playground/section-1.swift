@@ -45,3 +45,10 @@ intArr.count
 
 intArr.removeAll(keepCapacity: true)
 intArr.count
+
+let u1: UInt = 1
+let u2: UInt = 2
+
+u2 - u1
+Int(u1) - u2
+//Int(u1 - u2)
