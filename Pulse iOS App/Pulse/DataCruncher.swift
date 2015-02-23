@@ -10,114 +10,153 @@ import CoreBluetooth
 
 // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
 let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
-let binCapacity = 800
-let MAX_TIME = 65535
+let binCapacity = 800 / 20 //PacketCount
 
-protocol DataAnalysisDelegate: class {
-    func analysisingData(InfaredData: [Double], RedLEDData: [Double])
+public protocol DataAnalysisDelegate: class {
+    func analysingData(InfaredData: [Double], RedLEDData: [Double])
     func analysisFoundHeartRate(hr: Double)
 }
 
-class DataCruncher {
+public class DataCruncher {
     
     //MARK: Private Properties
-    private var currentPacket = DataPacket()
 
     //MARK: Properties
-    var IRDataBin = [Double]()
-    var LEDDataBin = [Double]()
+    var IRDataBin = [DataPacket]()
+    var LEDDataBin = [DataPacket]()
     
-    var timeBetweenPackets = [Int]()
-    var timeInPackets = [Double]()
+    var timesBtwPackets = [Int]()
+    var timePerPoint: Double = 0.0
     
-    weak var delegate: DataAnalysisDelegate?
+    public weak var delegate: DataAnalysisDelegate?
     
-    var binPercentage: Double {
+    public var binPercentage: Double {
         return Double(self.IRDataBin.count)/Double(binCapacity)
+    }
+    
+    public init() {
     }
     
     //MARK: Build filteredDataBin
     
-    func addDataPacket(packet: DataPacket) {
+    public func addDataPacket(packet: DataPacket) {
         
-        var startTime = packet.startTime
-        if currentPacket.endTime > startTime {
-             startTime += MAX_TIME
+        switch packet.lightSource {
+        case .IR:
+            IRDataBin += [packet]
+        case .RedLED:
+            LEDDataBin += [packet]
         }
         
-        timeInPackets += [packet.timePerPoint * Double(packet.dataPoints.count)]
-        timeBetweenPackets += [Int(startTime - currentPacket.endTime)]
-        currentPacket = packet
+        if LEDDataBin.count > binCapacity {
+            var values: [DataPoint]
+            (values, timePerPoint, timesBtwPackets) = processBin(LEDDataBin)!
+            let hr = calculateHeartRate(values)
+            
+            let ledData = values.map { $0.value }
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.analysingData([], RedLEDData: ledData)
+                self.delegate?.analysisFoundHeartRate(hr)
+            }
+            
+            totalTime()
+            clear()
+        }
         
-        let voltageValues = packet.dataPoints.map { $0.value * ArudinoVoltageConversionFactor }
-        
-        //Filtering
-        if var lowPass =  FIRFilter(inputData: voltageValues) {
-            let filteredValues = lowPass.filter()
+        if IRDataBin.count > binCapacity {
+            var values: [DataPoint]
+            (values, timePerPoint, timesBtwPackets) = processBin(LEDDataBin)!
+            let hr = calculateHeartRate(values)
             
-            switch packet.lightSource {
-            case .IR:
-                IRDataBin += filteredValues
-            case .RedLED:
-                LEDDataBin += filteredValues
+            let irData = values.map { $0.value }
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.analysingData(irData, RedLEDData:[])
+                self.delegate?.analysisFoundHeartRate(hr)
             }
             
-            if LEDDataBin.count > binCapacity {
-                let hr = calculateHeartRate(LEDDataBin)
-                
-                let ledData = LEDDataBin
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysisingData([], RedLEDData: ledData)
-                    self.delegate?.analysisFoundHeartRate(hr)
-                }
-                
-                totalTime()
-                LEDDataBin.removeAll(keepCapacity: true)
-                clear()
-            }
-            
-            if IRDataBin.count > binCapacity {
-                let hr = calculateHeartRate(IRDataBin)
-                
-                let irData = IRDataBin
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysisingData(irData, RedLEDData:[])
-                    self.delegate?.analysisFoundHeartRate(hr)
-                }
-                
-                IRDataBin.removeAll(keepCapacity: true)
-                clear()
-            }
+            clear()
         }
     }
     
     func clear() {
-        timeBetweenPackets.removeAll(keepCapacity: true)
-        timeInPackets.removeAll(keepCapacity: true)
+        LEDDataBin.removeAll(keepCapacity: true)
+        IRDataBin.removeAll(keepCapacity: true)
+
+        timesBtwPackets.removeAll(keepCapacity: true)
     }
     
     func totalTime() {
-        let totalTimeBtw = timeBetweenPackets.reduce(0){ $0 + $1 }
-        let totalTimeIn = timeInPackets.reduce(0.0){ $0 + $1 }
+        let totalTimeBtw = timesBtwPackets.reduce(0){ $0 + $1 }
+        let totalTimeIn = timePerPoint * Double(timesBtwPackets.count)
         let total = Double(totalTimeBtw) + totalTimeIn
         println("TimeBtw: \(totalTimeBtw) TimeIn: \(totalTimeIn)")
         println("Total TimeGraphs: \(total)")
+    }
+    
+    //MARK: Processing
+    
+    func processBin(bin: [DataPacket]) -> (filteredPoints: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: [Int])? {
+        
+        var data = [DataPoint]()
+        for packet in bin {
+            data += packet.dataPoints
+        }
+        //Reorder the DataPoint Indexs to be continuous
+        for var i = 0; i < data.count; i++ {
+            let point = data[i]
+            data[i] = DataPoint(point: i, value: point.value)
+        }
+        
+        let timesPerPoint = bin.map { packet in
+            return packet.timePerPoint // * Double(packet.dataPoints.count)
+        }
+        let totalTimeInPacket = timesPerPoint.reduce(0.0) { $0 + $1 }
+        let avgTimePerPoint = totalTimeInPacket / Double(timesPerPoint.count)
+        
+        var ltimesBtwPackets = [Int]()
+        for var i=1; i < bin.count; i++ {
+            let firstPacket = bin[i-1]
+            let secondPacket = bin[i]
+            
+            var startTime = secondPacket.startTime
+            if secondPacket.startTime > firstPacket.endTime {
+                startTime += MAX_ARDUINO_TIME
+            }
+            ltimesBtwPackets += [startTime - firstPacket.endTime]
+        }
+        
+        //Filtering
+        let voltageValues = data.map { $0.value * ArudinoVoltageConversionFactor }
+        if var lowPass =  FIRFilter(inputData: voltageValues) {
+            let filteredValues = lowPass.filter()
+            
+            var filteredPoints = [DataPoint]()
+            for var i=0; i < data.count; i++ {
+                filteredPoints += [DataPoint(point: data[i].point, value: filteredValues[i])]
+            }
+            
+            assert(filteredPoints.count == ltimesBtwPackets.count, "Data Mismatch")
+            
+            return (filteredPoints, avgTimePerPoint, ltimesBtwPackets)
+        }
+        return nil
     }
     
     //MARK: Calculations
     
     let MIN_TIME_SPAN = 100.0
     let MILLS_PER_MIN = 60000.0
-    func calculateHeartRate(data: [Double]) -> Double {
+    func calculateHeartRate(dataPoints: [DataPoint]) -> Double {
         
-        let peaks = findPeaks(data)
+        let peaks = findPeaks(dataPoints)
         
         var timeSpans = [Double]()
-        for var i=0; i < peaks.count - 1; i++ {
-            let p1 = peaks[i].point
-            let p2 = peaks[i+1].point
+        for var i=1; i < peaks.count; i++ {
+            let p1 = peaks[i-1].point
+            let p2 = peaks[i].point
             
-            let time = millsBetweenPoints(Double(p1), p2: Double(p2))
+            //FIXME?
+            let time = millsBetweenPoints(p1, p2: p2)
             timeSpans.append(time)
         }
         
@@ -138,39 +177,36 @@ class DataCruncher {
         return avgBPM
     }
     
-    let BIN_PRINT_TIME  = 727.0
-    let TIME_PER_POINT = 0.17
-    
-    private func millsBetweenPoints(p1: Double, p2: Double) -> Double {
-        let timePts = (p2 - p1) * TIME_PER_POINT
-        let numPrintBins = floor((p2 - p1) / 100)
-        let spanWithPrint = BIN_PRINT_TIME * numPrintBins
-        let milis = (timePts + spanWithPrint)
+    //Original values
+//    let BIN_PRINT_TIME  = 727.0
+//    let TIME_PER_POINT = 0.17
+    private func millsBetweenPoints(p1: Int, p2: Int) -> Double {
+        let timePts = Double(p2 - p1) * self.timePerPoint
+        let numPrintBins = (p2 - p1) / DATA_SIZE
+        let startingIndex = p1 / DATA_SIZE
         
-        return milis
+        var spanWithPrint = 0
+        for var i = 0; i < numPrintBins; i++ {
+            spanWithPrint += self.timesBtwPackets[startingIndex + i]
+        }
+        
+        return timePts + Double(spanWithPrint)
     }
     
-    private func findPeaks(data: [Double]) -> [DataPoint] {
-        let maxValue = data.reduce(0.0) { max($0, $1) }
-        maxValue
+    let MaxValueTolerance = 0.75
+    let HR_WIDTH = 100
+    private func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
-        let maxValueTolerance = 0.75
-        var indicies = [DataPoint]()
-        for (index, value) in enumerate(data) {
-            if value >= maxValue * maxValueTolerance {
-                indicies.append(DataPoint(point: index, value: value))
-            }
+        let values = data.map { $0.value }
+        let maxValue = values.reduce(0.0) { max($0, $1) }
+        
+        let indicies = data.filter {
+            $0.value >= maxValue * self.MaxValueTolerance
         }
+        println("Max threshold: \(maxValue * MaxValueTolerance)")
         
-        //MARK: Clustering
-        let HR_WIDTH = 100
+        //Clustering
         var peaks = [DataPoint]()
-        func average(group: [DataPoint]) -> DataPoint {
-            let count = group.count
-            let total = group.reduce(DataPoint.Zero()){ $0 + $1 }
-            
-            return DataPoint(point: total.point / count, value: total.value / Double(count))
-        }
         
         var cluster = [indicies.first!]
         for dataPoint in indicies {
@@ -189,8 +225,16 @@ class DataCruncher {
         }
         peaks.append(average(cluster))
         
+        println("Found \(peaks.count) Peaks")
         return peaks
     }
+}
+
+func average(group: [DataPoint]) -> DataPoint {
+    let count = group.count
+    let total = group.reduce(DataPoint.Zero()){ $0 + $1 }
+    
+    return DataPoint(point: total.point / count, value: total.value / Double(count))
 }
 
 //Finite Impulse Response (FIR) filter

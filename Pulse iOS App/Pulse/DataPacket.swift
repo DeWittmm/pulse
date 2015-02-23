@@ -26,9 +26,11 @@ enum LightSource: UInt8 {
     case IR = 1
 }
 
-private let PACKET_SIZE = 19
+let PACKET_SIZE = 19
+let DATA_SIZE = 15
+let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
 
-class DataPacket {
+public class DataPacket {
     
     let dataPoints: [DataPoint]
     let startTime: Int
@@ -44,8 +46,8 @@ class DataPacket {
         return dataPoints.map { $0.point }
     }
     
-    init?(rawData: [UInt8]) {
-//        println("DataPacet: \(rawData)")
+    public init?(rawData: [UInt8]) {
+//        println("DataPacket: \(rawData)")
         
         if rawData.count < PACKET_SIZE || (LightSource(rawValue: rawData[0]) == nil) {
             dataPoints = []
@@ -66,6 +68,11 @@ class DataPacket {
         var endmillis = Int(rawData[4])
         endmillis <<= 8
         endmillis |= Int(rawData[3])
+        
+        if startTime > endmillis { //control for wrap
+            endmillis += MAX_ARDUINO_TIME
+        }
+        
         endTime = endmillis
         
         let rawValues = Array(rawData[5..<rawData.count])
@@ -77,7 +84,7 @@ class DataPacket {
         }
         dataPoints = indicies
         
-        if dataPoints.isEmpty || timePerPoint < 0 {
+        if dataPoints.isEmpty || timePerPoint <= 0 {
             return nil
         }
     }
@@ -90,5 +97,4 @@ class DataPacket {
         self.startTime = 0
         self.endTime = 0
     }
-    
 }

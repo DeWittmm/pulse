@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreBluetooth
+import BLEDataProcessing
 
 class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, PeripheralUpdateDelegate, DataAnalysisDelegate {
     
@@ -93,10 +94,9 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     
     //MARK: DataAnalysisDelegate
     
-    func analysisingData(InfaredData: [Double], RedLEDData: [Double]) {
+    func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
         if !InfaredData.isEmpty {
 //            sp02GraphDelegate.data = InfaredData
-
         }
         
         if !RedLEDData.isEmpty {
