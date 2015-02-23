@@ -30,28 +30,31 @@ println("Num values: \(values.count)")
 
 //Finite Impulse Response (FIR) filter
 // http://www.arc.id.au/FilterDesign.html
-struct FIRFilter {
-//    let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
-    let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
-
-    var queue = [Double]()
+public struct FIRFilter {
+    //    static let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
+    static let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
+    
+    var queue: [Double]
     var data: [Double]
     
-    init(inputData: [Double]) {
-
-        let count = 5
-        data = Array(inputData[count..<inputData.count])
-        queue += inputData[0..<count]
+    public init?(inputData: [Double]) {
+        let order = FIRFilter.FIR_coeff.count
+        if order > inputData.count {
+            return nil
+        }
+        
+        data = inputData
+        queue = [Double](count: order, repeatedValue: 1.0)
     }
     
-    mutating func filter() -> [Double] {
+    public mutating func filter() -> [Double] {
         return data.map { value in
             self.queue.insert(value, atIndex: 0)
             self.queue.removeLast()
             
             var output = 0.0
             for (index,value) in enumerate(self.queue) {
-                output += value * self.FIR_coeff[index]
+                output += value * FIRFilter.FIR_coeff[index]
             }
             return output
         }
@@ -65,8 +68,10 @@ let someValues = Array(values[0..<values.count/2])
 let conversionFactor = 4.0 / 1023.0
 let voltageValues = someValues.map { Double($0) * conversionFactor }
 
-var lowpass = FIRFilter(inputData: voltageValues) //mutating
+var lowpass = FIRFilter(inputData: voltageValues)! //mutating
 let filValues = lowpass.filter()
+filValues.count
+voltageValues.count
 
 func writeValueAsCSV(value: String, toFilePath filePath: String) {
     

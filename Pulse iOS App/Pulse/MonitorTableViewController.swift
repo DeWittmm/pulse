@@ -29,6 +29,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     //MARK: Properties
     
     let dataCruncher = DataCruncher()
+    var rawDataBin = [UInt8]()
     
     lazy var hrGraphDelegate: GraphDelegate = {
         GraphDelegate(graph: self.hrGraph)
@@ -95,6 +96,10 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     //MARK: DataAnalysisDelegate
     
     func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
+        
+        println(rawDataBin)
+        rawDataBin.removeAll(keepCapacity: true)
+
         if !InfaredData.isEmpty {
 //            sp02GraphDelegate.data = InfaredData
         }
@@ -115,13 +120,15 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
         packetSize.text = "\(data.count)"
 
+        rawDataBin += data
+
         if let data = DataPacket(rawData: data) {
             dataCruncher.addDataPacket(data)
             
             //FIXME: Might have a threading issue here
             dispatch_async(dispatch_get_main_queue()) {
-
 //                println("Collected \(self.dataCruncher.binPercentage)%")
+                
                 self.progressBar.progress = Float(self.dataCruncher.binPercentage)
             }
         }

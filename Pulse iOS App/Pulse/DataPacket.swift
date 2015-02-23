@@ -8,9 +8,14 @@
 
 import Foundation
 
-struct DataPoint {
-    let point: Int
-    let value: Double
+public struct DataPoint {
+    public let point: Int
+    public let value: Double
+    
+    public init(point: Int, value: Double) {
+        self.point = point
+        self.value = value
+    }
     
     static func Zero() -> DataPoint {
         return DataPoint(point: 0, value: 0.0)
@@ -21,28 +26,28 @@ func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
     return DataPoint(point: p1.point + p2.point, value: p1.value + p2.value)
 }
 
-enum LightSource: UInt8 {
+public enum LightSource: UInt8 {
     case RedLED = 0
     case IR = 1
 }
 
 let PACKET_SIZE = 19
-let DATA_SIZE = 15
-let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
+public let PACKET_DATA_SIZE = 15
+public let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
 
 public class DataPacket {
     
-    let dataPoints: [DataPoint]
-    let startTime: Int
-    let endTime: Int
-    let timePerPoint: Double
-    let lightSource:LightSource
+    public let dataPoints: [DataPoint]
+    public let startTime: Int
+    public let endTime: Int
+    public let timePerPoint: Double
+    public let lightSource:LightSource
     
-    var values: [Double] {
+    public var values: [Double] {
         return dataPoints.map { $0.value }
     }
     
-    var points: [Int] {
+    public var points: [Int] {
         return dataPoints.map { $0.point }
     }
     
@@ -77,6 +82,7 @@ public class DataPacket {
         
         let rawValues = Array(rawData[5..<rawData.count])
         timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
+        
         
         var indicies = [DataPoint]()
         for (index, value) in enumerate(rawValues) {
