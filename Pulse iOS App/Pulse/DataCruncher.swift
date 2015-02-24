@@ -8,8 +8,6 @@
 
 import CoreBluetooth
 
-// Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
-public let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
 let binCapacity = 800 / 20 //PacketCount
 
 public protocol DataAnalysisDelegate: class {
@@ -31,11 +29,9 @@ public class DataCruncher {
         return Double(self.IRDataBin.count)/Double(binCapacity)
     }
     
-    public init() {
-    }
+    public init() {}
     
     //MARK: Build filteredDataBin
-    
     public func addDataPacket(packet: DataPacket) {
         
         switch packet.lightSource {
@@ -91,6 +87,7 @@ public class DataCruncher {
         }
         
         //Reorder the DataPoint Indexs to be continuous
+        var pointsDict = [Int:Double]()
         for var i = 0; i < data.count; i++ {
             let point = data[i]
             data[i] = DataPoint(point: i, value: point.value)
@@ -132,9 +129,6 @@ public class DataCruncher {
     }
     
     //MARK: Calculations
-    
-    let MIN_TIME_SPAN = 100.0
-    let MILLS_PER_MIN = 60000.0
     public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
         
         let peaks = findPeaks(dataPoints)
@@ -152,13 +146,12 @@ public class DataCruncher {
             let p1 = peaks[i-1].point
             let p2 = peaks[i].point
             
-            //FIXME?
             let time = millsBetweenPoints(p1, p2)
             timeSpans.append(time)
         }
         
-        timeSpans = timeSpans.filter { $0 > self.MIN_TIME_SPAN }
-        timeSpans = timeSpans.map { self.MILLS_PER_MIN/$0 }
+        timeSpans = timeSpans.filter { $0 > MINIMUM_TIME_SPAN }
+        timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
         
         var avgMap = [Double]()
         for var i=0; i < timeSpans.count - 1; i++ {
@@ -174,50 +167,58 @@ public class DataCruncher {
         return avgBPM
     }
     
-    //Original values
-    
-    let MaxValueTolerance = 0.75
-    let HR_WIDTH = 100
     public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
-        let values = data.map { $0.value }
-        let maxValue = values.reduce(0.0) { max($0, $1) }
-        
-        let indicies = data.filter {
-            $0.value >= maxValue * self.MaxValueTolerance
+        let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
+            dict[dataPt.point] = dataPt.value
+            return dict
         }
-//        println("Max \(maxValue) threshold: \(maxValue * MaxValueTolerance)")
         
-        //Clustering
+        var slopes = [DataPoint]()
+        for var i=0; i + STEP < data.count; i++ {
+            let dp = data[i]
+            let sdp = data[i+STEP]
+            let slope = (sdp.value - dp.value) / Double(STEP)
+            
+            slopes += [DataPoint(point: dp.point, value: slope)]
+        }
+        
         var peaks = [DataPoint]()
         
-        var cluster = [indicies.first!]
-        for dataPoint in indicies {
-            let width = cluster.first!.point + HR_WIDTH
-
-            if  width > dataPoint.point {
-                cluster.append(dataPoint)
-            }
-            else {
-                let avg = average(cluster)
-                peaks.append(avg)
+        for var i=0; i < slopes.count; i++ {
+            let slopePoint = slopes[i]
+            
+            if slopePoint.value > MINIMUM_SLOPE {
+                //Traverse Up
+                let startIndex = i
+                while i+1 < slopes.count &&
+                    slopes[++i].value > 0  {}
                 
-                cluster.removeAll(keepCapacity: true)
-                cluster.append(dataPoint)
+                if startIndex + MINIMUM_SLOPE_LENGTH > i {
+                    continue
+                }
+                
+                //Potential Peak
+                let pPeakIndex = slopes[i].point
+                let endIndex = i
+                
+                //Traverse Down
+                while i+1 < slopes.count &&
+                    slopes[++i].value <= MINIMUM_DECLINE  {}
+                
+                if i < endIndex + MINIMUM_SLOPE_LENGTH {
+                    continue
+                }
+                
+                if let value = dataDict[pPeakIndex] {
+                    peaks.append(DataPoint(point: pPeakIndex, value: value))
+                }
             }
         }
-        peaks.append(average(cluster))
         
         println("Found \(peaks.count) Peaks")
         return peaks
     }
-}
-
-func average(group: [DataPoint]) -> DataPoint {
-    let count = group.count
-    let total = group.reduce(DataPoint.Zero()){ $0 + $1 }
-    
-    return DataPoint(point: total.point / count, value: total.value / Double(count))
 }
 
 //Finite Impulse Response (FIR) filter
@@ -252,5 +253,3 @@ public struct FIRFilter {
         }
     }
 }
-
-//MARK: Logging

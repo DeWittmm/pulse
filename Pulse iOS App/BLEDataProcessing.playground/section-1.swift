@@ -28,7 +28,7 @@ strValues
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
 
-let partValues = Array(values[0..<values.count/2])
+let partValues = Array(values[0..<values.count])
 
 //MARK: Callback
 
@@ -42,6 +42,7 @@ for num in partValues {
     data.append(UInt8(num))
     
     if count-- <= 0 {
+        data
         if let packet = DataPacket(rawData: data) {
             allDataPackets.append(packet)
             data.removeAll(keepCapacity: true)
@@ -63,11 +64,16 @@ avgTime
 avgtimeBtw
 
 //MARK:Peak Detection
-let MaxValueTolerance = 0.75
-let MINIMUM_SLOPE = 30.0
 let STEP = 5
+let MINIMUM_SLOPE = 40.0
+let MINIMUM_DECLINE = 10.0
 let MINIMUM_SLOPE_LENGTH = 5
 public func findPeaks(data: [DataPoint]) -> [DataPoint] {
+    
+    let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
+        dict[dataPt.point] = dataPt.value
+        return dict
+    }
     
     var slopes = [DataPoint]()
     for var i=0; i + STEP < data.count; i++ {
@@ -85,22 +91,28 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
         if slopePoint.value > MINIMUM_SLOPE {
             //Traverse Up
+            let startIndex = i
             while i+1 < slopes.count &&
                 slopes[++i].value > 0  {}
             
+            if startIndex + MINIMUM_SLOPE_LENGTH > i {
+                continue
+            }
+            
             //Potential Peak
-            let index = slopes[i].point
-            let potentialPeak = data.filter { $0.point == index }.first
-            let testi = i
+            let pPeakIndex = slopes[i].point
+            let endIndex = i
             
             //Traverse Down
             while i+1 < slopes.count &&
-                slopes[++i].value < 0  {}
+                slopes[++i].value <= MINIMUM_DECLINE  {}
             
-            if testi < i + MINIMUM_SLOPE_LENGTH {
-                if let peak = potentialPeak {
-                    peaks.append(peak)
-                }
+            if i < endIndex + MINIMUM_SLOPE_LENGTH {
+                continue
+            }
+            
+            if let value = dataDict[pPeakIndex] {
+                peaks.append(DataPoint(point: pPeakIndex, value: value))
             }
         }
     }
@@ -112,7 +124,6 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
 //MARK: Calculate HR
 let MIN_TIME_SPAN = 100.0
 let MILLS_PER_MIN = 60000.0
-
 public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
     
     let peaks = findPeaks(dataPoints)
@@ -153,7 +164,4 @@ public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Doubl
 
 
 let bpm = calculateHeartRate(filteredVals, avgtimeBtw, avgTime)
-println("HR: \(bpm)")
-
-
-
+println("HR: \(bpm)

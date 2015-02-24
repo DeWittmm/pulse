@@ -8,6 +8,8 @@
 
 import Foundation
 
+//typealias DataPoint = [Int:Double]
+
 public struct DataPoint {
     public let point: Int
     public let value: Double
@@ -31,10 +33,6 @@ public enum LightSource: UInt8 {
     case IR = 1
 }
 
-let PACKET_SIZE = 19
-public let PACKET_DATA_SIZE = 15
-public let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
-
 public class DataPacket {
     
     public let dataPoints: [DataPoint]
@@ -54,7 +52,7 @@ public class DataPacket {
     public init?(rawData: [UInt8]) {
 //        println("DataPacket: \(rawData)")
         
-        if rawData.count < PACKET_SIZE || (LightSource(rawValue: rawData[0]) == nil) {
+        if rawData.count < BLE_PACKET_SIZE || (LightSource(rawValue: rawData[0]) == nil) {
             dataPoints = []
             timePerPoint = 0.0
             startTime = 0
@@ -80,6 +78,7 @@ public class DataPacket {
         
         endTime = endmillis
         
+        //FIXME: timePerPoint * 2?
         let rawValues = Array(rawData[5..<rawData.count])
         var pointTime = Double(endmillis - startmillis) / Double(rawValues.count)
         timePerPoint = pointTime * 2
