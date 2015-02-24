@@ -48,15 +48,13 @@ public class DataCruncher {
         if LEDDataBin.count > binCapacity {
             var values: [DataPoint]
             if let info = processBin(LEDDataBin) {
-                let hr = calculateHeartRate(info.0, timesBtwPackets: info.2, timePerPoint: info.1)
+                let hr = calculateHeartRate(info.0, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
                 
                 let ledData = info.0.map { $0.value }
                 dispatch_async(dispatch_get_main_queue()) {
                     self.delegate?.analysingData([], RedLEDData: ledData)
                     self.delegate?.analysisFoundHeartRate(hr)
-                }
-                
-                totalTime(info.2, timePerPoint: info.1)
+                }                
             }
             clear()
         }
@@ -65,7 +63,7 @@ public class DataCruncher {
             var values: [DataPoint]
             if let info = processBin(IRDataBin) {
                 
-                let hr = calculateHeartRate(info.0, timesBtwPackets: info.2, timePerPoint: info.1)
+                let hr = calculateHeartRate(info.0, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
                 
                 let irData = info.0.map { $0.value }
                 dispatch_async(dispatch_get_main_queue()) {
@@ -83,17 +81,9 @@ public class DataCruncher {
         IRDataBin.removeAll(keepCapacity: true)
     }
     
-    func totalTime(timesBtwPackets: [Int], timePerPoint: Double) {
-        let totalTimeBtw = timesBtwPackets.reduce(0){ $0 + $1 }
-        let totalTimeIn = timePerPoint * Double(timesBtwPackets.count)
-        let total = Double(totalTimeBtw) + totalTimeIn
-        println("TimeBtw: \(totalTimeBtw) TimeIn: \(totalTimeIn)")
-        println("Total TimeGraphs: \(total)")
-    }
-    
     //MARK: Processing
     
-    public func processBin(bin: [DataPacket]) -> (filteredPoints: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: [Int])? {
+    public func processBin(bin: [DataPacket]) -> (filteredPoints: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: Double)? {
         
         var data = [DataPoint]()
         for packet in bin {
@@ -123,6 +113,8 @@ public class DataCruncher {
             }
             ltimesBtwPackets += [startTime - firstPacket.endTime]
         }
+        let totalTimeBtwBins = ltimesBtwPackets.reduce(0) { $0 + $1 }
+        let avgTimeBtw = Double(totalTimeBtwBins) / Double(ltimesBtwPackets.count)
         
         //Filtering
         let voltageValues = data.map { $0.value * ArudinoVoltageConversionFactor }
@@ -134,7 +126,7 @@ public class DataCruncher {
                 filteredPoints += [DataPoint(point: data[i].point, value: filteredValues[i])]
             }
             
-            return (filteredPoints, avgTimePerPoint, ltimesBtwPackets)
+            return (filteredPoints, avgTimePerPoint, avgTimeBtw)
         }
         return nil
     }
@@ -143,21 +135,16 @@ public class DataCruncher {
     
     let MIN_TIME_SPAN = 100.0
     let MILLS_PER_MIN = 60000.0
-    public func calculateHeartRate(dataPoints: [DataPoint], timesBtwPackets: [Int], timePerPoint: Double) -> Double {
+    public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
         
         let peaks = findPeaks(dataPoints)
         
         func millsBetweenPoints(p1: Int, p2: Int) -> Double {
-            let timePts = Double(p2 - p1) * timePerPoint
+            let timePts = Double(p2 - p1) * avgTimePerPoint
             let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
-            let startingIndex = p1 / PACKET_DATA_SIZE
+            let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
             
-            var spanWithPrint = 0
-            for var i = 0; i < numPrintBins && i + startingIndex < timesBtwPackets.count; i++ {
-                spanWithPrint += timesBtwPackets[startingIndex + i]
-            }
-            
-            return timePts + Double(spanWithPrint)
+            return timePts + timeSpanBtwPrints
         }
         
         var timeSpans = [Double]()

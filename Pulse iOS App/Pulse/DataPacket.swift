@@ -17,12 +17,12 @@ public struct DataPoint {
         self.value = value
     }
     
-    static func Zero() -> DataPoint {
+    public static func Zero() -> DataPoint {
         return DataPoint(point: 0, value: 0.0)
     }
 }
 
-func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
+public func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
     return DataPoint(point: p1.point + p2.point, value: p1.value + p2.value)
 }
 
@@ -81,8 +81,8 @@ public class DataPacket {
         endTime = endmillis
         
         let rawValues = Array(rawData[5..<rawData.count])
-        timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
-        
+        var pointTime = Double(endmillis - startmillis) / Double(rawValues.count)
+        timePerPoint = pointTime * 2
         
         var indicies = [DataPoint]()
         for (index, value) in enumerate(rawValues) {

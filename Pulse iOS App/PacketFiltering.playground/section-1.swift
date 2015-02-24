@@ -36,19 +36,22 @@ let dataCruncher = DataCruncher()
 
 var data = [UInt8]()
 var allDataPackets = [DataPacket]()
-var count = 20
+var count = 19
 for num in partValues {
+    data.append(UInt8(num))
+
     if count-- <= 0 {
         if let packet = DataPacket(rawData: data) {
             allDataPackets.append(packet)
             data.removeAll(keepCapacity: true)
         }
-        count = 20
-    }
-    else {
-        data.append(UInt8(num))
+        else {
+            abort()
+        }
+        count = 19
     }
 }
+allDataPackets.count
 
 public func processBin(bin: [DataPacket]) -> (filteredPoints: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: [Int])? {
     
@@ -100,7 +103,7 @@ var filteredVals: [DataPoint]
 var avgTime: Double
 var timeBtw: [Int]
 (filteredVals, avgTime, timeBtw) = processBin(allDataPackets)!
-
+filteredVals.count
 
 func writeValueAsCSV(value: String, toFilePath filePath: String) {
     
