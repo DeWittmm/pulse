@@ -141,16 +141,9 @@ void loop() {
     } else if (ble_state == BLE_STATE_ADVERTISING) {
         //digitalWrite(LED_PIN, slice < 100);
     } else if (ble_state == BLE_STATE_CONNECTED_SLAVE) {
-        uint8_t sensorValue;
-        uint8_t infraredReadings[BINSIZE];
-      
-        for(int i = 0; i < BINSIZE; i++) {
-          sensorValue = analogRead(SENSOR);
-          infraredReadings[i] = sensorValue;
-        }
 
-        ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, BINSIZE, infraredReadings);
-        
+        stuff();
+
         if (!ble_encrypted) {
             //digitalWrite(LED_PIN, slice < 100 || (slice > 200 && slice < 300));
         } else {
@@ -159,6 +152,21 @@ void loop() {
     }
 }
 
+void stuff() {
+    uint8_t sensorValue;
+    uint8_t infraredReadings[BINSIZE];
+  
+    for(int i = 0; i < BINSIZE; i++) {
+      sensorValue = analogRead(SENSOR);
+      infraredReadings[i] = sensorValue;
+    }
+
+    ble_write_bytes
+}
+
+void ble_write_bytes(unsigned char *data, unsigned char binSize) {
+    ble112.ble_cmd_attributes_write(GATT_HANDLE_C_TX_DATA, 0, binSize, data);
+}
 
 // ================================================================
 // INTERNAL BGLIB CLASS CALLBACK FUNCTIONS
