@@ -11,7 +11,11 @@ import Foundation
 class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate {
     
     //MARK: Properties    
-    private var graphView: BEMSimpleLineGraphView
+    var graphView: BEMSimpleLineGraphView? {
+        didSet {
+            formatGraph()
+        }
+    }
     
     private var refreshDate = NSDate()
     private var minRefreshTime: NSTimeInterval = 2.5
@@ -22,28 +26,26 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
-    init(graph: BEMSimpleLineGraphView) {
-        graphView = graph
-        super.init()
-
-        graphView.colorTop = UIColor.clearColor()
-        graphView.colorBottom = UIColor.clearColor()
-        graphView.backgroundColor = UIColor.clearColor()
-        graphView.widthLine = 3.5
-        graphView.enableTouchReport = true
-        graphView.enablePopUpReport = true
-        graphView.autoScaleYAxis = true
-        
-//        graphView.enableYAxisLabel = true
-//        graphView.alwaysDisplayDots = true
-        graphView.delegate = self
-        graphView.dataSource = self
+    func formatGraph() {
+        if let graphView = graphView {
+            graphView.colorTop = UIColor.clearColor()
+            graphView.colorBottom = UIColor.clearColor()
+            graphView.widthLine = 3.5
+            graphView.enableTouchReport = true
+            graphView.enablePopUpReport = true
+            graphView.autoScaleYAxis = true
+            
+            //  graphView.enableYAxisLabel = true
+            //  graphView.alwaysDisplayDots = true
+            graphView.delegate = self
+            graphView.dataSource = self
+        }
     }
     
     func refresh() {
         let interval = -self.refreshDate.timeIntervalSinceNow
         if  interval > minRefreshTime {
-            graphView.reloadGraph()
+            graphView?.reloadGraph()
             refreshDate = NSDate()
             
 //            println("MaxValue: \(graphView.calculateMaximumPointValue())")

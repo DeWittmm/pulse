@@ -28,22 +28,12 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
-    var healthStore: HKHealthStore? {
-        didSet {
-            println("Did set HK!")
-        }
-    }
+    var healthStore: HKHealthStore?
 
     let dataCruncher = DataCruncher()
-    var rawDataBin = [UInt8]()
     
-    lazy var hrGraphDelegate: GraphDelegate = {
-        GraphDelegate(graph: self.hrGraph)
-    }()
-    
-    lazy var sp02GraphDelegate: GraphDelegate = {
-        GraphDelegate(graph: self.sp02Graph)
-    }()
+    var redLEDGraphDelegate = GraphDelegate()
+    var irGraphDelegate: GraphDelegate = GraphDelegate()
     
     var isConnected: Bool = false {
         didSet {
@@ -70,19 +60,29 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     }()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         isConnected = false
         
-        super.viewDidLoad()
+        tabBarController?.tabBar.translucent = false
         
         dataCruncher.delegate = self
         btDiscovery.startScanning()
         
-        hrGraphDelegate.data = [0.0, 0.0]
-        sp02GraphDelegate.data = [15.0, 15.0]
+        redLEDGraphDelegate.graphView = hrGraph
+        redLEDGraphDelegate.data = [0.0, 0.0]
+        
+        irGraphDelegate.graphView = sp02Graph
+        irGraphDelegate.data = [15.0, 15.0]
+        
         observer.observer //simply instantiating lazy var
         
         sp02Graph.colorLine = UIColor.blueColor()
+        sp02Graph.backgroundColor = UIColor.clearColor()
+        
         hrGraph.colorLine = UIColor.redColor()
+        hrGraph.backgroundColor = UIColor.clearColor()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -92,7 +92,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         hrGraph.reloadGraph()
         
         bleRead()
-        healthStore?.req
+//        healthStore?.requestAccess()
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,15 +104,12 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     
     func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
         
-        println(rawDataBin)
-        rawDataBin.removeAll(keepCapacity: true)
-
         if !InfaredData.isEmpty {
-//            sp02GraphDelegate.data = InfaredData
+            irGraphDelegate.data = InfaredData
         }
         
         if !RedLEDData.isEmpty {
-            hrGraphDelegate.data = RedLEDData
+            redLEDGraphDelegate.data = RedLEDData
         }
         
         self.progressBar.progress = 0.0
@@ -127,8 +124,6 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
         packetSize.text = "\(data.count)"
 
-        rawDataBin += data
-
         if let data = DataPacket(rawData: data) {
             dataCruncher.addDataPacket(data)
             
@@ -139,7 +134,6 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
                 self.progressBar.progress = Float(self.dataCruncher.binPercentage)
             }
         }
-
     }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {

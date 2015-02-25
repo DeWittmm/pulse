@@ -41,14 +41,21 @@
                                                 <constraint firstItem="hPu-iP-iD7" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="34" id="G82-oz-e0b"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="centerX" secondItem="Pkj-bp-CSz" secondAttribute="centerX" id="OUt-j6-Ceg"/>
                                                 <constraint firstAttribute="centerX" secondItem="IeB-Lh-3cW" secondAttribute="centerX" id="Ocr-3v-8kY"/>
+                                                <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="Yar-qM-qed"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="b4F-W7-Poz"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="centerX" secondItem="R98-dB-FHb" secondAttribute="centerX" id="bF4-Zi-hpd"/>
                                                 <constraint firstAttribute="bottom" secondItem="IeB-Lh-3cW" secondAttribute="bottom" id="jIy-Dn-8Zt"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="29" id="khX-KN-Vrf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="IeB-Lh-3cW" secondAttribute="trailing" constant="-14" id="zVh-kI-5UO"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="b4F-W7-Poz"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HeartRateCell" rowHeight="275" id="tXX-a9-S0q">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HeartRateCell" rowHeight="275" id="tXX-a9-S0q" userLabel="GraphCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXX-a9-S0q" id="zlQ-yl-TPa">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -308,7 +315,7 @@ BPM</string>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryy-ZA-xbz">
                                 <rect key="frame" x="0.0" y="282" width="600" height="100"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5" userLabel="ActualHR">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5" userLabel="ActualHR">
                                         <rect key="frame" x="8" y="0.0" width="163" height="189"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -368,15 +375,51 @@ BPM</string>
         <scene sceneID="85H-pH-cIX">
             <objects>
                 <tableViewController id="xhh-F8-kCB" customClass="StatisticsTableViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vPY-Ul-ZU5">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="252" sectionHeaderHeight="22" sectionFooterHeight="22" id="vPY-Ul-ZU5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SegmentedCell" id="bsI-PG-cft">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="GraphCell" rowHeight="250" id="bsI-PG-cft" userLabel="Graph" customClass="GraphTableViewCell" customModule="Pulse" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bsI-PG-cft" id="JeW-4e-MAh">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bsI-PG-cft" id="JeW-4e-MAh">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4y-Yg-E6h" customClass="BEMSimpleLineGraphView">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="249"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="K4y-Yg-E6h" secondAttribute="trailing" id="Hlc-eH-jva"/>
+                                        <constraint firstItem="K4y-Yg-E6h" firstAttribute="top" secondItem="JeW-4e-MAh" secondAttribute="top" id="LUZ-Em-SBd"/>
+                                        <constraint firstItem="K4y-Yg-E6h" firstAttribute="leading" secondItem="JeW-4e-MAh" secondAttribute="leading" id="hYV-Nc-ISw"/>
+                                        <constraint firstAttribute="bottom" secondItem="K4y-Yg-E6h" secondAttribute="bottom" id="sdT-uV-aKb"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="graph" destination="K4y-Yg-E6h" id="amS-Oa-qL2"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="uJi-T1-m9F" detailTextLabel="cLX-ii-Wd8" rowHeight="55" style="IBUITableViewCellStyleValue1" id="U7X-J9-e8L">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U7X-J9-e8L" id="ZWg-Om-Irs">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJi-T1-m9F">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cLX-ii-Wd8">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -394,7 +437,6 @@ BPM</string>
                                 <segment title="Day"/>
                                 <segment title="Week"/>
                                 <segment title="Month"/>
-                                <segment title="Year"/>
                             </segments>
                         </segmentedControl>
                     </navigationItem>
