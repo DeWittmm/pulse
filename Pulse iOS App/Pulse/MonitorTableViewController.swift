@@ -78,7 +78,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         btDiscovery.startScanning()
         
         hrGraphDelegate.data = [0.0, 0.0]
-        sp02GraphDelegate.data = [5.0, 5.0]
+        sp02GraphDelegate.data = [15.0, 15.0]
         observer.observer //simply instantiating lazy var
         
         sp02Graph.colorLine = UIColor.blueColor()
@@ -92,6 +92,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         hrGraph.reloadGraph()
         
         bleRead()
+        healthStore?.req
     }
     
     override func didReceiveMemoryWarning() {
@@ -171,6 +172,3 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         }
     }
 }
-
-//extension MonitorTableViewController {
-//}

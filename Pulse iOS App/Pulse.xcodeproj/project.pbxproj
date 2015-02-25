@@ -49,6 +49,8 @@
 		0AE566321A9BC3CF00F4894F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
 		0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFA08281A9D792C00DBBEE8 /* HealthKit.framework */; };
 		0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
+		0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */; };
+		0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */; };
 		66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A497F6505F12E5CA6F97E817 /* libPods.a */; };
 		A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */; };
 /* End PBXBuildFile section */
@@ -148,6 +150,8 @@
 		0AE566201A9BC2FB00F4894F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPeakDetectionTests.swift; sourceTree = "<group>"; };
 		0AFA08281A9D792C00DBBEE8 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		0AFA082B1A9D95F000DBBEE8 /* Pulse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Pulse.entitlements; path = Pulse/Pulse.entitlements; sourceTree = "<group>"; };
+		0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+Permissions.swift"; sourceTree = "<group>"; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PulseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A497F6505F12E5CA6F97E817 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,13 +231,14 @@
 			path = BLEDataProcessingTests;
 			sourceTree = "<group>";
 		};
-		0A85ED281A7FF54700BD5863 /* Monitor */ = {
+		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
-				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
+				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
+				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
 			);
-			name = Monitor;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		0A9135EA1A7026C6005B2F7A /* Helpers */ = {
@@ -269,6 +274,7 @@
 		0AB19E1019FDB3C10024ACC7 = {
 			isa = PBXGroup;
 			children = (
+				0AFA082B1A9D95F000DBBEE8 /* Pulse.entitlements */,
 				0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */,
 				0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */,
 				0A60CED41A9BDAED004B91C1 /* PacketFiltering.playground */,
@@ -297,9 +303,9 @@
 			children = (
 				0AB19E2419FDB3C10024ACC7 /* Main.storyboard */,
 				0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */,
-				0A85ED281A7FF54700BD5863 /* Monitor */,
-				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
-				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
+				0A85ED281A7FF54700BD5863 /* ViewControllers */,
+				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
+				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
 				0A9135EA1A7026C6005B2F7A /* Helpers */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
@@ -491,6 +497,11 @@
 					0AB19E1819FDB3C10024ACC7 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = 73TURNDHA6;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					0AB19E2F19FDB3C10024ACC7 = {
 						CreatedOnToolsVersion = 6.0;
@@ -638,6 +649,7 @@
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
+				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
@@ -656,6 +668,7 @@
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
+				0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
 				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
 				0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
@@ -818,6 +831,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Pulse/Pulse.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Pulse/Info.plist;
@@ -835,6 +849,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Pulse/Pulse.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Pulse/Info.plist;
