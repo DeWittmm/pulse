@@ -7,16 +7,43 @@
 //
 
 import UIKit
+import HealthKit
+
+public protocol HKAccessDelegate: class {
+    var healthStore: HKHealthStore? { get set }
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var healthStore = HKHealthStore()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        setUpHealthStoreForTabBarController()
+        
         return true
+    }
+    
+    func setUpHealthStoreForTabBarController() {
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+        
+            for controller in tabBarController.viewControllers! {
+                
+                let viewController: UIViewController
+                if let nav = controller as? UINavigationController {
+                    viewController = nav.topViewController
+                }
+                else {
+                    viewController = controller as! UIViewController
+                }
+                
+                if let vc = viewController as? HKAccessDelegate {
+                    vc.healthStore = healthStore
+                }
+            }
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

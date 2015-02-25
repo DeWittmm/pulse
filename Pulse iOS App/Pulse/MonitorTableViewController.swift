@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreBluetooth
+import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, PeripheralUpdateDelegate, DataAnalysisDelegate {
+class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate, HKAccessDelegate {
     
     //MARK: Outlets
     
@@ -27,7 +28,12 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
-    
+    var healthStore: HKHealthStore? {
+        didSet {
+            println("Did set HK!")
+        }
+    }
+
     let dataCruncher = DataCruncher()
     var rawDataBin = [UInt8]()
     
@@ -72,7 +78,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         btDiscovery.startScanning()
         
         hrGraphDelegate.data = [0.0, 0.0]
-        sp02GraphDelegate.data = [0.0, 0.0]
+        sp02GraphDelegate.data = [5.0, 5.0]
         observer.observer //simply instantiating lazy var
         
         sp02Graph.colorLine = UIColor.blueColor()
@@ -164,5 +170,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
             service.readFromConnectedCharacteristics()
         }
     }
-
 }
+
+//extension MonitorTableViewController {
+//}

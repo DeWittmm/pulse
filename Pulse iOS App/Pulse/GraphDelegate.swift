@@ -29,12 +29,12 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         graphView.colorTop = UIColor.clearColor()
         graphView.colorBottom = UIColor.clearColor()
         graphView.backgroundColor = UIColor.clearColor()
-        graphView.widthLine = 4.0
+        graphView.widthLine = 3.5
         graphView.enableTouchReport = true
         graphView.enablePopUpReport = true
-//        graphView.enableYAxisLabel = true
         graphView.autoScaleYAxis = true
-//        graphView.enableReferenceYAxisLines = true
+        
+//        graphView.enableYAxisLabel = true
 //        graphView.alwaysDisplayDots = true
         graphView.delegate = self
         graphView.dataSource = self
@@ -58,11 +58,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     }
     
     func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 450.0
+        return 600.0
     }
 
     func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 150.0
+        return 100.0
     }
     
     //MARK: LineGraphDataSource

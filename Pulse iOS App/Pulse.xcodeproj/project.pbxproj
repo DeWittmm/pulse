@@ -39,7 +39,7 @@
 		0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AB19E2919FDB3C10024ACC7 /* LaunchScreen.xib */; };
 		0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E3619FDB3C10024ACC7 /* PulseTests.swift */; };
 		0AE566191A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
-		0AE566221A9BC2FB00F4894F /* BLEDataProcessingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE566211A9BC2FB00F4894F /* BLEDataProcessingTests.swift */; };
+		0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */; };
 		0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
 		0AE566261A9BC2FB00F4894F /* BLEDataProcessing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
@@ -47,6 +47,8 @@
 		0AE566301A9BC39800F4894F /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
 		0AE566311A9BC39800F4894F /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6533AB1A946319007A403D /* DataPacket.swift */; };
 		0AE566321A9BC3CF00F4894F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
+		0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFA08281A9D792C00DBBEE8 /* HealthKit.framework */; };
+		0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
 		66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A497F6505F12E5CA6F97E817 /* libPods.a */; };
 		A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */; };
 /* End PBXBuildFile section */
@@ -144,7 +146,8 @@
 		0AE566111A9BC2FB00F4894F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AE566181A9BC2FB00F4894F /* BLEDataProcessingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLEDataProcessingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE566201A9BC2FB00F4894F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0AE566211A9BC2FB00F4894F /* BLEDataProcessingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDataProcessingTests.swift; sourceTree = "<group>"; };
+		0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPeakDetectionTests.swift; sourceTree = "<group>"; };
+		0AFA08281A9D792C00DBBEE8 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PulseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A497F6505F12E5CA6F97E817 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */,
 				0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */,
 				66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */,
 				0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */,
@@ -253,6 +257,7 @@
 		0A99B96C1A21A4F2002DF93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AFA08281A9D792C00DBBEE8 /* HealthKit.framework */,
 				0AE362721A82020900E1B3C2 /* Foundation.framework */,
 				A497F6505F12E5CA6F97E817 /* libPods.a */,
 				328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */,
@@ -357,7 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */,
-				0AE566211A9BC2FB00F4894F /* BLEDataProcessingTests.swift */,
+				0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */,
 				0AE5661F1A9BC2FB00F4894F /* Supporting Files */,
 			);
 			name = BLEDataProcessingTests;
@@ -652,6 +657,7 @@
 				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
+				0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */,
 				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
@@ -673,7 +679,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AE566221A9BC2FB00F4894F /* BLEDataProcessingTests.swift in Sources */,
+				0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */,
 				0AE566301A9BC39800F4894F /* DataCruncher.swift in Sources */,
 				0AE566311A9BC39800F4894F /* DataPacket.swift in Sources */,
 				0A650CA21A9C53500039BFD4 /* Constants.swift in Sources */,
