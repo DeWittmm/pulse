@@ -11,7 +11,7 @@ import CoreBluetooth
 import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate, HKAccessDelegate {
+class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessDelegate, PeripheralUpdateDelegate, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
@@ -102,39 +102,41 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     
     //MARK: DataAnalysisDelegate
     
-    func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
+    //FIXME
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        dataCruncher.characteristic(characteristic, didRecieveData: data)
+    }
+    
+    func currentProgress(irDataProg: Double, ledDataProg: Double) {
+        progressBar.progress = Float(ledDataProg)
         
+        let ledPercentage = ledDataProg*100.0 - 1 //99% instead of 100
+        let irPercentage = irDataProg*100.0 - 1
+        
+        packetSize.text = String(format:"LED: %2.0f%%, IR: %2.0f%%", arguments: [ledPercentage, irPercentage])
+    }
+    
+    func analysingIRData(InfaredData: [Double]) {
         if !InfaredData.isEmpty {
             irGraphDelegate.data = InfaredData
         }
-        
-        if !RedLEDData.isEmpty {
-            redLEDGraphDelegate.data = RedLEDData
+    }
+    
+    func analysingLEDData(redLEDData: [Double]) {
+        if !redLEDData.isEmpty {
+            redLEDGraphDelegate.data = redLEDData
         }
-        
-        self.progressBar.progress = 0.0
     }
     
     func analysisFoundHeartRate(hr: Double)  {
         bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
     }
     
-    //MARK: BLE Connection (BLEServiceDelegate)
-    
-    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
-        packetSize.text = "\(data.count)"
-
-        if let data = DataPacket(rawData: data) {
-            dataCruncher.addDataPacket(data)
-            
-            //FIXME: Might have a threading issue here
-            dispatch_async(dispatch_get_main_queue()) {
-//                println("Collected \(self.dataCruncher.binPercentage)%")
-                
-                self.progressBar.progress = Float(self.dataCruncher.binPercentage)
-            }
-        }
+    func analysisFoundSP02(sp02: Double) {
+        spO2Label.text = String(format:"%.01f SP02", arguments: [sp02])
     }
+    
+    //MARK: BLE Connection
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
         println("RSSI: \(newRSSI)")

@@ -8,7 +8,7 @@
 
 import CoreBluetooth
 
-protocol BLEDataTransferDelegate: PeripheralUpdateDelegate {
+protocol BLEDataTransferDelegate: class {
     func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8])
 }
 

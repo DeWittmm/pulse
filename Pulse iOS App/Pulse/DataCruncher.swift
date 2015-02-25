@@ -11,25 +11,47 @@ import CoreBluetooth
 let binCapacity = 800 / 20 //PacketCount
 
 public protocol DataAnalysisDelegate: class {
-    func analysingData(InfaredData: [Double], RedLEDData: [Double])
+    func analysingIRData(InfaredData: [Double])
+    func analysingLEDData(redLEDData: [Double])
+    
+    func currentProgress(irDataProg: Double, ledDataProg: Double)
+    
     func analysisFoundHeartRate(hr: Double)
+    func analysisFoundSP02(sp02: Double)
 }
 
-public class DataCruncher {
+public class DataCruncher: BLEDataTransferDelegate {
     
     //MARK: Private Properties
+    private var rawData = [UInt8]()
 
     //MARK: Properties
     var IRDataBin = [DataPacket]()
     var LEDDataBin = [DataPacket]()
     
+    var IRPeaks = [DataPoint]()
+    var LEDPeaks = [DataPoint]()
+    
     public weak var delegate: DataAnalysisDelegate?
     
-    public var binPercentage: Double {
-        return Double(self.IRDataBin.count)/Double(binCapacity)
-    }
-    
     public init() {}
+    
+    //MARK: BLE Connection (BLEServiceDelegate)
+    public func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        rawData += data
+        
+        if let data = DataPacket(rawData: data) {
+            addDataPacket(data)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                let irProg = Double(self.IRDataBin.count)/Double(binCapacity)
+                let ledProg = Double(self.LEDDataBin.count)/Double(binCapacity)
+                
+                self.delegate?.currentProgress(irProg, ledDataProg: ledProg)
+            }
+        }
+    }
     
     //MARK: Build filteredDataBin
     public func addDataPacket(packet: DataPacket) {
@@ -43,12 +65,15 @@ public class DataCruncher {
         
         if LEDDataBin.count > binCapacity {
             var values: [DataPoint]
+            println(rawData)
             if let info = processBin(LEDDataBin) {
-                let hr = calculateHeartRate(info.0, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
+                let peaks = findPeaks(info.0)
+                LEDPeaks = peaks
+                let hr = calculateHeartRate(peaks, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
                 
                 let ledData = info.0.map { $0.value }
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysingData([], RedLEDData: ledData)
+                    self.delegate?.analysingLEDData(ledData)
                     self.delegate?.analysisFoundHeartRate(hr)
                 }                
             }
@@ -58,21 +83,26 @@ public class DataCruncher {
         if IRDataBin.count > binCapacity {
             var values: [DataPoint]
             if let info = processBin(IRDataBin) {
-                
+                let peaks = findPeaks(info.0)
+                IRPeaks = peaks
                 let hr = calculateHeartRate(info.0, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
                 
                 let irData = info.0.map { $0.value }
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysingData(irData, RedLEDData:[])
+                    self.delegate?.analysingIRData(irData)
                     self.delegate?.analysisFoundHeartRate(hr)
                 }
             }
-    
             clear()
+        }
+        
+        if !IRPeaks.isEmpty && !LEDPeaks.isEmpty {
+//            println("Calculate SP02")
         }
     }
     
     func clear() {
+        rawData.removeAll(keepCapacity: true)
         LEDDataBin.removeAll(keepCapacity: true)
         IRDataBin.removeAll(keepCapacity: true)
     }
@@ -128,45 +158,6 @@ public class DataCruncher {
         return nil
     }
     
-    //MARK: Calculations
-    public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
-        
-        let peaks = findPeaks(dataPoints)
-        
-        func millsBetweenPoints(p1: Int, p2: Int) -> Double {
-            let timePts = Double(p2 - p1) * avgTimePerPoint
-            let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
-            let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
-            
-            return timePts + timeSpanBtwPrints
-        }
-        
-        var timeSpans = [Double]()
-        for var i=1; i < peaks.count; i++ {
-            let p1 = peaks[i-1].point
-            let p2 = peaks[i].point
-            
-            let time = millsBetweenPoints(p1, p2)
-            timeSpans.append(time)
-        }
-        
-        timeSpans = timeSpans.filter { $0 > MINIMUM_TIME_SPAN }
-        timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
-        
-        var avgMap = [Double]()
-        for var i=0; i < timeSpans.count - 1; i++ {
-            let t1 = timeSpans[i].0
-            let t2 = timeSpans[i+1].0
-            let avg = (t1 + t2) / 2
-            avgMap.append(avg)
-        }
-        
-        var sum = timeSpans.reduce(0.0) { $0 + $1 }
-        let avgBPM = sum/Double(timeSpans.count)
-        
-        return avgBPM
-    }
-    
     public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
         let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
@@ -218,6 +209,43 @@ public class DataCruncher {
         
         println("Found \(peaks.count) Peaks")
         return peaks
+    }
+    
+    //MARK: Calculations
+    public func calculateHeartRate(peaks: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
+        
+        func millsBetweenPoints(p1: Int, p2: Int) -> Double {
+            let timePts = Double(p2 - p1) * avgTimePerPoint
+            let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
+            let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
+            
+            return timePts + timeSpanBtwPrints
+        }
+        
+        var timeSpans = [Double]()
+        for var i=1; i < peaks.count; i++ {
+            let p1 = peaks[i-1].point
+            let p2 = peaks[i].point
+            
+            let time = millsBetweenPoints(p1, p2)
+            timeSpans.append(time)
+        }
+        
+        timeSpans = timeSpans.filter { $0 > MINIMUM_TIME_SPAN }
+        timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
+        
+        var avgMap = [Double]()
+        for var i=0; i < timeSpans.count - 1; i++ {
+            let t1 = timeSpans[i].0
+            let t2 = timeSpans[i+1].0
+            let avg = (t1 + t2) / 2
+            avgMap.append(avg)
+        }
+        
+        var sum = timeSpans.reduce(0.0) { $0 + $1 }
+        let avgBPM = sum/Double(timeSpans.count)
+        
+        return avgBPM
     }
 }
 

@@ -9,6 +9,18 @@
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9661A9E46A800ED5A4A /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9671A9E46A900ED5A4A /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9681A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
+		0A1CE9691A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
+		0A1CE96B1A9E48D200ED5A4A /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A1CE96C1A9E48D300ED5A4A /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A1CE96D1A9E48DC00ED5A4A /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
+		0A1CE96E1A9E48DD00ED5A4A /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
+		0A1CE96F1A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
+		0A1CE9701A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
+		0A1CE9711A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
+		0A1CE9721A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
@@ -40,7 +52,6 @@
 		0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E3619FDB3C10024ACC7 /* PulseTests.swift */; };
 		0AE566191A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
 		0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */; };
-		0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
 		0AE566261A9BC2FB00F4894F /* BLEDataProcessing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
 		0AE5662F1A9BC39600F4894F /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6533AB1A946319007A403D /* DataPacket.swift */; };
@@ -78,13 +89,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0AB19E1819FDB3C10024ACC7;
 			remoteInfo = Pulse;
-		};
-		0AE566231A9BC2FB00F4894F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0AB19E1119FDB3C10024ACC7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0AE5660D1A9BC2FB00F4894F;
-			remoteInfo = BLEDataProcessing;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -171,7 +175,6 @@
 				0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */,
 				0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */,
 				66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */,
-				0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,7 +428,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0AE566241A9BC2FB00F4894F /* PBXTargetDependency */,
 			);
 			name = Pulse;
 			productName = Pulse;
@@ -688,9 +690,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1CE96F1A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
 				0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */,
 				0AE5662F1A9BC39600F4894F /* DataPacket.swift in Sources */,
+				0A1CE96B1A9E48D200ED5A4A /* UUIDConstants.swift in Sources */,
+				0A1CE96D1A9E48DC00ED5A4A /* BTDiscovery.swift in Sources */,
 				0A650C9E1A9C44E00039BFD4 /* Constants.swift in Sources */,
+				0A1CE9701A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */,
+				0A1CE9681A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */,
+				0A1CE9661A9E46A800ED5A4A /* BTServiceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,10 +706,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1CE9691A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */,
+				0A1CE9721A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */,
 				0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */,
+				0A1CE96E1A9E48DD00ED5A4A /* BTDiscovery.swift in Sources */,
 				0AE566301A9BC39800F4894F /* DataCruncher.swift in Sources */,
 				0AE566311A9BC39800F4894F /* DataPacket.swift in Sources */,
+				0A1CE9671A9E46A900ED5A4A /* BTServiceManager.swift in Sources */,
+				0A1CE9711A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
 				0A650CA21A9C53500039BFD4 /* Constants.swift in Sources */,
+				0A1CE96C1A9E48D300ED5A4A /* UUIDConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,11 +736,6 @@
 			isa = PBXTargetDependency;
 			target = 0AB19E1819FDB3C10024ACC7 /* Pulse */;
 			targetProxy = 0AE5661C1A9BC2FB00F4894F /* PBXContainerItemProxy */;
-		};
-		0AE566241A9BC2FB00F4894F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0AE5660D1A9BC2FB00F4894F /* BLEDataProcessing */;
-			targetProxy = 0AE566231A9BC2FB00F4894F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

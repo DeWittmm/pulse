@@ -28,7 +28,7 @@ strValues
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
 
-let partValues = Array(values[0..<values.count])
+let partValues = Array(values[0..<values.count/3])
 
 //MARK: Callback
 
@@ -164,4 +164,4 @@ public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Doubl
 
 
 let bpm = calculateHeartRate(filteredVals, avgtimeBtw, avgTime)
-println("HR: \(bpm)
+println("HR: \(bpm)")
