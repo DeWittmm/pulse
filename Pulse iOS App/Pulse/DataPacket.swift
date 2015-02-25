@@ -22,6 +22,10 @@ public struct DataPoint {
     public static func Zero() -> DataPoint {
         return DataPoint(point: 0, value: 0.0)
     }
+    
+    public func description() -> String {
+        return "Point: \(point) Value: \(value)"
+    }
 }
 
 public func + (p1: DataPoint, p2: DataPoint) -> DataPoint {
@@ -80,16 +84,17 @@ public class DataPacket {
         
         //FIXME: timePerPoint * 2?
         let rawValues = Array(rawData[5..<rawData.count])
-        var pointTime = Double(endmillis - startmillis) / Double(rawValues.count)
-        timePerPoint = pointTime * 2
+        timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
         
         var indicies = [DataPoint]()
         for (index, value) in enumerate(rawValues) {
             indicies.append(DataPoint(point: index, value: Double(value)))
         }
+                
         dataPoints = indicies
         
         if dataPoints.isEmpty || timePerPoint <= 0 {
+            println("ERROR: Failed to process packet: \n\(rawValues)")
             return nil
         }
     }

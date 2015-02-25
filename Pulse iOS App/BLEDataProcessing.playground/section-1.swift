@@ -12,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "BLEData" //"IR_1mod5FILTERED" //"RLED_3
+let file = "BLEData4"
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -28,9 +28,7 @@ strValues
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
 
-let partValues = Array(values[0..<values.count/3])
-
-//MARK: Callback
+let partValues = Array(values[0..<values.count])
 
 //MARK: Processing
 let dataCruncher = DataCruncher()
@@ -47,27 +45,33 @@ for num in partValues {
             allDataPackets.append(packet)
             data.removeAll(keepCapacity: true)
         }
-        else {
-            abort()
-        }
         count = 19
     }
 }
+allDataPackets
 
-var filteredVals: [DataPoint]
-var avgTime: Double
-var avgtimeBtw: Double
-(filteredVals, avgTime, avgtimeBtw) = dataCruncher.processBin(allDataPackets)!
+var vals: [DataPoint]
+var avgTimePerPoint: Double
+var avgtimeBtwBins: Double
+(vals, avgTimePerPoint, avgtimeBtwBins) = dataCruncher.processBin(allDataPackets)!
 
-let vals = filteredVals.map { $0.value }
-avgTime
-avgtimeBtw
+avgTimePerPoint
+avgtimeBtwBins
+
+//avgTimePerPoint = 4.5
+//avgtimeBtwBins = 52
+
+let rawVals = vals.map { $0.value }
+
+vals = vals.filter { $0.value > 20 }
+let filteredVals = dataCruncher.filter(vals)!
+filteredVals.map { $0.value }
 
 //MARK:Peak Detection
 let STEP = 5
-let MINIMUM_SLOPE = 40.0
 let MINIMUM_DECLINE = 10.0
-let MINIMUM_SLOPE_LENGTH = 5
+let MINIMUM_SLOPE_LENGTH = 10
+let MINIMUM_SLOPE = 2.0
 public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     
     let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
@@ -83,17 +87,22 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
         slopes += [DataPoint(point: dp.point, value: slope)]
     }
+    let sVals = slopes.map { $0.value }.filter{ $0 > MINIMUM_SLOPE }
+    let minimumSlope = sVals.reduce(0.0) { $0 + $1 } / Double(sVals.count)
+    minimumSlope
     
     var peaks = [DataPoint]()
-
     for var i=0; i < slopes.count; i++ {
         let slopePoint = slopes[i]
         
-        if slopePoint.value > MINIMUM_SLOPE {
+        if slopePoint.value > minimumSlope {
             //Traverse Up
             let startIndex = i
-            while i+1 < slopes.count &&
-                slopes[++i].value > 0  {}
+            while i+1 < slopes.count {
+                if slopes[++i].value < 0 {
+                    break
+                }
+            }
             
             if startIndex + MINIMUM_SLOPE_LENGTH > i {
                 continue
@@ -104,13 +113,16 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
             let endIndex = i
             
             //Traverse Down
-            while i+1 < slopes.count &&
-                slopes[++i].value <= MINIMUM_DECLINE  {}
-            
+            while i+1 < slopes.count {
+                if slopes[++i].value > MINIMUM_DECLINE {
+                    break
+                }
+            }
+            i
             if i < endIndex + MINIMUM_SLOPE_LENGTH {
                 continue
             }
-            
+
             if let value = dataDict[pPeakIndex] {
                 peaks.append(DataPoint(point: pPeakIndex, value: value))
             }
@@ -122,7 +134,7 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
 }
 
 //MARK: Calculate HR
-let MIN_TIME_SPAN = 100.0
+let MINIMUM_HR_TIME_SPAN = 100.0
 let MILLS_PER_MIN = 60000.0
 public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
     
@@ -145,8 +157,10 @@ public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Doubl
         timeSpans.append(time)
     }
     
-    timeSpans = timeSpans.filter { $0 > MIN_TIME_SPAN }
+    timeSpans = timeSpans.filter { $0 > MINIMUM_HR_TIME_SPAN }
     timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
+    
+    timeSpans
     
     var avgMap = [Double]()
     for var i=0; i < timeSpans.count - 1; i++ {
@@ -156,12 +170,10 @@ public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Doubl
         avgMap.append(avg)
     }
     
-    var sum = timeSpans.reduce(0.0) { $0 + $1 }
-    let avgBPM = sum/Double(timeSpans.count)
+    let avgBPM = timeSpans.reduce(0.0) { $0 + $1 } / Double(timeSpans.count)
     
     return avgBPM
 }
 
-
-let bpm = calculateHeartRate(filteredVals, avgtimeBtw, avgTime)
+let bpm = calculateHeartRate(filteredVals, avgtimeBtwBins, avgTimePerPoint)
 println("HR: \(bpm)")

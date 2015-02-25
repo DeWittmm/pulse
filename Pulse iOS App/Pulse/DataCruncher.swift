@@ -20,7 +20,7 @@ public protocol DataAnalysisDelegate: class {
     func analysisFoundSP02(sp02: Double)
 }
 
-public class DataCruncher: BLEDataTransferDelegate {
+public class DataCruncher {
     
     //MARK: Private Properties
     private var rawData = [UInt8]()
@@ -36,12 +36,12 @@ public class DataCruncher: BLEDataTransferDelegate {
     
     public init() {}
     
-    //MARK: BLE Connection (BLEServiceDelegate)
-    public func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+    //MARK: Build filteredDataBin
+    public func addDataForCrunching(data: [UInt8]) {
         rawData += data
         
         if let data = DataPacket(rawData: data) {
-            addDataPacket(data)
+            crunchPacket(data)
             
             dispatch_async(dispatch_get_main_queue()) {
                 
@@ -53,8 +53,7 @@ public class DataCruncher: BLEDataTransferDelegate {
         }
     }
     
-    //MARK: Build filteredDataBin
-    public func addDataPacket(packet: DataPacket) {
+    func crunchPacket(packet: DataPacket) {
         
         switch packet.lightSource {
         case .IR:
@@ -64,8 +63,9 @@ public class DataCruncher: BLEDataTransferDelegate {
         }
         
         if LEDDataBin.count > binCapacity {
+            println("LED \(rawData)")
+
             var values: [DataPoint]
-            println(rawData)
             if let info = processBin(LEDDataBin) {
                 let peaks = findPeaks(info.0)
                 LEDPeaks = peaks
@@ -81,6 +81,8 @@ public class DataCruncher: BLEDataTransferDelegate {
         }
         
         if IRDataBin.count > binCapacity {
+            println("IR \(rawData)")
+
             var values: [DataPoint]
             if let info = processBin(IRDataBin) {
                 let peaks = findPeaks(info.0)
@@ -109,7 +111,7 @@ public class DataCruncher: BLEDataTransferDelegate {
     
     //MARK: Processing
     
-    public func processBin(bin: [DataPacket]) -> (filteredPoints: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: Double)? {
+    public func processBin(bin: [DataPacket]) -> (data: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: Double)? {
         
         var data = [DataPoint]()
         for packet in bin {
@@ -143,17 +145,22 @@ public class DataCruncher: BLEDataTransferDelegate {
         let totalTimeBtwBins = ltimesBtwPackets.reduce(0) { $0 + $1 }
         let avgTimeBtw = Double(totalTimeBtwBins) / Double(ltimesBtwPackets.count)
         
-        //Filtering
-        let voltageValues = data.map { $0.value * ArudinoVoltageConversionFactor }
+        return (data, avgTimePerPoint, avgTimeBtw)
+    }
+    
+    public func filter(points: [DataPoint]) -> [DataPoint]? {
+        
+        let voltageValues = points.map { $0.value * ArudinoVoltageConversionFactor }
+        
         if var lowPass =  FIRFilter(inputData: voltageValues) {
             let filteredValues = lowPass.filter()
             
             var filteredPoints = [DataPoint]()
-            for var i=0; i < data.count; i++ {
-                filteredPoints += [DataPoint(point: data[i].point, value: filteredValues[i])]
+            for var i=0; i < points.count; i++ {
+                filteredPoints += [DataPoint(point: points[i].point, value: filteredValues[i])]
             }
             
-            return (filteredPoints, avgTimePerPoint, avgTimeBtw)
+            return filteredPoints
         }
         return nil
     }
@@ -182,8 +189,11 @@ public class DataCruncher: BLEDataTransferDelegate {
             if slopePoint.value > MINIMUM_SLOPE {
                 //Traverse Up
                 let startIndex = i
-                while i+1 < slopes.count &&
-                    slopes[++i].value > 0  {}
+                while i+1 < slopes.count {
+                    if slopes[++i].value < 0 {
+                        break
+                    }
+                }
                 
                 if startIndex + MINIMUM_SLOPE_LENGTH > i {
                     continue
@@ -211,7 +221,7 @@ public class DataCruncher: BLEDataTransferDelegate {
         return peaks
     }
     
-    //MARK: Calculations
+    //MARK: Calculations (Should be private)
     public func calculateHeartRate(peaks: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
         
         func millsBetweenPoints(p1: Int, p2: Int) -> Double {
@@ -247,6 +257,12 @@ public class DataCruncher: BLEDataTransferDelegate {
         
         return avgBPM
     }
+    
+    public func calcuateSPO2Ratio(avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
+        
+//        let avgIR = IRPeaks.reduce(DataPoint.Zero()) { $0.value + $1.value }
+        return 0.0
+    }
 }
 
 //Finite Impulse Response (FIR) filter
@@ -265,7 +281,7 @@ public struct FIRFilter {
         }
         
         data = inputData
-        queue = [Double](count: order, repeatedValue: 1.0)
+        queue = Array(inputData[0..<order])
     }
     
     public mutating func filter() -> [Double] {

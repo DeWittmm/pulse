@@ -11,7 +11,7 @@ import CoreBluetooth
 import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessDelegate, PeripheralUpdateDelegate, BLEDataTransferDelegate {
+class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessDelegate, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
@@ -102,11 +102,6 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     
     //MARK: DataAnalysisDelegate
     
-    //FIXME
-    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
-        dataCruncher.characteristic(characteristic, didRecieveData: data)
-    }
-    
     func currentProgress(irDataProg: Double, ledDataProg: Double) {
         progressBar.progress = Float(ledDataProg)
         
@@ -137,6 +132,9 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     }
     
     //MARK: BLE Connection
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        dataCruncher.addDataForCrunching(data)
+    }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
         println("RSSI: \(newRSSI)")
@@ -157,7 +155,6 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     func beginBLEReading() {
         if let service = btDiscovery.bleService {
             service.delegate = self
-            service.updateDelegate = self
             service.readFromConnectedCharacteristics()
         }
     }
