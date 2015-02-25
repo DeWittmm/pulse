@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreBluetooth
+import HealthKit
+import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate {
+class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate, HKAccessDelegate {
     
     //MARK: Outlets
     
@@ -26,14 +28,12 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
+    var healthStore: HKHealthStore?
+
+    let dataCruncher = DataCruncher()
     
-    lazy var hrGraphDelegate: GraphDelegate = {
-        GraphDelegate(graph: self.hrGraph)
-    }()
-    
-    lazy var sp02GraphDelegate: GraphDelegate = {
-        GraphDelegate(graph: self.sp02Graph)
-    }()
+    var redLEDGraphDelegate = GraphDelegate()
+    var irGraphDelegate: GraphDelegate = GraphDelegate()
     
     var isConnected: Bool = false {
         didSet {
@@ -60,18 +60,29 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     }()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         isConnected = false
         
-        super.viewDidLoad()
+        tabBarController?.tabBar.translucent = false
         
+        dataCruncher.delegate = self
         btDiscovery.startScanning()
         
-        hrGraphDelegate.data = [0.0, 0.0]
-        sp02GraphDelegate.data = [0.0, 0.0]
+        redLEDGraphDelegate.graphView = hrGraph
+        redLEDGraphDelegate.data = [0.0, 0.0]
+        
+        irGraphDelegate.graphView = sp02Graph
+        irGraphDelegate.data = [15.0, 15.0]
+        
         observer.observer //simply instantiating lazy var
         
         sp02Graph.colorLine = UIColor.blueColor()
+        sp02Graph.backgroundColor = UIColor.clearColor()
+        
         hrGraph.colorLine = UIColor.redColor()
+        hrGraph.backgroundColor = UIColor.clearColor()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -81,6 +92,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         hrGraph.reloadGraph()
         
         bleRead()
+//        healthStore?.requestAccess()
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,35 +100,44 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: DataAnalysisDelegate
+    
+    func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
+        
+        if !InfaredData.isEmpty {
+            irGraphDelegate.data = InfaredData
+        }
+        
+        if !RedLEDData.isEmpty {
+            redLEDGraphDelegate.data = RedLEDData
+        }
+        
+        self.progressBar.progress = 0.0
+    }
+    
+    func analysisFoundHeartRate(hr: Double)  {
+        bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+    }
+    
     //MARK: BLE Connection (BLEServiceDelegate)
     
-    func characteristic(characteristic: CBCharacteristic, didCollectDataBin bin: [UInt8]) {
-        println("Bin: \(bin)")
-        packetSize.text = "\(bin.count)"
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        packetSize.text = "\(data.count)"
 
-        let data = DataCruncher(rawData: bin)
-
-        hrGraphDelegate.data = data?.filteredValues ?? [0.0, 0.0]
-        
-        let heartRate = data?.calculateHeartRate()
-        bpmLabel.text = String(format:"%.01f BPM", arguments: [heartRate ?? 0])
-        
-        //FIXME: Untested
-        if let service = btDiscovery.bleService {
-            service.writeValueToConnectedCharacteristics(200)
+        if let data = DataPacket(rawData: data) {
+            dataCruncher.addDataPacket(data)
+            
+            //FIXME: Might have a threading issue here
+            dispatch_async(dispatch_get_main_queue()) {
+//                println("Collected \(self.dataCruncher.binPercentage)%")
+                
+                self.progressBar.progress = Float(self.dataCruncher.binPercentage)
+            }
         }
     }
     
-    func characteristic(characteristic: CBCharacteristic, hasCollectedPercentageOfBin percentage: Double) {
-        println("Collected \(percentage)%")
-        
-        progressBar.progress = Float(percentage)
-    }
-    
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {
-        
         println("RSSI: \(newRSSI)")
-
         rssiLabel.text = "\(newRSSI)"
     }
     
@@ -134,6 +155,7 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     func beginBLEReading() {
         if let service = btDiscovery.bleService {
             service.delegate = self
+            service.updateDelegate = self
             service.readFromConnectedCharacteristics()
         }
     }
@@ -143,5 +165,4 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
             service.readFromConnectedCharacteristics()
         }
     }
-
 }

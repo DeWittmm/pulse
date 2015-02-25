@@ -7,19 +7,41 @@
 //
 
 import UIKit
+import HealthKit
 
-let SegmentedCellIdentifier = "SegmentedCell"
-
-class StatisticsTableViewController: UITableViewController {
+class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
+    
+    struct MainStoryboard {
+        struct ViewControllerIdentifiers {
+        }
+        
+        struct TableViewCellIdentifiers {
+            static let basicCell = "BasicCell"
+            static let graphCell = "GraphCell"
+        }
+    }
+    
+    //MARK: - Outlets
+    
+    //MARK: - Properties
+    var hrGraphDelegate = GraphDelegate()
+    var spGraphDelegate = GraphDelegate()
+    
+    var healthStore: HKHealthStore? {
+        didSet {
+            println("Did set HK!")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        healthStore?.requestAccess()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,21 +52,56 @@ class StatisticsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        //TODO: Implement
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //TODO: Implement
-        return 1
+        return 4
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SegmentedCellIdentifier, forIndexPath: indexPath) as! UITableViewCell
-
+        let identifier: String
+        
+        var cell: UITableViewCell
+        if indexPath.row == 0 {
+            let identifier = MainStoryboard.TableViewCellIdentifiers.graphCell
+            let graphCell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! GraphTableViewCell
+            
+            if indexPath.section % 2 == 0 {
+                hrGraphDelegate.graphView = graphCell.graph
+                graphCell.graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
+            }
+            else {
+                spGraphDelegate.graphView = graphCell.graph
+                graphCell.graph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
+            }
+            
+            cell = graphCell
+        }
+        else {
+            let identifier = MainStoryboard.TableViewCellIdentifiers.basicCell
+            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
+            
+            cell.textLabel?.text = "Basic Info"
+            cell.detailTextLabel?.text = "---"
+        }
+        
         return cell
     }
-
+    
+    //MARK: - TableView Accessory Views
+    override func tableView(tableView: UITableView,
+        titleForHeaderInSection section: Int) -> String?{
+            return "Section \(section) Header"
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 250
+        }
+        return 55
+    }
+    
     /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -81,5 +138,4 @@ class StatisticsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

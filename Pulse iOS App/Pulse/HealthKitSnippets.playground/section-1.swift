@@ -7,7 +7,7 @@ let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeId
 
 let bloodOxygenQuantity = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierOxygenSaturation)  // Scalar (Percent, 0.0 - 1.0,  Discrete
 
-let readWriteSet = NSSet(array: [heartRateQuantity, bloodOxygenQuantity])
+let readWriteSet = Set(arrayLiteral: heartRateQuantity, bloodOxygenQuantity)
 
 //Request permission for read/write access to user's HKHealthStore
 
