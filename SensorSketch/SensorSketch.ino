@@ -14,11 +14,11 @@
 #include <RBL_services.h>
 
 // BLE shield contraints
-#define MAX_TX_BUFF 64
+#define MAX_TX_BUFF 20
 #define BLE_BAUD_RATE 57600
 
 // Bitmasks
-#define LOW_ORDER_BYTE 0xFF // grabs lowest-order byte of unsigned long
+#define BYTE 0xFF // grabs lowest-order byte of unsigned long
 #define MAX_UINT16 0x10000
 
 // Constants
@@ -27,9 +27,11 @@ const int redPin = 2;
 const int sensorPin = A0;
 const int boardLED = 13;
 const int binSize = MAX_TX_BUFF;
+const int batchSize = 40; // number of red / infrared bins in a row
 
 // Global Variables
-int prevPin = infraredPin; // keeps track of the LED that was previously lit
+int currPin = infraredPin; // keeps track of the LED that was previously lit
+int batchCount = 0;
 
 void setup() {
   //BLE Setup
@@ -48,12 +50,13 @@ void setup() {
 
 void loop() {
   uint8_t dataBin[binSize], sensorValue;
-  int currPin;
   unsigned long startTime, endTime;
 
   // Toggle red / infrared LEDs. First run: R on, IR off
-  currPin = togglePin(prevPin);
-  prevPin = currPin;
+  if(batchCount == batchSize) {
+    currPin = togglePin(currPin);
+    batchCount = 0;
+  }
 
   startTime = millis() % MAX_UINT16; // Wrap around when time greater than 2 bytes
   for(int i = 5; i < binSize; i++) {
@@ -61,18 +64,24 @@ void loop() {
   }
   endTime = millis() % MAX_UINT16;
 
+  // Serial.println(-1);
+  // for(int j = 0; j < binSize; j++) {
+  //   Serial.println(dataBin[j]);
+  // }
+
   fill_header(dataBin, currPin, startTime, endTime);
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
   ble_do_events(); // Update BLE connection status. Transmit/receive data
+  batchCount++;
 }
 
 // Fills bin header
 void fill_header(uint8_t *bin, int currPin, unsigned long startTime, unsigned long endTime) {
-  bin[0] = pinCode(currPin);                  // red = 0, infrared = 1
-  bin[1] = startTime & LOW_ORDER_BYTE;        // first byte of startTime
-  bin[2] = (startTime >> 8) & LOW_ORDER_BYTE; // second byte of startTime
-  bin[3] = endTime & LOW_ORDER_BYTE;          // first byte of endTime
-  bin[4] = (endTime >> 8) & LOW_ORDER_BYTE;   // second byte of endTime
+  bin[0] = pinCode(currPin);        // red = 0, infrared = 1
+  bin[1] = startTime & BYTE;        // first byte of startTime
+  bin[2] = (startTime >> 8) & BYTE; // second byte of startTime
+  bin[3] = endTime & BYTE;          // first byte of endTime
+  bin[4] = (endTime >> 8) & BYTE;   // second byte of endTime
 }
 
 // R = 0, IR = 1
