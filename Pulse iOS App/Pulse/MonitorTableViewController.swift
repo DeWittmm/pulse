@@ -11,7 +11,7 @@ import CoreBluetooth
 import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessDelegate, BLEDataTransferDelegate {
+class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessProtocol, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
@@ -61,10 +61,9 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.translucent = false
 
         isConnected = false
-        
-        tabBarController?.tabBar.translucent = false
         
         dataCruncher.delegate = self
         btDiscovery.startScanning()

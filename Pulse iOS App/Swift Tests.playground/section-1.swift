@@ -54,3 +54,15 @@ let u2: UInt = 2
 u2 - u1
 //Int(u1) - u2
 //Int(u1 - u2)
+
+func test() {
+    var i = 10;
+    while i > 0 {
+        while --i > 0 {
+            continue
+        }
+        println("Break")
+    }
+}
+
+test()

@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
+class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
     struct MainStoryboard {
         struct ViewControllerIdentifiers {

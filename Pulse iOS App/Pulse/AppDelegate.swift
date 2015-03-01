@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-public protocol HKAccessDelegate: class {
+public protocol HKAccessProtocol: class {
     var healthStore: HKHealthStore? { get set }
 }
 
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     viewController = controller as! UIViewController
                 }
                 
-                if let vc = viewController as? HKAccessDelegate {
+                if let vc = viewController as? HKAccessProtocol {
                     vc.healthStore = healthStore
                 }
             }

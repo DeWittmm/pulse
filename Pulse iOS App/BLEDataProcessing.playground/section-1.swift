@@ -12,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "BLEData4"
+let file = "BLEData"
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -58,23 +58,25 @@ var avgtimeBtwBins: Double
 avgTimePerPoint
 avgtimeBtwBins
 
-//avgTimePerPoint = 4.5
-//avgtimeBtwBins = 52
+//FIXME: Constant Times
+avgTimePerPoint = 2.0
+avgtimeBtwBins = 30
 
 let rawVals = vals.map { $0.value }
 
-vals = vals.filter { $0.value > 20 }
+let VALUE_CUTTOFF: Double = 20.0
+vals = vals.filter { $0.value > VALUE_CUTTOFF }
 let filteredVals = dataCruncher.filter(vals)!
 filteredVals.map { $0.value }
 
 //MARK:Peak Detection
 let STEP = 5
-let MINIMUM_DECLINE = 10.0
-let MINIMUM_SLOPE_LENGTH = 10
-let MINIMUM_SLOPE = 2.0
+let DECLINE_CUTTOFF: Double = -1.0
+let MINIMUM_SLOPE_LENGTH: Int = 10
+let MINIMUM_SLOPE: Double = 1.0
 public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     
-    let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
+    let valueDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
         dict[dataPt.point] = dataPt.value
         return dict
     }
@@ -92,39 +94,42 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     minimumSlope
     
     var peaks = [DataPoint]()
+    slopes.count
+    
     for var i=0; i < slopes.count; i++ {
         let slopePoint = slopes[i]
         
+        //Find slope increase
         if slopePoint.value > minimumSlope {
-            //Traverse Up
-            let startIndex = i
-            while i+1 < slopes.count {
-                if slopes[++i].value < 0 {
-                    break
-                }
+
+            var peakVal = valueDict[slopePoint.point]
+            while slopes[i-1].value < slopes[i++].value {
+                peakVal = valueDict[slopes[i-1].point]
             }
-            
-            if startIndex + MINIMUM_SLOPE_LENGTH > i {
-                continue
-            }
-            
-            //Potential Peak
-            let pPeakIndex = slopes[i].point
-            let endIndex = i
             
             //Traverse Down
-            while i+1 < slopes.count {
-                if slopes[++i].value > MINIMUM_DECLINE {
+            var runIndex = i
+            while runIndex+1 < slopes.count {
+                let slo = slopes[++runIndex]
+                if let val = valueDict[slo.point] where val >= peakVal {
+                    peakVal = val
+                }
+                else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                     break
                 }
             }
-            i
-            if i < endIndex + MINIMUM_SLOPE_LENGTH {
+            
+            runIndex
+            peakVal
+            
+            if runIndex < i + MINIMUM_SLOPE_LENGTH {
                 continue
             }
-
-            if let value = dataDict[pPeakIndex] {
-                peaks.append(DataPoint(point: pPeakIndex, value: value))
+            i = runIndex //Skip index past found peak
+            
+            let peakIndex = slopes[runIndex].point
+            if let value = valueDict[peakIndex] {
+                peaks.append(DataPoint(point: peakIndex, value: value))
             }
         }
     }
@@ -136,9 +141,8 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
 //MARK: Calculate HR
 let MINIMUM_HR_TIME_SPAN = 100.0
 let MILLS_PER_MIN = 60000.0
-public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
+public func calculateHeartRate(peaks: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
     
-    let peaks = findPeaks(dataPoints)
     
     func millsBetweenPoints(p1: Int, p2: Int) -> Double {
         let timePts = Double(p2 - p1) * avgTimePerPoint
@@ -175,5 +179,13 @@ public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Doubl
     return avgBPM
 }
 
-let bpm = calculateHeartRate(filteredVals, avgtimeBtwBins, avgTimePerPoint)
+let peaks = findPeaks(filteredVals)
+//Typically 
+// ~200 points between peaks
+// ~690 for peak values
+
+//Based off values from BLEData3
+let testPeaks = [DataPoint(point: 150, value: 697), DataPoint(point: 249, value: 697)]
+
+let bpm = calculateHeartRate(peaks, avgtimeBtwBins, avgTimePerPoint)
 println("HR: \(bpm)")
