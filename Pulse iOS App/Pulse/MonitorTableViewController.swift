@@ -104,8 +104,8 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     func currentProgress(irDataProg: Double, ledDataProg: Double) {
         progressBar.progress = Float(ledDataProg)
         
-        let ledPercentage = ledDataProg*100.0 - 1 //99% instead of 100
-        let irPercentage = irDataProg*100.0 - 1
+        let ledPercentage = ledDataProg*100.0 - 0.1 //99.9% instead of 100
+        let irPercentage = irDataProg*100.0 - 0.1
         
         packetSize.text = String(format:"LED: %2.0f%%, IR: %2.0f%%", arguments: [ledPercentage, irPercentage])
     }

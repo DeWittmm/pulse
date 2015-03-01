@@ -29,8 +29,7 @@ public class DataCruncher {
     var IRDataBin = [DataPacket]()
     var LEDDataBin = [DataPacket]()
     
-    var IRPeaks = [DataPoint]()
-    var LEDPeaks = [DataPoint]()
+    var peaks = [LightSource: [DataPoint]]()
     
     public weak var delegate: DataAnalysisDelegate?
     
@@ -64,42 +63,12 @@ public class DataCruncher {
         
         if LEDDataBin.count > binCapacity {
             println("LED \(rawData)")
-
-            var values: [DataPoint]
-            if let info = processBin(LEDDataBin) {
-                let peaks = findPeaks(info.0)
-                LEDPeaks = peaks
-                let hr = calculateHeartRate(peaks, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
-                
-                let ledData = info.0.map { $0.value }
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysingLEDData(ledData)
-                    self.delegate?.analysisFoundHeartRate(hr)
-                }                
-            }
-            clear()
+            analyzeBinForLightSource(.IR)
         }
         
         if IRDataBin.count > binCapacity {
             println("IR \(rawData)")
-
-            var values: [DataPoint]
-            if let info = processBin(IRDataBin) {
-                let peaks = findPeaks(info.0)
-                IRPeaks = peaks
-                let hr = calculateHeartRate(info.0, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
-                
-                let irData = info.0.map { $0.value }
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.delegate?.analysingIRData(irData)
-                    self.delegate?.analysisFoundHeartRate(hr)
-                }
-            }
-            clear()
-        }
-        
-        if !IRPeaks.isEmpty && !LEDPeaks.isEmpty {
-//            println("Calculate SP02")
+            analyzeBinForLightSource(.IR)
         }
     }
     
@@ -109,8 +78,38 @@ public class DataCruncher {
         IRDataBin.removeAll(keepCapacity: true)
     }
     
-    //MARK: Processing
+    //MARK: Analysis
     
+    func analyzeBinForLightSource(source: LightSource) {
+        
+        let bin = source == .IR ? IRDataBin : LEDDataBin
+        var values: [DataPoint]
+        if let info = processBin(bin) {
+            let newPeaks = findPeaks(info.0)
+            peaks.updateValue(newPeaks, forKey:source)
+            
+            let hr = calculateHeartRate(newPeaks, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
+            
+            let data = info.0.map { $0.value }
+            dispatch_async(dispatch_get_main_queue()) {
+                switch source {
+                case .IR:
+                    self.delegate?.analysingIRData(data)
+                case .RedLED:
+                    self.delegate?.analysingLEDData(data)
+                }
+                self.delegate?.analysisFoundHeartRate(hr)
+            }
+        }
+        clear()
+        
+        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] where !irPeaks.isEmpty && !ledPeaks.isEmpty {
+            let spO2 = calculateBloodOxygenSaturation(ledPeaks, irPeaks: irPeaks)
+            self.delegate?.analysisFoundSP02(spO2)
+        }
+    }
+    
+    //MARK: Processing
     public func processBin(bin: [DataPacket]) -> (data: [DataPoint], avgTimeInPackets: Double, timeBtwPackets: Double)? {
         
         var data = [DataPoint]()
@@ -129,7 +128,7 @@ public class DataCruncher {
             return packet.timePerPoint // * Double(packet.dataPoints.count)
         }
         let totalTimeInPacket = timesPerPoint.reduce(0.0) { $0 + $1 }
-        let avgTimePerPoint = totalTimeInPacket / Double(timesPerPoint.count)
+        var avgTimePerPoint = totalTimeInPacket / Double(timesPerPoint.count)
         
         var ltimesBtwPackets = [Int]()
         for var i=1; i < bin.count; i++ {
@@ -143,13 +142,23 @@ public class DataCruncher {
             ltimesBtwPackets += [startTime - firstPacket.endTime]
         }
         let totalTimeBtwBins = ltimesBtwPackets.reduce(0) { $0 + $1 }
-        let avgTimeBtw = Double(totalTimeBtwBins) / Double(ltimesBtwPackets.count)
+        var avgtimeBtwPaks = Double(totalTimeBtwBins) / Double(ltimesBtwPackets.count)
         
-        return (data, avgTimePerPoint, avgTimeBtw)
+        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
+        
+        //FIXME: Constant Times
+//        avgTimePerPoint = 2.0
+//        avgtimeBtwPaks = 30
+        
+        if let filetedPts = filter(data) {
+            return (filetedPts, avgTimePerPoint, avgtimeBtwPaks)
+        }
+        return nil
     }
     
-    public func filter(points: [DataPoint]) -> [DataPoint]? {
+    func filter(var points: [DataPoint]) -> [DataPoint]? {
         
+        points = points.filter { $0.value > VALUE_CUTTOFF }
         let voltageValues = points.map { $0.value * ArudinoVoltageConversionFactor }
         
         if var lowPass =  FIRFilter(inputData: voltageValues) {
@@ -167,7 +176,7 @@ public class DataCruncher {
     
     public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
-        let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
+        let valueDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
             dict[dataPt.point] = dataPt.value
             return dict
         }
@@ -180,39 +189,44 @@ public class DataCruncher {
             
             slopes += [DataPoint(point: dp.point, value: slope)]
         }
+        let sVals = slopes.map { $0.value }.filter{ $0 > MINIMUM_SLOPE }
+        let minimumSlope = sVals.reduce(0.0) { $0 + $1 } / Double(sVals.count)
+        minimumSlope
         
         var peaks = [DataPoint]()
+        slopes.count
         
         for var i=0; i < slopes.count; i++ {
             let slopePoint = slopes[i]
             
-            if slopePoint.value > MINIMUM_SLOPE {
-                //Traverse Up
-                let startIndex = i
-                while i+1 < slopes.count {
-                    if slopes[++i].value < 0 {
+            //Find slope increase
+            if slopePoint.value > minimumSlope {
+                
+                var peakVal = valueDict[slopePoint.point]
+                while slopes[i-1].value < slopes[i++].value {
+                    peakVal = valueDict[slopes[i-1].point]
+                }
+                
+                //Traverse Down
+                var runIndex = i
+                while runIndex+1 < slopes.count {
+                    let slo = slopes[++runIndex]
+                    if let val = valueDict[slo.point] where val >= peakVal {
+                        peakVal = val
+                    }
+                    else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                         break
                     }
                 }
                 
-                if startIndex + MINIMUM_SLOPE_LENGTH > i {
+                if runIndex < i + MINIMUM_SLOPE_LENGTH {
                     continue
                 }
+                i = runIndex //Skip index past found peak
                 
-                //Potential Peak
-                let pPeakIndex = slopes[i].point
-                let endIndex = i
-                
-                //Traverse Down
-                while i+1 < slopes.count &&
-                    slopes[++i].value <= MINIMUM_DECLINE  {}
-                
-                if i < endIndex + MINIMUM_SLOPE_LENGTH {
-                    continue
-                }
-                
-                if let value = dataDict[pPeakIndex] {
-                    peaks.append(DataPoint(point: pPeakIndex, value: value))
+                let peakIndex = slopes[runIndex].point
+                if let value = valueDict[peakIndex] {
+                    peaks.append(DataPoint(point: peakIndex, value: value))
                 }
             }
         }
@@ -221,15 +235,16 @@ public class DataCruncher {
         return peaks
     }
     
-    //MARK: Calculations (Should be private)
+    //MARK: Calculations (Should be private - exposed for playground)
     public func calculateHeartRate(peaks: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
+        
         
         func millsBetweenPoints(p1: Int, p2: Int) -> Double {
             let timePts = Double(p2 - p1) * avgTimePerPoint
             let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
             let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
             
-            return timePts + timeSpanBtwPrints
+            return timePts + Double(timeSpanBtwPrints)
         }
         
         var timeSpans = [Double]()
@@ -241,9 +256,9 @@ public class DataCruncher {
             timeSpans.append(time)
         }
         
-        timeSpans = timeSpans.filter { $0 > MINIMUM_TIME_SPAN }
+        timeSpans = timeSpans.filter { $0 > MINIMUM_HR_TIME_SPAN }
         timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
-        
+                
         var avgMap = [Double]()
         for var i=0; i < timeSpans.count - 1; i++ {
             let t1 = timeSpans[i].0
@@ -252,16 +267,24 @@ public class DataCruncher {
             avgMap.append(avg)
         }
         
-        var sum = timeSpans.reduce(0.0) { $0 + $1 }
-        let avgBPM = sum/Double(timeSpans.count)
-        
-        return avgBPM
+        return avg(timeSpans)
     }
     
-    public func calcuateSPO2Ratio(avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
+    func calculateBloodOxygenSaturation(ledPeaks: [DataPoint], irPeaks: [DataPoint]) -> Double {
         
-//        let avgIR = IRPeaks.reduce(DataPoint.Zero()) { $0.value + $1.value }
-        return 0.0
+        //First Pass
+        println("\(ledPeaks.count) LEDPeaks, \(irPeaks.count) IRPeaks")
+        
+        var ledGen = ledPeaks.generate()
+        var irGen = irPeaks.generate()
+        
+        var peakRatios = [Double]()
+        while let irPeak = irGen.next(),
+            let ledPeak = ledGen.next() {
+                peakRatios.append(irPeak.value/ledPeak.value)
+        }
+        
+        return avg(peakRatios)
     }
 }
 
@@ -296,4 +319,9 @@ public struct FIRFilter {
             return output
         }
     }
+}
+
+//MARK: Helpers
+func avg(vals: [Double]) -> Double {
+    return vals.reduce(0.0) { $0 + $1 } / Double(vals.count)
 }

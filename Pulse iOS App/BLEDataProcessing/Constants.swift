@@ -22,10 +22,10 @@ public let PACKET_DATA_SIZE = 15
 
 //MARK: Peak Detection
 let STEP = 5
-public let MINIMUM_SLOPE = 20.0
-public let MINIMUM_DECLINE = 10.0
-public let MINIMUM_SLOPE_LENGTH = 5
+let DECLINE_CUTTOFF: Double = -1.0
+let MINIMUM_SLOPE_LENGTH: Int = 10
+let MINIMUM_SLOPE: Double = 1.0
 
-let MINIMUM_TIME_SPAN = 100.0
-
-//MARK: PacketProcessing
+//MARK: Processing
+let MINIMUM_HR_TIME_SPAN = 100.0
+let VALUE_CUTTOFF: Double = 20.0

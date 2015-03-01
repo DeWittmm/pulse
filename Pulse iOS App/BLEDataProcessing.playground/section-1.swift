@@ -12,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "BLEData"
+let file = "BLEData1"
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -35,25 +35,25 @@ let dataCruncher = DataCruncher()
 
 var data = [UInt8]()
 var allDataPackets = [DataPacket]()
-var count = 19
+var count = BLE_PACKET_SIZE - 1
 for num in partValues {
     data.append(UInt8(num))
     
     if count-- <= 0 {
-        data
+        data.count
         if let packet = DataPacket(rawData: data) {
             allDataPackets.append(packet)
             data.removeAll(keepCapacity: true)
         }
-        count = 19
+        count = BLE_PACKET_SIZE - 1
     }
 }
 allDataPackets
 
-var vals: [DataPoint]
+var filteredVals: [DataPoint]
 var avgTimePerPoint: Double
 var avgtimeBtwBins: Double
-(vals, avgTimePerPoint, avgtimeBtwBins) = dataCruncher.processBin(allDataPackets)!
+(filteredVals, avgTimePerPoint, avgtimeBtwBins) = dataCruncher.processBin(allDataPackets)!
 
 avgTimePerPoint
 avgtimeBtwBins
@@ -62,11 +62,6 @@ avgtimeBtwBins
 avgTimePerPoint = 2.0
 avgtimeBtwBins = 30
 
-let rawVals = vals.map { $0.value }
-
-let VALUE_CUTTOFF: Double = 20.0
-vals = vals.filter { $0.value > VALUE_CUTTOFF }
-let filteredVals = dataCruncher.filter(vals)!
 filteredVals.map { $0.value }
 
 //MARK:Peak Detection
@@ -138,47 +133,6 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     return peaks
 }
 
-//MARK: Calculate HR
-let MINIMUM_HR_TIME_SPAN = 100.0
-let MILLS_PER_MIN = 60000.0
-public func calculateHeartRate(peaks: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
-    
-    
-    func millsBetweenPoints(p1: Int, p2: Int) -> Double {
-        let timePts = Double(p2 - p1) * avgTimePerPoint
-        let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
-        let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
-        
-        return timePts + Double(timeSpanBtwPrints)
-    }
-    
-    var timeSpans = [Double]()
-    for var i=1; i < peaks.count; i++ {
-        let p1 = peaks[i-1].point
-        let p2 = peaks[i].point
-        
-        let time = millsBetweenPoints(p1, p2)
-        timeSpans.append(time)
-    }
-    
-    timeSpans = timeSpans.filter { $0 > MINIMUM_HR_TIME_SPAN }
-    timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
-    
-    timeSpans
-    
-    var avgMap = [Double]()
-    for var i=0; i < timeSpans.count - 1; i++ {
-        let t1 = timeSpans[i].0
-        let t2 = timeSpans[i+1].0
-        let avg = (t1 + t2) / 2
-        avgMap.append(avg)
-    }
-    
-    let avgBPM = timeSpans.reduce(0.0) { $0 + $1 } / Double(timeSpans.count)
-    
-    return avgBPM
-}
-
 let peaks = findPeaks(filteredVals)
 //Typically 
 // ~200 points between peaks
@@ -187,5 +141,5 @@ let peaks = findPeaks(filteredVals)
 //Based off values from BLEData3
 let testPeaks = [DataPoint(point: 150, value: 697), DataPoint(point: 249, value: 697)]
 
-let bpm = calculateHeartRate(peaks, avgtimeBtwBins, avgTimePerPoint)
+let bpm = dataCruncher.calculateHeartRate(peaks, avgTimeBtwPackets: avgtimeBtwBins, avgTimePerPoint: avgTimePerPoint)
 println("HR: \(bpm)")
