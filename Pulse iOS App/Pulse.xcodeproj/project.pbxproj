@@ -39,6 +39,8 @@
 		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
+		0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
+		0A7565FE1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -136,6 +138,7 @@
 		0A6533AB1A946319007A403D /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataPacket.swift; path = ../Pulse/DataPacket.swift; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
+		0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysiologicalConstants.swift; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BLEDataProcessing.playground; sourceTree = SOURCE_ROOT; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
@@ -247,6 +250,7 @@
 		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */,
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
 				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
 				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
@@ -669,6 +673,7 @@
 				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
 				0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
+				0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
@@ -695,6 +700,7 @@
 				0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */,
+				0A7565FE1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
 				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
 			);

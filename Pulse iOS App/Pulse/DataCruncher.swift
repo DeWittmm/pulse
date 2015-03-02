@@ -8,11 +8,9 @@
 
 import CoreBluetooth
 
-let binCapacity = 800 / 20 //PacketCount
-
 public protocol DataAnalysisDelegate: class {
-    func analysingIRData(InfaredData: [Double])
-    func analysingLEDData(redLEDData: [Double])
+    func analysingIRData(InfaredData: [Double], foundPeaks: Int)
+    func analysingLEDData(redLEDData: [Double], foundPeaks: Int)
     
     func currentProgress(irDataProg: Double, ledDataProg: Double)
     
@@ -23,7 +21,7 @@ public protocol DataAnalysisDelegate: class {
 public class DataCruncher {
     
     //MARK: Private Properties
-    private var rawData = [UInt8]()
+//    private var rawData = [UInt8]()
 
     //MARK: Properties
     var IRDataBin = [DataPacket]()
@@ -37,18 +35,17 @@ public class DataCruncher {
     
     //MARK: Build filteredDataBin
     public func addDataForCrunching(data: [UInt8]) {
-        rawData += data
         
         if let data = DataPacket(rawData: data) {
-            crunchPacket(data)
+            
+            let irProg = Double(self.IRDataBin.count)/Double(binCapacity)
+            let ledProg = Double(self.LEDDataBin.count)/Double(binCapacity)
             
             dispatch_async(dispatch_get_main_queue()) {
-                
-                let irProg = Double(self.IRDataBin.count)/Double(binCapacity)
-                let ledProg = Double(self.LEDDataBin.count)/Double(binCapacity)
-                
                 self.delegate?.currentProgress(irProg, ledDataProg: ledProg)
             }
+            
+            crunchPacket(data)
         }
     }
     
@@ -61,19 +58,18 @@ public class DataCruncher {
             LEDDataBin += [packet]
         }
         
-        if LEDDataBin.count > binCapacity {
-            println("LED \(rawData)")
-            analyzeBinForLightSource(.IR)
+        if LEDDataBin.count >= binCapacity {
+//            println("LED \(rawData)")
+            analyzeBinForLightSource(packet.lightSource)
         }
         
-        if IRDataBin.count > binCapacity {
-            println("IR \(rawData)")
-            analyzeBinForLightSource(.IR)
+        if IRDataBin.count >= binCapacity {
+//            println("IR \(rawData)")
+            analyzeBinForLightSource(packet.lightSource)
         }
     }
     
     func clear() {
-        rawData.removeAll(keepCapacity: true)
         LEDDataBin.removeAll(keepCapacity: true)
         IRDataBin.removeAll(keepCapacity: true)
     }
@@ -82,8 +78,10 @@ public class DataCruncher {
     
     func analyzeBinForLightSource(source: LightSource) {
         
-        let bin = source == .IR ? IRDataBin : LEDDataBin
         var values: [DataPoint]
+        let bin = source == .IR ? IRDataBin : LEDDataBin
+        clear() //clear immediatly to allow bins to continue building
+        
         if let info = processBin(bin) {
             let newPeaks = findPeaks(info.0)
             peaks.updateValue(newPeaks, forKey:source)
@@ -94,18 +92,19 @@ public class DataCruncher {
             dispatch_async(dispatch_get_main_queue()) {
                 switch source {
                 case .IR:
-                    self.delegate?.analysingIRData(data)
+                    self.delegate?.analysingIRData(data, foundPeaks: newPeaks.count)
+                    self.delegate?.analysisFoundHeartRate(hr)
                 case .RedLED:
-                    self.delegate?.analysingLEDData(data)
+                    self.delegate?.analysingLEDData(data, foundPeaks: newPeaks.count)
                 }
-                self.delegate?.analysisFoundHeartRate(hr)
             }
         }
-        clear()
         
-        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] where !irPeaks.isEmpty && !ledPeaks.isEmpty {
+        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] {
             let spO2 = calculateBloodOxygenSaturation(ledPeaks, irPeaks: irPeaks)
-            self.delegate?.analysisFoundSP02(spO2)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.analysisFoundSP02(spO2)
+            }
         }
     }
     
@@ -118,15 +117,15 @@ public class DataCruncher {
         }
         
         //Reorder the DataPoint Indexs to be continuous
-        var pointsDict = [Int:Double]()
         for var i = 0; i < data.count; i++ {
             let point = data[i]
             data[i] = DataPoint(point: i, value: point.value)
         }
         
         let timesPerPoint = bin.map { packet in
-            return packet.timePerPoint // * Double(packet.dataPoints.count)
+            return packet.timePerPoint
         }
+        
         let totalTimeInPacket = timesPerPoint.reduce(0.0) { $0 + $1 }
         var avgTimePerPoint = totalTimeInPacket / Double(timesPerPoint.count)
         
@@ -135,20 +134,20 @@ public class DataCruncher {
             let firstPacket = bin[i-1]
             let secondPacket = bin[i]
             
-            var startTime = secondPacket.startTime
-            if secondPacket.startTime < firstPacket.endTime {
-                startTime += MAX_ARDUINO_TIME
-            }
-            ltimesBtwPackets += [startTime - firstPacket.endTime]
+//            var startTime = secondPacket.startTime
+//            if secondPacket.startTime < firstPacket.endTime {
+//                startTime += MAX_ARDUINO_TIME
+//            }
+//            ltimesBtwPackets += [startTime - firstPacket.endTime]
         }
         let totalTimeBtwBins = ltimesBtwPackets.reduce(0) { $0 + $1 }
         var avgtimeBtwPaks = Double(totalTimeBtwBins) / Double(ltimesBtwPackets.count)
         
-        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
+//        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
         
         //FIXME: Constant Times
-//        avgTimePerPoint = 2.0
-//        avgtimeBtwPaks = 30
+        avgTimePerPoint = 2.0
+        avgtimeBtwPaks = 30
         
         if let filetedPts = filter(data) {
             return (filetedPts, avgTimePerPoint, avgtimeBtwPaks)
@@ -203,13 +202,14 @@ public class DataCruncher {
             if slopePoint.value > minimumSlope {
                 
                 var peakVal = valueDict[slopePoint.point]
-                while slopes[i-1].value < slopes[i++].value {
+                while i < slopes.count &&
+                    slopes[i-1].value < slopes[i++].value {
                     peakVal = valueDict[slopes[i-1].point]
                 }
                 
                 //Traverse Down
                 var runIndex = i
-                while runIndex+1 < slopes.count {
+                while runIndex + 1 < slopes.count {
                     let slo = slopes[++runIndex]
                     if let val = valueDict[slo.point] where val >= peakVal {
                         peakVal = val
@@ -231,7 +231,7 @@ public class DataCruncher {
             }
         }
         
-        println("Found \(peaks.count) Peaks")
+//        println("Found \(peaks.count) Peaks")
         return peaks
     }
     
@@ -281,7 +281,9 @@ public class DataCruncher {
         var peakRatios = [Double]()
         while let irPeak = irGen.next(),
             let ledPeak = ledGen.next() {
-                peakRatios.append(irPeak.value/ledPeak.value)
+                
+                let calRED = ledPeak.value * IR_RED_RATIO
+                peakRatios.append(calRED/ledPeak.value)
         }
         
         return avg(peakRatios)

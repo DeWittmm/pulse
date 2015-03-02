@@ -41,13 +41,16 @@ class StatisticsInfoManager {
     }
     
     func infoForIndex(indexPath: NSIndexPath) -> Info? {
-        let info = currentInfo[indexPath.row - 1]
-        
-        switch indexPath.row {
-        case 1:
-            return ("Expected MaxHR (age: \(info.0))", "\(info.1) BPM")
-        default:
-            return ("--", "")
+        if indexPath.row < currentInfo.count {
+            let info = currentInfo[indexPath.row]
+            
+            switch indexPath.row {
+            case 0:
+                return ("Expected MaxHR (age: \(info.0))", "\(info.1) BPM")
+            default:
+                return ("--", "")
+            }
         }
+        return nil
     }
 }

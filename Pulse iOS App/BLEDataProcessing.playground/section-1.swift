@@ -12,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "BLEData1"
+let file = "BLEData4"
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext

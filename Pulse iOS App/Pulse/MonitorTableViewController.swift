@@ -23,12 +23,25 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     @IBOutlet weak var spO2Label: UILabel!
     @IBOutlet weak var rssiLabel: UILabel!
     @IBOutlet weak var packetSize: UILabel!
+    @IBOutlet weak var peaksLabel: UILabel!
     
     @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
     var healthStore: HKHealthStore?
+    
+    var previousHR: Double? = 0 {
+        didSet {
+//            healthStore?.
+        }
+    }
+    
+    var previousspO2: Double? {
+        didSet {
+            
+        }
+    }
 
     let dataCruncher = DataCruncher()
     
@@ -104,30 +117,44 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     func currentProgress(irDataProg: Double, ledDataProg: Double) {
         progressBar.progress = Float(ledDataProg)
         
-        let ledPercentage = ledDataProg*100.0 - 0.1 //99.9% instead of 100
-        let irPercentage = irDataProg*100.0 - 0.1
+        let ledPercentage = abs(ledDataProg*100.0 - 1.0) //99.9% instead of 100
+        let irPercentage = abs(irDataProg*100.0 - 1.0)
         
         packetSize.text = String(format:"LED: %2.0f%%, IR: %2.0f%%", arguments: [ledPercentage, irPercentage])
     }
     
-    func analysingIRData(InfaredData: [Double]) {
+    func analysingIRData(InfaredData: [Double], foundPeaks: Int) {
         if !InfaredData.isEmpty {
             irGraphDelegate.data = InfaredData
         }
+        peaksLabel.text = "\(foundPeaks) IR"
     }
     
-    func analysingLEDData(redLEDData: [Double]) {
+    func analysingLEDData(redLEDData: [Double], foundPeaks: Int) {
         if !redLEDData.isEmpty {
             redLEDGraphDelegate.data = redLEDData
         }
+        peaksLabel.text = "\(foundPeaks) LED"
     }
     
     func analysisFoundHeartRate(hr: Double)  {
-        bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+        if hr < MAX_HR && hr > MIN_HR {
+            previousHR = hr
+            bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+        }
+        else {
+            bpmLabel.text = "---"
+        }
     }
     
     func analysisFoundSP02(sp02: Double) {
-        spO2Label.text = String(format:"%.01f SP02", arguments: [sp02])
+//        let percentage = abs(sp02*100.0 - 0.9) //99.9% instead of 100
+        if sp02 > 0 {
+            spO2Label.text = String(format:"%2.2f SP02", arguments: [sp02])
+        }
+        else {
+            spO2Label.text = "---"
+        }
     }
     
     //MARK: BLE Connection
@@ -154,6 +181,7 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     func beginBLEReading() {
         if let service = btDiscovery.bleService {
             service.delegate = self
+            service.updateDelegate = self
             service.readFromConnectedCharacteristics()
         }
     }

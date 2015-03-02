@@ -40,8 +40,8 @@ public enum LightSource: UInt8 {
 public class DataPacket {
     
     public let dataPoints: [DataPoint]
-    public let startTime: Int
-    public let endTime: Int
+//    public let startTime: Int
+//    public let endTime: Int
     public let timePerPoint: Double
     public let lightSource:LightSource
     
@@ -59,14 +59,17 @@ public class DataPacket {
         if rawData.count < BLE_PACKET_SIZE || (LightSource(rawValue: rawData[0]) == nil) {
             dataPoints = []
             timePerPoint = 0.0
-            startTime = 0
-            endTime = 0
+//            startTime = 0
+//            endTime = 0
             lightSource = .RedLED
             return nil
         }
         
         //Extract Header Info
         lightSource = LightSource(rawValue: rawData[0])!
+        
+        //Time
+        /*
         var startmillis = Int(rawData[2])
         startmillis <<= 8
         startmillis |= Int(rawData[1])
@@ -85,6 +88,10 @@ public class DataPacket {
         //FIXME: timePerPoint * 2?
         let rawValues = Array(rawData[5..<rawData.count])
         timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
+        */
+        
+        let rawValues = Array(rawData[1..<rawData.count])
+        timePerPoint = 2.0
         
         var indicies = [DataPoint]()
         for (index, value) in enumerate(rawValues) {
@@ -104,7 +111,7 @@ public class DataPacket {
         dataPoints = [DataPoint(point: 0, value: 0.0)]
         self.timePerPoint = 0
         self.lightSource = .RedLED
-        self.startTime = 0
-        self.endTime = 0
+//        self.startTime = 0
+//        self.endTime = 0
     }
 }

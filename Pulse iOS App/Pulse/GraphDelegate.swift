@@ -49,8 +49,8 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             graphView?.reloadGraph()
             refreshDate = NSDate()
             
-            println("MaxValue: \(graphView?.calculateMaximumPointValue())")
-            println("MinValue: \(graphView?.calculateMinimumPointValue())")
+//            println("MaxValue: \(graphView?.calculateMaximumPointValue())")
+//            println("MinValue: \(graphView?.calculateMinimumPointValue())")
         }
     }
     
@@ -60,13 +60,13 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         return true
     }
     
-//    func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-//        return 800.0
-//    }
-//
-//    func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-//        return 50.0
-//    }
+    func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 900.0
+    }
+
+    func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
+        return 200.0
+    }
     
     //MARK: LineGraphDataSource
     
