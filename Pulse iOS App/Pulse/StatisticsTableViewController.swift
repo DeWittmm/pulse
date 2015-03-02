@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
+class StatisticsTableViewController: UITableViewController, HKAccessProtocol, UpdateInfoDelegate {
     
     struct MainStoryboard {
         struct ViewControllerIdentifiers {
@@ -24,14 +24,11 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     //MARK: - Outlets
     
     //MARK: - Properties
+    var statisticsManager: StatisticsInfoManager?
     var hrGraphDelegate = GraphDelegate()
     var spGraphDelegate = GraphDelegate()
     
-    var healthStore: HKHealthStore? {
-        didSet {
-            println("Did set HK!")
-        }
-    }
+    var healthStore: HKHealthStore?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +38,32 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        healthStore?.requestAccess()
+        healthStore?.requestAccess() {
+            var error: NSError?
+            let dateOfBirth = self.healthStore?.dateOfBirthWithError(&error)
+            
+            // Compute the age of the user.
+            let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
+            
+            let usersAge = ageComponents.year
+            
+            //FIXME: Temp
+            let user = User(age: usersAge, baseHR: 0.0, baseSpO2: 0.0)
+            self.statisticsManager = StatisticsInfoManager(user: user)
+            self.statisticsManager?.delegate = self
+            
+            println("Age: \(usersAge)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: - UpdateInfoDelegate
+    func didUpdateInfo(statistics: StatisticsInfoManager) {
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -56,7 +73,7 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return (statisticsManager?.currentInfo.count ?? 0) + 1
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -82,8 +99,10 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
             let identifier = MainStoryboard.TableViewCellIdentifiers.basicCell
             cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
             
-            cell.textLabel?.text = "Basic Info"
-            cell.detailTextLabel?.text = "---"
+            if let info = statisticsManager?.infoForIndex(indexPath) {
+                cell.textLabel?.text = info.0
+                cell.detailTextLabel?.text = info.1
+            }
         }
         
         return cell

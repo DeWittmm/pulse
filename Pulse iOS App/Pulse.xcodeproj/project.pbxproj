@@ -26,6 +26,10 @@
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
+		0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
+		0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
+		0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */; };
+		0A55B6CD1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */; };
 		0A650C9E1A9C44E00039BFD4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A650C9D1A9C44E00039BFD4 /* Constants.swift */; };
 		0A650CA01A9C4FBD0039BFD4 /* BLEData.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */; };
 		0A650CA11A9C4FBD0039BFD4 /* BLEData.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */; };
@@ -123,6 +127,9 @@
 		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataCruncher.swift; path = ../Pulse/DataCruncher.swift; sourceTree = "<group>"; };
+		0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfoManager.swift; sourceTree = "<group>"; };
+		0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartfulAPIClient.swift; sourceTree = "<group>"; };
+		0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeartfulNetworking.playground; sourceTree = "<group>"; };
 		0A60CED41A9BDAED004B91C1 /* PacketFiltering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PacketFiltering.playground; sourceTree = "<group>"; };
 		0A650C9D1A9C44E00039BFD4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BLEData.csv; sourceTree = "<group>"; };
@@ -286,6 +293,7 @@
 				0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */,
 				0A60CED41A9BDAED004B91C1 /* PacketFiltering.playground */,
 				0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */,
+				0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */,
 				0AD53F731A813D48009578E6 /* Swift Tests.playground */,
 				0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */,
 				0A5FC6AF1A9BC45400BA8AAA /* Processing - Framework */,
@@ -313,6 +321,8 @@
 				0A85ED281A7FF54700BD5863 /* ViewControllers */,
 				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
 				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
+				0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */,
+				0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
 				0A9135EA1A7026C6005B2F7A /* Helpers */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
@@ -649,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
+				0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
@@ -656,6 +667,7 @@
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
+				0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
@@ -673,7 +685,9 @@
 				0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
+				0A55B6CD1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
+				0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,

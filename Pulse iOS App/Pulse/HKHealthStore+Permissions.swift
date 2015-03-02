@@ -29,7 +29,7 @@ extension HKHealthStore {
         return dataTypes
     }
     
-    func requestAccess() {
+    func requestAccess(complete: ()->Void) {
         
         if HKHealthStore.isHealthDataAvailable() {
             
@@ -38,6 +38,8 @@ extension HKHealthStore {
                 if !success {
                     println("ERROR: Failed to get access to HealthStore read write data types: \(error.localizedDescription)")
                 }
+                
+                complete()
             }
         }
     }
