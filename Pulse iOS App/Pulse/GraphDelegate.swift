@@ -33,10 +33,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             graphView.widthLine = 3.5
             graphView.enableTouchReport = true
             graphView.enablePopUpReport = true
-            graphView.autoScaleYAxis = true
             
+            graphView.autoScaleYAxis = true
             //  graphView.enableYAxisLabel = true
             //  graphView.alwaysDisplayDots = true
+            
             graphView.delegate = self
             graphView.dataSource = self
         }
@@ -48,8 +49,8 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             graphView?.reloadGraph()
             refreshDate = NSDate()
             
-//            println("MaxValue: \(graphView.calculateMaximumPointValue())")
-//            println("MinValue: \(graphView.calculateMinimumPointValue())")
+//            println("MaxValue: \(graphView?.calculateMaximumPointValue())")
+//            println("MinValue: \(graphView?.calculateMinimumPointValue())")
         }
     }
     
@@ -60,11 +61,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     }
     
     func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 600.0
+        return 900.0
     }
 
     func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 100.0
+        return 200.0
     }
     
     //MARK: LineGraphDataSource

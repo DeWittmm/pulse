@@ -12,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "BLEData" //"IR_1mod5FILTERED" //"RLED_3
+let file = "BLEData4"
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -30,47 +30,48 @@ println("Num values: \(values.count)")
 
 let partValues = Array(values[0..<values.count])
 
-//MARK: Callback
-
 //MARK: Processing
 let dataCruncher = DataCruncher()
 
 var data = [UInt8]()
 var allDataPackets = [DataPacket]()
-var count = 19
+var count = BLE_PACKET_SIZE - 1
 for num in partValues {
     data.append(UInt8(num))
     
     if count-- <= 0 {
-        data
+        data.count
         if let packet = DataPacket(rawData: data) {
             allDataPackets.append(packet)
             data.removeAll(keepCapacity: true)
         }
-        else {
-            abort()
-        }
-        count = 19
+        count = BLE_PACKET_SIZE - 1
     }
 }
+allDataPackets
 
 var filteredVals: [DataPoint]
-var avgTime: Double
-var avgtimeBtw: Double
-(filteredVals, avgTime, avgtimeBtw) = dataCruncher.processBin(allDataPackets)!
+var avgTimePerPoint: Double
+var avgtimeBtwBins: Double
+(filteredVals, avgTimePerPoint, avgtimeBtwBins) = dataCruncher.processBin(allDataPackets)!
 
-let vals = filteredVals.map { $0.value }
-avgTime
-avgtimeBtw
+avgTimePerPoint
+avgtimeBtwBins
+
+//FIXME: Constant Times
+avgTimePerPoint = 2.0
+avgtimeBtwBins = 30
+
+filteredVals.map { $0.value }
 
 //MARK:Peak Detection
 let STEP = 5
-let MINIMUM_SLOPE = 40.0
-let MINIMUM_DECLINE = 10.0
-let MINIMUM_SLOPE_LENGTH = 5
+let DECLINE_CUTTOFF: Double = -1.0
+let MINIMUM_SLOPE_LENGTH: Int = 10
+let MINIMUM_SLOPE: Double = 1.0
 public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     
-    let dataDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
+    let valueDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
         dict[dataPt.point] = dataPt.value
         return dict
     }
@@ -83,36 +84,47 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
         
         slopes += [DataPoint(point: dp.point, value: slope)]
     }
+    let sVals = slopes.map { $0.value }.filter{ $0 > MINIMUM_SLOPE }
+    let minimumSlope = sVals.reduce(0.0) { $0 + $1 } / Double(sVals.count)
+    minimumSlope
     
     var peaks = [DataPoint]()
-
+    slopes.count
+    
     for var i=0; i < slopes.count; i++ {
         let slopePoint = slopes[i]
         
-        if slopePoint.value > MINIMUM_SLOPE {
-            //Traverse Up
-            let startIndex = i
-            while i+1 < slopes.count &&
-                slopes[++i].value > 0  {}
-            
-            if startIndex + MINIMUM_SLOPE_LENGTH > i {
-                continue
+        //Find slope increase
+        if slopePoint.value > minimumSlope {
+
+            var peakVal = valueDict[slopePoint.point]
+            while slopes[i-1].value < slopes[i++].value {
+                peakVal = valueDict[slopes[i-1].point]
             }
-            
-            //Potential Peak
-            let pPeakIndex = slopes[i].point
-            let endIndex = i
             
             //Traverse Down
-            while i+1 < slopes.count &&
-                slopes[++i].value <= MINIMUM_DECLINE  {}
-            
-            if i < endIndex + MINIMUM_SLOPE_LENGTH {
-                continue
+            var runIndex = i
+            while runIndex+1 < slopes.count {
+                let slo = slopes[++runIndex]
+                if let val = valueDict[slo.point] where val >= peakVal {
+                    peakVal = val
+                }
+                else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
+                    break
+                }
             }
             
-            if let value = dataDict[pPeakIndex] {
-                peaks.append(DataPoint(point: pPeakIndex, value: value))
+            runIndex
+            peakVal
+            
+            if runIndex < i + MINIMUM_SLOPE_LENGTH {
+                continue
+            }
+            i = runIndex //Skip index past found peak
+            
+            let peakIndex = slopes[runIndex].point
+            if let value = valueDict[peakIndex] {
+                peaks.append(DataPoint(point: peakIndex, value: value))
             }
         }
     }
@@ -121,47 +133,13 @@ public func findPeaks(data: [DataPoint]) -> [DataPoint] {
     return peaks
 }
 
-//MARK: Calculate HR
-let MIN_TIME_SPAN = 100.0
-let MILLS_PER_MIN = 60000.0
-public func calculateHeartRate(dataPoints: [DataPoint], avgTimeBtwPackets: Double, avgTimePerPoint: Double) -> Double {
-    
-    let peaks = findPeaks(dataPoints)
-    
-    func millsBetweenPoints(p1: Int, p2: Int) -> Double {
-        let timePts = Double(p2 - p1) * avgTimePerPoint
-        let numPrintBins = (p2 - p1) / PACKET_DATA_SIZE
-        let timeSpanBtwPrints = Double(numPrintBins) * avgTimeBtwPackets
-        
-        return timePts + Double(timeSpanBtwPrints)
-    }
-    
-    var timeSpans = [Double]()
-    for var i=1; i < peaks.count; i++ {
-        let p1 = peaks[i-1].point
-        let p2 = peaks[i].point
-        
-        let time = millsBetweenPoints(p1, p2)
-        timeSpans.append(time)
-    }
-    
-    timeSpans = timeSpans.filter { $0 > MIN_TIME_SPAN }
-    timeSpans = timeSpans.map { MILLS_PER_MIN/$0 }
-    
-    var avgMap = [Double]()
-    for var i=0; i < timeSpans.count - 1; i++ {
-        let t1 = timeSpans[i].0
-        let t2 = timeSpans[i+1].0
-        let avg = (t1 + t2) / 2
-        avgMap.append(avg)
-    }
-    
-    var sum = timeSpans.reduce(0.0) { $0 + $1 }
-    let avgBPM = sum/Double(timeSpans.count)
-    
-    return avgBPM
-}
+let peaks = findPeaks(filteredVals)
+//Typically 
+// ~200 points between peaks
+// ~690 for peak values
 
+//Based off values from BLEData3
+let testPeaks = [DataPoint(point: 150, value: 697), DataPoint(point: 249, value: 697)]
 
-let bpm = calculateHeartRate(filteredVals, avgtimeBtw, avgTime)
-println("HR: \(bpm)
+let bpm = dataCruncher.calculateHeartRate(peaks, avgTimeBtwPackets: avgtimeBtwBins, avgTimePerPoint: avgTimePerPoint)
+println("HR: \(bpm)")

@@ -16,14 +16,17 @@ let MILLS_PER_MIN = 60000.0
 public let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
 public let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
 
+let binCapacity = 80 //PacketCount
+public let PACKET_DATA_SIZE = 19
 public let BLE_PACKET_SIZE = 20
-public let PACKET_DATA_SIZE = 15
-
 
 //MARK: Peak Detection
-let STEP = 15
-public let MINIMUM_SLOPE = 40.0
-public let MINIMUM_DECLINE = 5.0
-public let MINIMUM_SLOPE_LENGTH = 15
+let STEP = 5
+let DECLINE_CUTTOFF: Double = -1.0
+let MINIMUM_SLOPE_LENGTH: Int = 10
+let MINIMUM_SLOPE: Double = 1.0
 
-let MINIMUM_TIME_SPAN = 100.0
+//MARK: Processing
+let MINIMUM_HR_TIME_SPAN = 100.0
+let VALUE_CUTTOFF: Double = 20.0
+let IR_RED_RATIO = 90.0/Double(47)

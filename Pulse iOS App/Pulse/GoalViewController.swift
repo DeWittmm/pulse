@@ -11,9 +11,11 @@ import UIKit
 class GoalViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var bottomBlueConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topRedConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomLabelConstraint: NSLayoutConstraint!
+    @IBOutlet weak var targetLabel: UILabel!
+    
+    @IBOutlet weak var actualVerticalSpace: UILabel!
+    @IBOutlet weak var targetBannerVerticalSpace: NSLayoutConstraint!
+    
     
     private let MAX_HR = 180
     private let MIN_HR = 60
@@ -43,26 +45,14 @@ class GoalViewController: UIViewController {
         
         if point.y > 0 {
             view.layoutIfNeeded()
-            topRedConstraint.constant = point.y
-            bottomBlueConstraint.constant = point.y + 30
-            bottomLabelConstraint.constant = point.y - label.frame.size.height/2 + 2
+            targetBannerVerticalSpace.constant = point.y
         }
         
         let step = CGFloat(MAX_HR - MIN_HR) / view.frame.height
         
         let value = MAX_HR - Int(point.y * step)
         
-        label.text = "\(value) BPM"
+        targetLabel.text = "\(value)\nBPM"
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -11,7 +11,7 @@ import CoreBluetooth
 import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate, DataAnalysisDelegate, HKAccessDelegate {
+class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessProtocol, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
@@ -23,12 +23,25 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     @IBOutlet weak var spO2Label: UILabel!
     @IBOutlet weak var rssiLabel: UILabel!
     @IBOutlet weak var packetSize: UILabel!
+    @IBOutlet weak var peaksLabel: UILabel!
     
     @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
     
     //MARK: Properties
     var healthStore: HKHealthStore?
+    
+    var previousHR: Double? = 0 {
+        didSet {
+//            healthStore?.
+        }
+    }
+    
+    var previousspO2: Double? {
+        didSet {
+            
+        }
+    }
 
     let dataCruncher = DataCruncher()
     
@@ -61,10 +74,9 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.translucent = false
 
         isConnected = false
-        
-        tabBarController?.tabBar.translucent = false
         
         dataCruncher.delegate = self
         btDiscovery.startScanning()
@@ -102,38 +114,52 @@ class MonitorTableViewController: UITableViewController, BLEDataTransferDelegate
     
     //MARK: DataAnalysisDelegate
     
-    func analysingData(InfaredData: [Double], RedLEDData: [Double]) {
+    func currentProgress(irDataProg: Double, ledDataProg: Double) {
+        progressBar.progress = Float(ledDataProg)
         
+        let ledPercentage = abs(ledDataProg*100.0 - 1.0) //99.9% instead of 100
+        let irPercentage = abs(irDataProg*100.0 - 1.0)
+        
+        packetSize.text = String(format:"LED: %2.0f%%, IR: %2.0f%%", arguments: [ledPercentage, irPercentage])
+    }
+    
+    func analysingIRData(InfaredData: [Double], foundPeaks: Int) {
         if !InfaredData.isEmpty {
             irGraphDelegate.data = InfaredData
         }
-        
-        if !RedLEDData.isEmpty {
-            redLEDGraphDelegate.data = RedLEDData
+        peaksLabel.text = "\(foundPeaks) IR"
+    }
+    
+    func analysingLEDData(redLEDData: [Double], foundPeaks: Int) {
+        if !redLEDData.isEmpty {
+            redLEDGraphDelegate.data = redLEDData
         }
-        
-        self.progressBar.progress = 0.0
+        peaksLabel.text = "\(foundPeaks) LED"
     }
     
     func analysisFoundHeartRate(hr: Double)  {
-        bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+        if hr < MAX_HR && hr > MIN_HR {
+            previousHR = hr
+            bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+        }
+        else {
+            bpmLabel.text = "---"
+        }
     }
     
-    //MARK: BLE Connection (BLEServiceDelegate)
-    
-    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
-        packetSize.text = "\(data.count)"
-
-        if let data = DataPacket(rawData: data) {
-            dataCruncher.addDataPacket(data)
-            
-            //FIXME: Might have a threading issue here
-            dispatch_async(dispatch_get_main_queue()) {
-//                println("Collected \(self.dataCruncher.binPercentage)%")
-                
-                self.progressBar.progress = Float(self.dataCruncher.binPercentage)
-            }
+    func analysisFoundSP02(sp02: Double) {
+//        let percentage = abs(sp02*100.0 - 0.9) //99.9% instead of 100
+        if sp02 > 0 {
+            spO2Label.text = String(format:"%2.2f SP02", arguments: [sp02])
         }
+        else {
+            spO2Label.text = "---"
+        }
+    }
+    
+    //MARK: BLE Connection
+    func characteristic(characteristic: CBCharacteristic, didRecieveData data: [UInt8]) {
+        dataCruncher.addDataForCrunching(data)
     }
     
     func peripheral(peripheral: CBPeripheral, DidUpdateRSSI newRSSI: Int) {

@@ -15,6 +15,7 @@ protocol BLEDataTransferDelegate: PeripheralUpdateDelegate {
 class BTDataTransferManager: BTServiceManager {
     
     
+    //Cannot override delegate :<
     var delegate: BLEDataTransferDelegate?
     
     //Mark: Update Delegate

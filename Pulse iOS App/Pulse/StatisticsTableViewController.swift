@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
+class StatisticsTableViewController: UITableViewController, HKAccessProtocol, UpdateInfoDelegate {
     
     struct MainStoryboard {
         struct ViewControllerIdentifiers {
@@ -17,6 +17,7 @@ class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
         
         struct TableViewCellIdentifiers {
             static let basicCell = "BasicCell"
+            static let userCell = "UserCell"
             static let graphCell = "GraphCell"
         }
     }
@@ -24,14 +25,11 @@ class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
     //MARK: - Outlets
     
     //MARK: - Properties
+    var statisticsManager: StatisticsInfoManager?
     var hrGraphDelegate = GraphDelegate()
     var spGraphDelegate = GraphDelegate()
     
-    var healthStore: HKHealthStore? {
-        didSet {
-            println("Did set HK!")
-        }
-    }
+    var healthStore: HKHealthStore?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,29 +39,63 @@ class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        healthStore?.requestAccess()
+        healthStore?.requestAccess() {
+            var error: NSError?
+            let dateOfBirth = self.healthStore?.dateOfBirthWithError(&error)
+            
+            // Compute the age of the user.
+            let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
+            
+            let usersAge = ageComponents.year
+            
+            //FIXME: Temp
+            let user = User(age: usersAge, baseHR: 0.0, baseSpO2: 0.0)
+            self.statisticsManager = StatisticsInfoManager(user: user)
+            self.statisticsManager?.delegate = self
+            
+            println("Age: \(usersAge)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: - UpdateInfoDelegate
+    func didUpdateInfo(statistics: StatisticsInfoManager) {
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        switch section {
+        case 0:
+            return statisticsManager?.currentInfo.count ?? 0
+        default:
+            return 2
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier: String
         
         var cell: UITableViewCell
-        if indexPath.row == 0 {
+        switch (indexPath.section, indexPath.row) {
+        case (0, _):
+            let identifier = MainStoryboard.TableViewCellIdentifiers.userCell
+            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
+            
+            if let info = statisticsManager?.infoForIndex(indexPath) {
+                cell.textLabel?.text = info.0
+                cell.detailTextLabel?.text = info.1
+            }
+        case (_, 0):
             let identifier = MainStoryboard.TableViewCellIdentifiers.graphCell
             let graphCell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! GraphTableViewCell
             
@@ -77,8 +109,7 @@ class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
             }
             
             cell = graphCell
-        }
-        else {
+        default:
             let identifier = MainStoryboard.TableViewCellIdentifiers.basicCell
             cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
             
@@ -91,11 +122,24 @@ class StatisticsTableViewController: UITableViewController, HKAccessDelegate {
     
     //MARK: - TableView Accessory Views
     override func tableView(tableView: UITableView,
-        titleForHeaderInSection section: Int) -> String?{
-            return "Section \(section) Header"
+        titleForHeaderInSection section: Int) -> String? {
+            switch section {
+            case 0:
+                return "User Info"
+            case 1:
+                return "Heart Rate"
+            case 2:
+                return "Blood Oxygen Levels"
+            default:
+                return ""
+            }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 55
+        }
+        
         if indexPath.row == 0 {
             return 250
         }

@@ -9,11 +9,27 @@
 /* Begin PBXBuildFile section */
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9661A9E46A800ED5A4A /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9671A9E46A900ED5A4A /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
+		0A1CE9681A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
+		0A1CE9691A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
+		0A1CE96B1A9E48D200ED5A4A /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A1CE96C1A9E48D300ED5A4A /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A1CE96D1A9E48DC00ED5A4A /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
+		0A1CE96E1A9E48DD00ED5A4A /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
+		0A1CE96F1A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
+		0A1CE9701A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
+		0A1CE9711A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
+		0A1CE9721A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
+		0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
+		0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
+		0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */; };
+		0A55B6CD1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */; };
 		0A650C9E1A9C44E00039BFD4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A650C9D1A9C44E00039BFD4 /* Constants.swift */; };
 		0A650CA01A9C4FBD0039BFD4 /* BLEData.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */; };
 		0A650CA11A9C4FBD0039BFD4 /* BLEData.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */; };
@@ -23,6 +39,8 @@
 		0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
+		0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
+		0A7565FE1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -40,7 +58,6 @@
 		0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E3619FDB3C10024ACC7 /* PulseTests.swift */; };
 		0AE566191A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
 		0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE566211A9BC2FB00F4894F /* BLEPeakDetectionTests.swift */; };
-		0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; };
 		0AE566261A9BC2FB00F4894F /* BLEDataProcessing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */; };
 		0AE5662F1A9BC39600F4894F /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6533AB1A946319007A403D /* DataPacket.swift */; };
@@ -79,13 +96,6 @@
 			remoteGlobalIDString = 0AB19E1819FDB3C10024ACC7;
 			remoteInfo = Pulse;
 		};
-		0AE566231A9BC2FB00F4894F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0AB19E1119FDB3C10024ACC7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0AE5660D1A9BC2FB00F4894F;
-			remoteInfo = BLEDataProcessing;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -119,12 +129,16 @@
 		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataCruncher.swift; path = ../Pulse/DataCruncher.swift; sourceTree = "<group>"; };
+		0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfoManager.swift; sourceTree = "<group>"; };
+		0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartfulAPIClient.swift; sourceTree = "<group>"; };
+		0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeartfulNetworking.playground; sourceTree = "<group>"; };
 		0A60CED41A9BDAED004B91C1 /* PacketFiltering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PacketFiltering.playground; sourceTree = "<group>"; };
 		0A650C9D1A9C44E00039BFD4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BLEData.csv; sourceTree = "<group>"; };
 		0A6533AB1A946319007A403D /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataPacket.swift; path = ../Pulse/DataPacket.swift; sourceTree = "<group>"; };
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
+		0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysiologicalConstants.swift; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BLEDataProcessing.playground; sourceTree = SOURCE_ROOT; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +185,6 @@
 				0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */,
 				0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */,
 				66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */,
-				0AE566251A9BC2FB00F4894F /* BLEDataProcessing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +250,7 @@
 		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */,
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
 				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
 				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
@@ -283,6 +297,7 @@
 				0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */,
 				0A60CED41A9BDAED004B91C1 /* PacketFiltering.playground */,
 				0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */,
+				0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */,
 				0AD53F731A813D48009578E6 /* Swift Tests.playground */,
 				0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */,
 				0A5FC6AF1A9BC45400BA8AAA /* Processing - Framework */,
@@ -310,6 +325,8 @@
 				0A85ED281A7FF54700BD5863 /* ViewControllers */,
 				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
 				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
+				0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */,
+				0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */,
 				0A0F81581A30FB0B00622383 /* BT */,
 				0A9135EA1A7026C6005B2F7A /* Helpers */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
@@ -425,7 +442,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0AE566241A9BC2FB00F4894F /* PBXTargetDependency */,
 			);
 			name = Pulse;
 			productName = Pulse;
@@ -647,6 +663,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
+				0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
@@ -654,7 +671,9 @@
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
+				0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
+				0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
@@ -671,7 +690,9 @@
 				0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
+				0A55B6CD1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
+				0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
@@ -679,6 +700,7 @@
 				0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */,
+				0A7565FE1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
 				0A6CE3A71A6F84F5003E719E /* BTDiscovery.swift in Sources */,
 				0A98EB561A15587D0040544B /* BLETests.swift in Sources */,
 			);
@@ -688,9 +710,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1CE96F1A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
 				0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */,
 				0AE5662F1A9BC39600F4894F /* DataPacket.swift in Sources */,
+				0A1CE96B1A9E48D200ED5A4A /* UUIDConstants.swift in Sources */,
+				0A1CE96D1A9E48DC00ED5A4A /* BTDiscovery.swift in Sources */,
 				0A650C9E1A9C44E00039BFD4 /* Constants.swift in Sources */,
+				0A1CE9701A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */,
+				0A1CE9681A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */,
+				0A1CE9661A9E46A800ED5A4A /* BTServiceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,10 +726,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1CE9691A9E46AC00ED5A4A /* BTDataTransferManager.swift in Sources */,
+				0A1CE9721A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */,
 				0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */,
+				0A1CE96E1A9E48DD00ED5A4A /* BTDiscovery.swift in Sources */,
 				0AE566301A9BC39800F4894F /* DataCruncher.swift in Sources */,
 				0AE566311A9BC39800F4894F /* DataPacket.swift in Sources */,
+				0A1CE9671A9E46A900ED5A4A /* BTServiceManager.swift in Sources */,
+				0A1CE9711A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
 				0A650CA21A9C53500039BFD4 /* Constants.swift in Sources */,
+				0A1CE96C1A9E48D300ED5A4A /* UUIDConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,11 +756,6 @@
 			isa = PBXTargetDependency;
 			target = 0AB19E1819FDB3C10024ACC7 /* Pulse */;
 			targetProxy = 0AE5661C1A9BC2FB00F4894F /* PBXContainerItemProxy */;
-		};
-		0AE566241A9BC2FB00F4894F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0AE5660D1A9BC2FB00F4894F /* BLEDataProcessing */;
-			targetProxy = 0AE566231A9BC2FB00F4894F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
