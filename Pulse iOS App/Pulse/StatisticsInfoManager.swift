@@ -42,7 +42,7 @@ class StatisticsInfoManager {
     let user: User
     
     var ageMaxHR = Dynamic("")
-    var avgHR: Dynamic<String?> = Dynamic("")
+    var avgHR = Dynamic("")
     var hrData = Dynamic([0.0])
     
     init(healthStore: HKHealthStore) {
@@ -66,7 +66,8 @@ class StatisticsInfoManager {
             println("Data: \(data)")
             
             dispatch_async(dispatch_get_main_queue()) {
-                self.hrData.value = data
+                self.hrData.value = [100.0, 100.0, 150.0]
+                self.hrData.valueChanged()
             }
         }
     }

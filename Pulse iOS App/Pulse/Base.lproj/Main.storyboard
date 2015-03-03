@@ -493,12 +493,12 @@ BPM</string>
                                             <outlet property="graph" destination="uxo-5N-xH1" id="SAr-uq-Zmp"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserCell" textLabel="inD-8C-9tZ" detailTextLabel="RyH-gl-kj2" rowHeight="55" style="IBUITableViewCellStyleValue1" id="fuS-Qh-TIh">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="inD-8C-9tZ" detailTextLabel="RyH-gl-kj2" rowHeight="55" style="IBUITableViewCellStyleValue1" id="fuS-Qh-TIh" userLabel="BasicCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fuS-Qh-TIh" id="pj0-9X-grE">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="inD-8C-9tZ">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Discrete Average" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="inD-8C-9tZ">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

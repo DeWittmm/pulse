@@ -62,9 +62,12 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         ageMaxHRLabel.designatedBond.bind(statisticsManager.ageMaxHR)
         
         //1
+        avgHeartRateLabel.designatedBond.bind(statisticsManager.avgHR)
         hrGraphDelegate.graphView = heartRateGraph
         hrGraphDelegate.designatedBond.bind(statisticsManager.hrData)
         heartRateGraph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
+        hrGraphDelegate.maxValue = 200
+        hrGraphDelegate.minValue = 40
         
         //2
         spGraphDelegate.graphView = spO2Graph

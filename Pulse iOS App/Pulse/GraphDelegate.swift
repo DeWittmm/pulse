@@ -17,8 +17,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
+    var maxValue:CGFloat = 900.0
+    var minValue:CGFloat = 200.0
+    
     private var refreshDate = NSDate()
-    private var minRefreshTime: NSTimeInterval = 2.5
+    private var minRefreshTime: NSTimeInterval = 1.5
     
     var data:[Double] = [Double]() {
         didSet {
@@ -40,7 +43,6 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             
             graphView.delegate = self
             graphView.dataSource = self
-            refresh()
         }
     }
     
@@ -62,11 +64,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     }
     
     func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 900.0
+        return maxValue
     }
 
     func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 200.0
+        return minValue
     }
     
     //MARK: LineGraphDataSource
