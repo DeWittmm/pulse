@@ -27,7 +27,8 @@ const int redPin = 2;
 const int sensorPin = A0;
 const int boardLED = 13;
 const int binSize = MAX_TX_BUFF;
-const int batchSize = 40; // number of red / infrared bins in a row
+const int batchSize = 80; // number of red / infrared bins in a row
+const int capacitorCharge = 1100; // millis that it takes to charge capacitor
 
 // Global Variables
 int currPin = infraredPin; // keeps track of the LED that was previously lit
@@ -46,30 +47,35 @@ void setup() {
   pinMode(boardLED, OUTPUT);
   pinMode(infraredPin, OUTPUT);
   pinMode(redPin, OUTPUT);
+  digitalWrite(infraredPin, HIGH); //DEBUGGING
 }
 
 void loop() {
   uint8_t dataBin[binSize], sensorValue;
-  unsigned long startTime, endTime;
+  unsigned long startTime, endTime, startSend, endSend;
 
   // Toggle red / infrared LEDs. First run: R on, IR off
   if(batchCount == batchSize) {
     currPin = togglePin(currPin);
     batchCount = 0;
+    delay(capacitorCharge);
   }
 
-  startTime = millis() % MAX_UINT16; // Wrap around when time greater than 2 bytes
-  for(int i = 5; i < binSize; i++) {
-    dataBin[i] = analogRead(sensorPin);
+  dataBin[0] = pinCode(currPin);
+  // Serial.print("["); Serial.print(dataBin[0]);
+  //startTime = millis(); // % MAX_UINT16; // Wrap around when time greater than 2 bytes
+  //for(int i = 5; i < binSize; i++) {
+  for(int i = 1; i < binSize; i++) {
+    // analogRead() returns a 10-bit integer (0 to 1023). Currently forcing into 8 bits by shifting right twice.
+    int value = analogRead(sensorPin);
+    dataBin[i] = (unsigned int)value;
+    // Serial.print(", ");
+    // Serial.print(dataBin[i]);
   }
-  endTime = millis() % MAX_UINT16;
+  //Serial.print("]");
+  //endTime = millis(); // % MAX_UINT16;
 
-  // Serial.println(-1);
-  // for(int j = 0; j < binSize; j++) {
-  //   Serial.println(dataBin[j]);
-  // }
-
-  fill_header(dataBin, currPin, startTime, endTime);
+  //fill_header(dataBin, currPin, startTime, endTime);
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
   ble_do_events(); // Update BLE connection status. Transmit/receive data
   batchCount++;
