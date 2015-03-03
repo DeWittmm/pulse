@@ -6,51 +6,93 @@
 //  Copyright (c) 2015 Biomedical Engineering Design. All rights reserved.
 //
 
-import Foundation
+import HealthKit
 
 struct User {
     let age: Int
-    let baseHR: Double
-    let baseSpO2: Double
+    var baseHR: Double?
+    var baseSpO2: Double?
+    
+    init(age: Int) {
+        self.age = age
+    }
 }
 
 typealias Info = (String, String)
 
-protocol UpdateInfoDelegate: class {
-    func didUpdateInfo(statistics: StatisticsInfoManager)
-}
-
 class StatisticsInfoManager {
     
-    let user: User
-    let client = HeartfulAPIClient()
-    var currentInfo = [Info]()
+    //MARK: Private Properties
+    private let client = HeartfulAPIClient()
     
-    weak var delegate: UpdateInfoDelegate?
-    
-    init(user: User) {
-        self.user = user
+    private let todayPredicate: NSPredicate = {
+        let calendar = NSCalendar.currentCalendar()
         
-        //FIXME: First Pass
-        client.retriveMaxHRForAge(user.age) { (maxHR, error)  in
-            if let mx = maxHR {
-                self.currentInfo.append(("\(user.age)", "\(mx)"))
-                self.delegate?.didUpdateInfo(self)
+        let now = NSDate()
+        
+        let startDate = calendar.startOfDayForDate(now)
+        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: startDate, options: NSCalendarOptions.allZeros)
+        
+        return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
+    }()
+    
+    let healthStore: HKHealthStore
+
+    //MARK: Info Properties
+    let user: User
+    
+    var userAge: Dynamic<String?> = Dynamic("")
+    var ageMaxHR: Dynamic<String?> = Dynamic("")
+    var avgHR: Dynamic<String?> = Dynamic("")
+//    var hrData: Dynamic<String?> = Dynamic([0.0])
+    
+    init(healthStore: HKHealthStore) {
+        let usersAge = healthStore.readUsersAge()
+        let user = User(age: usersAge)
+        println("Age: \(usersAge)")
+        
+        self.userAge.value = "Age: \(usersAge) years"
+        self.user = user
+        self.healthStore = healthStore
+        
+        refreshHealthKitData()
+        refreshHealthKitStatistics()
+        retriveInfoFromHeartful()
+    }
+    
+    func updateValues() {
+        userAge.valueChanged()
+        ageMaxHR.valueChanged()
+        avgHR.valueChanged()
+//        hrData.valueChanged()
+    }
+    
+    func refreshHealthKitData() {
+        healthStore.fetchHeartRateData(todayPredicate) { (data, error) -> Void in
+            println("Data: \(data)")
+            
+            dispatch_async(dispatch_get_main_queue()) {
+//                self.hrData.value = data
             }
         }
     }
     
-    func infoForIndex(indexPath: NSIndexPath) -> Info? {
-        if indexPath.row < currentInfo.count {
-            let info = currentInfo[indexPath.row]
-            
-            switch indexPath.row {
-            case 0:
-                return ("Expected MaxHR (age: \(info.0))", "\(info.1) BPM")
-            default:
-                return ("--", "")
+    func refreshHealthKitStatistics() {
+        healthStore.fetchAvgHeartRate(todayPredicate) { (avgHR, error) in
+            println("Avg HR: \(avgHR)")
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.avgHR.value = "Average HR \(avgHR)"
+                return
             }
         }
-        return nil
+    }
+    
+    func retriveInfoFromHeartful() {
+        client.retriveMaxHRForAge(user.age) { (maxHR, error)  in
+            if let mx = maxHR {
+                self.ageMaxHR.value = "Expected MaxHR: \(mx)"
+            }
+        }
     }
 }

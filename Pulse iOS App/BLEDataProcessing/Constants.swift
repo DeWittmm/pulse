@@ -16,7 +16,7 @@ let MILLS_PER_MIN = 60000.0
 public let ArudinoVoltageConversionFactor = 1.0 //4.0 / 1023.0
 public let MAX_ARDUINO_TIME = 65535 //Before time bits roll over
 
-let binCapacity = 80 //PacketCount
+let binCapacity = 50 //PacketCount
 public let PACKET_DATA_SIZE = 19
 public let BLE_PACKET_SIZE = 20
 

@@ -40,6 +40,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             
             graphView.delegate = self
             graphView.dataSource = self
+            refresh()
         }
     }
     

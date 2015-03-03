@@ -389,17 +389,17 @@ BPM</string>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="zEq-FU-wV5" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="2tK-Yy-jHa"/>
-                            <constraint firstItem="0VC-4l-M8g" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="127" id="8mu-zs-IgY"/>
+                            <constraint firstItem="0VC-4l-M8g" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="83" id="8mu-zs-IgY"/>
                             <constraint firstItem="0VC-4l-M8g" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-16" id="fu0-Lb-hha"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0VC-4l-M8g" secondAttribute="trailing" constant="-16" id="qnT-K8-6um"/>
                             <constraint firstAttribute="centerX" secondItem="0VC-4l-M8g" secondAttribute="centerX" id="yWR-kW-m27"/>
-                            <constraint firstItem="zEq-FU-wV5" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="324" id="zb7-dD-KUY"/>
+                            <constraint firstItem="zEq-FU-wV5" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="280" id="zb7-dD-KUY"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="6tz-oT-hN0" appends="YES" id="b16-9r-hvb"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="mostViewed" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" id="xk1-BK-bn0"/>
                     <connections>
                         <outlet property="actualVerticalSpace" destination="zEq-FU-wV5" id="YmS-YO-Zl0"/>
                         <outlet property="label" destination="zEq-FU-wV5" id="AX3-4v-8Qj"/>
@@ -414,7 +414,7 @@ BPM</string>
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="736" y="-469"/>
+            <point key="canvasLocation" x="736" y="289"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -428,7 +428,7 @@ BPM</string>
                     </tabBar>
                     <connections>
                         <segue destination="zxs-JE-4Po" kind="relationship" relationship="viewControllers" id="xsq-ka-Xmh"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="NkM-8G-ndo" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="u8h-LX-CDC" kind="relationship" relationship="viewControllers" id="b5D-XV-udj"/>
                     </connections>
                 </tabBarController>
@@ -529,7 +529,7 @@ BPM</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIf-Sq-2v5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="240"/>
+            <point key="canvasLocation" x="1480" y="289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tg4-Pl-sXP">
@@ -547,6 +547,25 @@ BPM</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C7B-VV-Df5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1480" y="-469"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="FAy-zA-bfo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NkM-8G-ndo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="mostViewed" id="cPa-gy-q4n"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vdd-pH-kdG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="3p2-SZ-ICW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mq5-D0-oR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="736" y="-469"/>
         </scene>
     </scenes>
 </document>

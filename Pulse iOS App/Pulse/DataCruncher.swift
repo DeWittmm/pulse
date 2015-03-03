@@ -100,7 +100,7 @@ public class DataCruncher {
             }
         }
         
-        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] {
+        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] where irPeaks.count > 2 && ledPeaks.count > 2 {
             let spO2 = calculateBloodOxygenSaturation(ledPeaks, irPeaks: irPeaks)
             dispatch_async(dispatch_get_main_queue()) {
                 self.delegate?.analysisFoundSP02(spO2)
@@ -147,7 +147,7 @@ public class DataCruncher {
         
         //FIXME: Constant Times
         avgTimePerPoint = 2.0
-        avgtimeBtwPaks = 30
+        avgtimeBtwPaks = 40
         
         if let filetedPts = filter(data) {
             return (filetedPts, avgTimePerPoint, avgtimeBtwPaks)
@@ -321,9 +321,4 @@ public struct FIRFilter {
             return output
         }
     }
-}
-
-//MARK: Helpers
-func avg(vals: [Double]) -> Double {
-    return vals.reduce(0.0) { $0 + $1 } / Double(vals.count)
 }

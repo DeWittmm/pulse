@@ -15,13 +15,14 @@ class HeartfulAPIClient {
     
     let baseURL = NSURL(string: "http://52.10.162.213")!
     lazy var config = NSURLSessionConfiguration.defaultSessionConfiguration()
-    lazy var session: NSURLSession = NSURLSession(configuration: self.config)
+    lazy var session: NSURLSession = NSURLSession(configuration: self.config) //Declaring type is required
     
     func retriveMaxHRForAge(age: Int, queue: dispatch_queue_t = dispatch_get_main_queue(), completion: (maxHR: Double?, error: NSError!)->Void) {
         
         let ext = "analysis/?age=\(age)"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
         let request = NSMutableURLRequest(URL: url)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
         
         //    let params = ["age":"\(age)"]
         //    var err: NSError?

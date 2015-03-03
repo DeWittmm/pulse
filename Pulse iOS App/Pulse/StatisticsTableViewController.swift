@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class StatisticsTableViewController: UITableViewController, HKAccessProtocol, UpdateInfoDelegate {
+class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
     struct MainStoryboard {
         struct ViewControllerIdentifiers {
@@ -25,35 +25,31 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol, Up
     //MARK: - Outlets
     
     //MARK: - Properties
-    var statisticsManager: StatisticsInfoManager?
+    var statisticsManager: StatisticsInfoManager!
     var hrGraphDelegate = GraphDelegate()
     var spGraphDelegate = GraphDelegate()
     
-    var healthStore: HKHealthStore?
+    var bonds = [Bond<String?>]()
+    
+    var healthStore: HKHealthStore? {
+        didSet {
+            self.statisticsManager = StatisticsInfoManager(healthStore: self.healthStore!)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //         self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
-        healthStore?.requestAccess() {
-            var error: NSError?
-            let dateOfBirth = self.healthStore?.dateOfBirthWithError(&error)
+        if HKHealthStore.isHealthDataAvailable() {
             
-            // Compute the age of the user.
-            let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
-            
-            let usersAge = ageComponents.year
-            
-            //FIXME: Temp
-            let user = User(age: usersAge, baseHR: 0.0, baseSpO2: 0.0)
-            self.statisticsManager = StatisticsInfoManager(user: user)
-            self.statisticsManager?.delegate = self
-            
-            println("Age: \(usersAge)")
+            healthStore?.requestAuthorizationToShareTypes(writeDataTypes, readTypes: readDataTypes) { (success, error) in
+                
+                if !success {
+                    println("ERROR: Failed to get access to HealthStore read write data types: \(error.localizedDescription)")
+                }
+                self.statisticsManager.updateValues()
+            }
         }
     }
 
@@ -61,14 +57,8 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol, Up
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: - UpdateInfoDelegate
-    func didUpdateInfo(statistics: StatisticsInfoManager) {
-        tableView.reloadData()
-    }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
@@ -76,7 +66,7 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol, Up
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return statisticsManager?.currentInfo.count ?? 0
+            return 1
         default:
             return 2
         }
@@ -90,21 +80,24 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol, Up
         case (0, _):
             let identifier = MainStoryboard.TableViewCellIdentifiers.userCell
             cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
-            
-            if let info = statisticsManager?.infoForIndex(indexPath) {
-                cell.textLabel?.text = info.0
-                cell.detailTextLabel?.text = info.1
+        
+            let ageLableBond = Bond() { [unowned self] txt in
+                cell.textLabel?.text = txt
             }
+            ageLableBond.bind(statisticsManager.userAge)
+            bonds.append(ageLableBond)
+            
+//            cell.detailTextLabel?.designatedBond.bind(statisticsManager.ageMaxHR)
         case (_, 0):
             let identifier = MainStoryboard.TableViewCellIdentifiers.graphCell
             let graphCell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! GraphTableViewCell
             
             if indexPath.section % 2 == 0 {
-                hrGraphDelegate.graphView = graphCell.graph
+                spGraphDelegate.graphView = graphCell.graph
                 graphCell.graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
             }
             else {
-                spGraphDelegate.graphView = graphCell.graph
+                hrGraphDelegate.graphView = graphCell.graph
                 graphCell.graph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
             }
             
