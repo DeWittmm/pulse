@@ -23,6 +23,14 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     }
     
     //MARK: - Outlets
+    @IBOutlet weak var ageMaxHRLabel: UILabel!
+    
+    //1
+    @IBOutlet weak var heartRateGraph: BEMSimpleLineGraphView!
+    @IBOutlet weak var avgHeartRateLabel: UILabel!
+    
+    //2
+    @IBOutlet weak var spO2Graph: BEMSimpleLineGraphView!
     
     //MARK: - Properties
     var statisticsManager: StatisticsInfoManager!
@@ -39,7 +47,6 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         if HKHealthStore.isHealthDataAvailable() {
             
@@ -48,9 +55,23 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
                 if !success {
                     println("ERROR: Failed to get access to HealthStore read write data types: \(error.localizedDescription)")
                 }
-                self.statisticsManager.updateValues()
             }
         }
+        
+        //0
+        ageMaxHRLabel.designatedBond.bind(statisticsManager.ageMaxHR)
+        
+        //1
+        hrGraphDelegate.graphView = heartRateGraph
+        hrGraphDelegate.designatedBond.bind(statisticsManager.hrData)
+        heartRateGraph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
+        
+        //2
+        spGraphDelegate.graphView = spO2Graph
+        spGraphDelegate.designatedBond.bind(statisticsManager.hrData)
+        spO2Graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
+        
+        statisticsManager.refreshAll()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,61 +79,6 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        default:
-            return 2
-        }
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let identifier: String
-        
-        var cell: UITableViewCell
-        switch (indexPath.section, indexPath.row) {
-        case (0, _):
-            let identifier = MainStoryboard.TableViewCellIdentifiers.userCell
-            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
-        
-            let ageLableBond = Bond() { [unowned self] txt in
-                cell.textLabel?.text = txt
-            }
-            ageLableBond.bind(statisticsManager.userAge)
-            bonds.append(ageLableBond)
-            
-//            cell.detailTextLabel?.designatedBond.bind(statisticsManager.ageMaxHR)
-        case (_, 0):
-            let identifier = MainStoryboard.TableViewCellIdentifiers.graphCell
-            let graphCell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! GraphTableViewCell
-            
-            if indexPath.section % 2 == 0 {
-                spGraphDelegate.graphView = graphCell.graph
-                graphCell.graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
-            }
-            else {
-                hrGraphDelegate.graphView = graphCell.graph
-                graphCell.graph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
-            }
-            
-            cell = graphCell
-        default:
-            let identifier = MainStoryboard.TableViewCellIdentifiers.basicCell
-            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
-            
-            cell.textLabel?.text = "Basic Info"
-            cell.detailTextLabel?.text = "---"
-        }
-        
-        return cell
-    }
-    
     //MARK: - TableView Accessory Views
     override func tableView(tableView: UITableView,
         titleForHeaderInSection section: Int) -> String? {

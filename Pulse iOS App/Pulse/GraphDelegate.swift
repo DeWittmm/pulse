@@ -81,5 +81,18 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         
         return CGFloat(data[index])
     }
-    
+}
+
+private var handle: UInt8 = 0;
+
+extension GraphDelegate: Bondable {
+    var designatedBond: Bond<[Double]> {
+        if let b: AnyObject = objc_getAssociatedObject(self, &handle) {
+            return b as! Bond<[Double]>
+        } else {
+            let b = Bond<[Double]>() { [unowned self] v in self.data = v }
+            objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            return b
+        }
+    }
 }

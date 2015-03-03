@@ -41,30 +41,24 @@ class StatisticsInfoManager {
     //MARK: Info Properties
     let user: User
     
-    var userAge: Dynamic<String?> = Dynamic("")
-    var ageMaxHR: Dynamic<String?> = Dynamic("")
+    var ageMaxHR = Dynamic("")
     var avgHR: Dynamic<String?> = Dynamic("")
-//    var hrData: Dynamic<String?> = Dynamic([0.0])
+    var hrData = Dynamic([0.0])
     
     init(healthStore: HKHealthStore) {
         let usersAge = healthStore.readUsersAge()
         let user = User(age: usersAge)
         println("Age: \(usersAge)")
         
-        self.userAge.value = "Age: \(usersAge) years"
         self.user = user
         self.healthStore = healthStore
+    }
+    
+    func refreshAll() {
         
         refreshHealthKitData()
         refreshHealthKitStatistics()
         retriveInfoFromHeartful()
-    }
-    
-    func updateValues() {
-        userAge.valueChanged()
-        ageMaxHR.valueChanged()
-        avgHR.valueChanged()
-//        hrData.valueChanged()
     }
     
     func refreshHealthKitData() {
@@ -72,7 +66,7 @@ class StatisticsInfoManager {
             println("Data: \(data)")
             
             dispatch_async(dispatch_get_main_queue()) {
-//                self.hrData.value = data
+                self.hrData.value = data
             }
         }
     }
@@ -91,7 +85,7 @@ class StatisticsInfoManager {
     func retriveInfoFromHeartful() {
         client.retriveMaxHRForAge(user.age) { (maxHR, error)  in
             if let mx = maxHR {
-                self.ageMaxHR.value = "Expected MaxHR: \(mx)"
+                self.ageMaxHR.value = "\(self.user.age) Years/\(mx) BPM"
             }
         }
     }
