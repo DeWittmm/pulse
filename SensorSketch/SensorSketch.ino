@@ -27,7 +27,7 @@ const int redPin = 2;
 const int sensorPin = A0;
 const int boardLED = 13;
 const int binSize = MAX_TX_BUFF;
-const int batchSize = 80; // number of red / infrared bins in a row
+const int batchSize = 50; // number of red / infrared bins in a row
 const int capacitorCharge = 1100; // millis that it takes to charge capacitor
 
 // Global Variables
@@ -62,32 +62,14 @@ void loop() {
   }
 
   dataBin[0] = pinCode(currPin);
-  // Serial.print("["); Serial.print(dataBin[0]);
-  //startTime = millis(); // % MAX_UINT16; // Wrap around when time greater than 2 bytes
-  //for(int i = 5; i < binSize; i++) {
   for(int i = 1; i < binSize; i++) {
-    // analogRead() returns a 10-bit integer (0 to 1023). Currently forcing into 8 bits by shifting right twice.
-    int value = analogRead(sensorPin);
+    int value = analogRead(sensorPin); // returns 10 bit unsigned number
     dataBin[i] = (unsigned int)value;
-    // Serial.print(", ");
-    // Serial.print(dataBin[i]);
   }
-  //Serial.print("]");
-  //endTime = millis(); // % MAX_UINT16;
 
-  //fill_header(dataBin, currPin, startTime, endTime);
   ble_write_bytes((unsigned char *)dataBin, (unsigned char)binSize);
   ble_do_events(); // Update BLE connection status. Transmit/receive data
   batchCount++;
-}
-
-// Fills bin header
-void fill_header(uint8_t *bin, int currPin, unsigned long startTime, unsigned long endTime) {
-  bin[0] = pinCode(currPin);        // red = 0, infrared = 1
-  bin[1] = startTime & BYTE;        // first byte of startTime
-  bin[2] = (startTime >> 8) & BYTE; // second byte of startTime
-  bin[3] = endTime & BYTE;          // first byte of endTime
-  bin[4] = (endTime >> 8) & BYTE;   // second byte of endTime
 }
 
 // R = 0, IR = 1
