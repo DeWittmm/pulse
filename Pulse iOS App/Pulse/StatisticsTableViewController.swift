@@ -11,23 +11,13 @@ import HealthKit
 
 class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
-    struct MainStoryboard {
-        struct ViewControllerIdentifiers {
-        }
-        
-        struct TableViewCellIdentifiers {
-            static let basicCell = "BasicCell"
-            static let userCell = "UserCell"
-            static let graphCell = "GraphCell"
-        }
-    }
-    
     //MARK: - Outlets
     @IBOutlet weak var ageMaxHRLabel: UILabel!
     
     //1
     @IBOutlet weak var heartRateGraph: BEMSimpleLineGraphView!
     @IBOutlet weak var avgHeartRateLabel: UILabel!
+    @IBOutlet weak var maxMinHR: UILabel!
     
     //2
     @IBOutlet weak var spO2Graph: BEMSimpleLineGraphView!
@@ -63,9 +53,11 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         
         //1
         avgHeartRateLabel.designatedBond.bind(statisticsManager.avgHR)
+        maxMinHR.designatedBond.bind(statisticsManager.maxMinHR)
+        
         hrGraphDelegate.graphView = heartRateGraph
         hrGraphDelegate.designatedBond.bind(statisticsManager.hrData)
-        heartRateGraph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
+        heartRateGraph.backgroundColor = UIColor(red:255/255.0, green:102/255.0, blue:74/255.0, alpha:1.0)
         hrGraphDelegate.maxValue = 200
         hrGraphDelegate.minValue = 40
         
@@ -75,11 +67,6 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         spO2Graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
         
         statisticsManager.refreshAll()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     //MARK: - TableView Accessory Views
@@ -106,6 +93,13 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
             return 250
         }
         return 55
+    }
+    
+    @IBAction func switchTimeSpan(sender: UISegmentedControl) {
+        if let span = TimeRange(rawValue:sender.selectedSegmentIndex) {
+            
+            statisticsManager.timeRange = span
+        }
     }
     
     /*

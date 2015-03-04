@@ -25,7 +25,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     
     var data:[Double] = [Double]() {
         didSet {
-            refresh()
+            graphView?.reloadGraph()
         }
     }
     
@@ -46,7 +46,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
-    func refresh() {
+    func refreshWithInteveral() {
         let interval = -self.refreshDate.timeIntervalSinceNow
         if  interval > minRefreshTime {
             graphView?.reloadGraph()
@@ -75,7 +75,6 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     
     func numberOfPointsInLineGraph(graph: BEMSimpleLineGraphView!) -> Int {
         graphView = graph
-        
         return data.count
     }
     

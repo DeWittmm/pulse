@@ -49,12 +49,30 @@ extension HKHealthStore {
         
         let query = HKSampleQuery(sampleType: heartRateQuantity, predicate: predicate, limit: 0, sortDescriptors: [timeSortDescriptor]) { (query, results, error) in
             
-            let values = results.map { value in
-                 (value as! HKQuantitySample).quantity.doubleValueForUnit(bpmUnit)
+            if let results = results {
+                let values = results.map { value in
+                     (value as! HKQuantitySample).quantity.doubleValueForUnit(bpmUnit)
+                }
+                
+                completion(data: values, error: error)
             }
-            
-            completion(data: values, error: error);
         }
+        executeQuery(query)
+    }
+    
+    //MARK: Queries
+    func fetchAvgHeartRate(predicate: NSPredicate, completion: (avgHr: Double, error: NSError!) -> Void) {
+        let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
+        
+        let query = HKStatisticsQuery(quantityType: heartRateQuantity, quantitySamplePredicate: predicate, options: HKStatisticsOptions.DiscreteAverage){ (query, statisticsInfo, error) in
+            
+            if let avgQuantity = statisticsInfo.averageQuantity() {
+                let avg = avgQuantity.doubleValueForUnit(bpmUnit)
+                
+                completion(avgHr: avg, error: error)
+            }
+        }
+        
         executeQuery(query)
     }
 
@@ -76,21 +94,5 @@ extension HKHealthStore {
                 println("ERROR: \(error.localizedDescription)")
             }
         }
-    }
-    
-    //MARK: Queries
-    func fetchAvgHeartRate(predicate: NSPredicate, completion: (avgHr: Double, error: NSError!) -> Void) {
-        let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
-        
-        let query = HKStatisticsQuery(quantityType: heartRateQuantity, quantitySamplePredicate: predicate, options: HKStatisticsOptions.DiscreteAverage){ (query, statisticsInfo, error) in
-            
-            if let avgQuantity = statisticsInfo.averageQuantity() {
-                let avg = avgQuantity.doubleValueForUnit(bpmUnit)
-                            
-                completion(avgHr: avg, error: error)
-            }
-        }
-        
-        executeQuery(query)
     }
 }

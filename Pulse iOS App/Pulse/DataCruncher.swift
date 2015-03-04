@@ -100,7 +100,7 @@ public class DataCruncher {
             }
         }
         
-        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.IR] where irPeaks.count > 2 && ledPeaks.count > 2 {
+        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.RedLED] where irPeaks.count > 2 && ledPeaks.count > 2 {
             let spO2 = calculateBloodOxygenSaturation(ledPeaks, irPeaks: irPeaks)
             dispatch_async(dispatch_get_main_queue()) {
                 self.delegate?.analysisFoundSP02(spO2)
