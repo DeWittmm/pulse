@@ -11,3 +11,6 @@ import Foundation
 let MAX_HR = 150.0
 let MIN_HR = 40.0
 let MAX_HR_GAIN = 20.0
+
+//Mark: HealthKit
+let HK_WRITE_FREQUENCY = 5

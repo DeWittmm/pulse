@@ -17,8 +17,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
+    var maxValue:CGFloat = 900.0
+    var minValue:CGFloat = 200.0
+    
     private var refreshDate = NSDate()
-    private var minRefreshTime: NSTimeInterval = 2.5
+    private var minRefreshTime: NSTimeInterval = 1.5
     
     var data:[Double] = [Double]() {
         didSet {
@@ -61,11 +64,11 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     }
     
     func maxValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 900.0
+        return maxValue
     }
 
     func minValueForLineGraph(graph: BEMSimpleLineGraphView!) -> CGFloat {
-        return 200.0
+        return minValue
     }
     
     //MARK: LineGraphDataSource
@@ -80,5 +83,18 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         
         return CGFloat(data[index])
     }
-    
+}
+
+private var handle: UInt8 = 0;
+
+extension GraphDelegate: Bondable {
+    var designatedBond: Bond<[Double]> {
+        if let b: AnyObject = objc_getAssociatedObject(self, &handle) {
+            return b as! Bond<[Double]>
+        } else {
+            let b = Bond<[Double]>() { [unowned self] v in self.data = v }
+            objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            return b
+        }
+    }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class StatisticsTableViewController: UITableViewController, HKAccessProtocol, UpdateInfoDelegate {
+class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
     struct MainStoryboard {
         struct ViewControllerIdentifiers {
@@ -23,103 +23,65 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol, Up
     }
     
     //MARK: - Outlets
+    @IBOutlet weak var ageMaxHRLabel: UILabel!
+    
+    //1
+    @IBOutlet weak var heartRateGraph: BEMSimpleLineGraphView!
+    @IBOutlet weak var avgHeartRateLabel: UILabel!
+    
+    //2
+    @IBOutlet weak var spO2Graph: BEMSimpleLineGraphView!
     
     //MARK: - Properties
-    var statisticsManager: StatisticsInfoManager?
+    var statisticsManager: StatisticsInfoManager!
     var hrGraphDelegate = GraphDelegate()
     var spGraphDelegate = GraphDelegate()
     
-    var healthStore: HKHealthStore?
+    var bonds = [Bond<String?>]()
+    
+    var healthStore: HKHealthStore? {
+        didSet {
+            self.statisticsManager = StatisticsInfoManager(healthStore: self.healthStore!)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
-        healthStore?.requestAccess() {
-            var error: NSError?
-            let dateOfBirth = self.healthStore?.dateOfBirthWithError(&error)
+        if HKHealthStore.isHealthDataAvailable() {
             
-            // Compute the age of the user.
-            let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
-            
-            let usersAge = ageComponents.year
-            
-            //FIXME: Temp
-            let user = User(age: usersAge, baseHR: 0.0, baseSpO2: 0.0)
-            self.statisticsManager = StatisticsInfoManager(user: user)
-            self.statisticsManager?.delegate = self
-            
-            println("Age: \(usersAge)")
+            healthStore?.requestAuthorizationToShareTypes(writeDataTypes, readTypes: readDataTypes) { (success, error) in
+                
+                if !success {
+                    println("ERROR: Failed to get access to HealthStore read write data types: \(error.localizedDescription)")
+                }
+            }
         }
+        
+        //0
+        ageMaxHRLabel.designatedBond.bind(statisticsManager.ageMaxHR)
+        
+        //1
+        avgHeartRateLabel.designatedBond.bind(statisticsManager.avgHR)
+        hrGraphDelegate.graphView = heartRateGraph
+        hrGraphDelegate.designatedBond.bind(statisticsManager.hrData)
+        heartRateGraph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
+        hrGraphDelegate.maxValue = 200
+        hrGraphDelegate.minValue = 40
+        
+        //2
+        spGraphDelegate.graphView = spO2Graph
+        spGraphDelegate.designatedBond.bind(statisticsManager.hrData)
+        spO2Graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
+        
+        statisticsManager.refreshAll()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: - UpdateInfoDelegate
-    func didUpdateInfo(statistics: StatisticsInfoManager) {
-        tableView.reloadData()
-    }
 
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return statisticsManager?.currentInfo.count ?? 0
-        default:
-            return 2
-        }
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let identifier: String
-        
-        var cell: UITableViewCell
-        switch (indexPath.section, indexPath.row) {
-        case (0, _):
-            let identifier = MainStoryboard.TableViewCellIdentifiers.userCell
-            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
-            
-            if let info = statisticsManager?.infoForIndex(indexPath) {
-                cell.textLabel?.text = info.0
-                cell.detailTextLabel?.text = info.1
-            }
-        case (_, 0):
-            let identifier = MainStoryboard.TableViewCellIdentifiers.graphCell
-            let graphCell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! GraphTableViewCell
-            
-            if indexPath.section % 2 == 0 {
-                hrGraphDelegate.graphView = graphCell.graph
-                graphCell.graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
-            }
-            else {
-                spGraphDelegate.graphView = graphCell.graph
-                graphCell.graph.backgroundColor = UIColor(red:31.0/255.0, green:187.0/255.0, blue:166.0/255.0, alpha:1.0)
-            }
-            
-            cell = graphCell
-        default:
-            let identifier = MainStoryboard.TableViewCellIdentifiers.basicCell
-            cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UITableViewCell
-            
-            cell.textLabel?.text = "Basic Info"
-            cell.detailTextLabel?.text = "---"
-        }
-        
-        return cell
-    }
-    
     //MARK: - TableView Accessory Views
     override func tableView(tableView: UITableView,
         titleForHeaderInSection section: Int) -> String? {

@@ -41,6 +41,12 @@
 		0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
 		0A7565FE1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */; };
+		0A7566001AA507A7007B1913 /* Array+Avg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FF1AA507A7007B1913 /* Array+Avg.swift */; };
+		0A7566011AA507A7007B1913 /* Array+Avg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FF1AA507A7007B1913 /* Array+Avg.swift */; };
+		0A7566021AA507A7007B1913 /* Array+Avg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FF1AA507A7007B1913 /* Array+Avg.swift */; };
+		0A7566031AA507A7007B1913 /* Array+Avg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7565FF1AA507A7007B1913 /* Array+Avg.swift */; };
+		0A7566091AA53037007B1913 /* SwiftBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7566081AA53037007B1913 /* SwiftBinding.swift */; };
+		0A75660A1AA53037007B1913 /* SwiftBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7566081AA53037007B1913 /* SwiftBinding.swift */; };
 		0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135E71A702202005B2F7A /* UIViewOperators.swift */; };
 		0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F41A702770005B2F7A /* GoalViewController.swift */; };
@@ -139,6 +145,8 @@
 		0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorTableViewController.swift; sourceTree = "<group>"; };
 		0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
 		0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysiologicalConstants.swift; sourceTree = "<group>"; };
+		0A7565FF1AA507A7007B1913 /* Array+Avg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Avg.swift"; sourceTree = "<group>"; };
+		0A7566081AA53037007B1913 /* SwiftBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftBinding.swift; sourceTree = "<group>"; };
 		0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BLEDataProcessing.playground; sourceTree = SOURCE_ROOT; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
@@ -247,13 +255,48 @@
 			path = BLEDataProcessingTests;
 			sourceTree = "<group>";
 		};
-		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
+		0A7566041AA509CA007B1913 /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
+			);
+			name = Goal;
+			sourceTree = "<group>";
+		};
+		0A7566051AA509D0007B1913 /* Monitor */ = {
 			isa = PBXGroup;
 			children = (
 				0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */,
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
-				0A9135F41A702770005B2F7A /* GoalViewController.swift */,
+			);
+			name = Monitor;
+			sourceTree = "<group>";
+		};
+		0A7566061AA509D5007B1913 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
 				0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */,
+			);
+			name = Statistics;
+			sourceTree = "<group>";
+		};
+		0A7566071AA53000007B1913 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0A0F81581A30FB0B00622383 /* BT */,
+				0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */,
+				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
+				0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0A7566051AA509D0007B1913 /* Monitor */,
+				0A7566041AA509CA007B1913 /* Goal */,
+				0A7566061AA509D5007B1913 /* Statistics */,
 				0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */,
 			);
 			name = ViewControllers;
@@ -262,6 +305,8 @@
 		0A9135EA1A7026C6005B2F7A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0A7566081AA53037007B1913 /* SwiftBinding.swift */,
+				0A7565FF1AA507A7007B1913 /* Array+Avg.swift */,
 				0A9135E71A702202005B2F7A /* UIViewOperators.swift */,
 				0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */,
 			);
@@ -324,10 +369,7 @@
 				0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */,
 				0A85ED281A7FF54700BD5863 /* ViewControllers */,
 				0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */,
-				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
-				0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */,
-				0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */,
-				0A0F81581A30FB0B00622383 /* BT */,
+				0A7566071AA53000007B1913 /* Model */,
 				0A9135EA1A7026C6005B2F7A /* Helpers */,
 				0AB19E1C19FDB3C10024ACC7 /* Supporting Files */,
 			);
@@ -663,6 +705,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9135E81A702202005B2F7A /* UIViewOperators.swift in Sources */,
+				0A7566001AA507A7007B1913 /* Array+Avg.swift in Sources */,
 				0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0A9135F81A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
@@ -672,6 +715,7 @@
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
 				0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
+				0A7566091AA53037007B1913 /* SwiftBinding.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
@@ -686,12 +730,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
+				0A75660A1AA53037007B1913 /* SwiftBinding.swift in Sources */,
 				0A9135F61A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,
 				0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A55B6CD1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */,
 				0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
+				0A7566011AA507A7007B1913 /* Array+Avg.swift in Sources */,
 				0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */,
 				0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */,
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
@@ -712,6 +758,7 @@
 			files = (
 				0A1CE96F1A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
 				0AE5662E1A9BC39600F4894F /* DataCruncher.swift in Sources */,
+				0A7566021AA507A7007B1913 /* Array+Avg.swift in Sources */,
 				0AE5662F1A9BC39600F4894F /* DataPacket.swift in Sources */,
 				0A1CE96B1A9E48D200ED5A4A /* UUIDConstants.swift in Sources */,
 				0A1CE96D1A9E48DC00ED5A4A /* BTDiscovery.swift in Sources */,
@@ -731,6 +778,7 @@
 				0AE566221A9BC2FB00F4894F /* BLEPeakDetectionTests.swift in Sources */,
 				0A1CE96E1A9E48DD00ED5A4A /* BTDiscovery.swift in Sources */,
 				0AE566301A9BC39800F4894F /* DataCruncher.swift in Sources */,
+				0A7566031AA507A7007B1913 /* Array+Avg.swift in Sources */,
 				0AE566311A9BC39800F4894F /* DataPacket.swift in Sources */,
 				0A1CE9671A9E46A900ED5A4A /* BTServiceManager.swift in Sources */,
 				0A1CE9711A9E48EE00ED5A4A /* UIViewOperators.swift in Sources */,
