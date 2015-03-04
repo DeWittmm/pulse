@@ -99,10 +99,10 @@ public class DataCruncher {
                 switch source {
                 case .IR:
                     self.delegate?.analysingIRData(data, foundPeaks: newPeaks.count)
-                    self.delegate?.analysisFoundHeartRate(hr)
                 case .RedLED:
                     self.delegate?.analysingLEDData(data, foundPeaks: newPeaks.count)
                 }
+                self.delegate?.analysisFoundHeartRate(hr)
             }
         }
         

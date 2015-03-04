@@ -334,9 +334,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="-- BPM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5" userLabel="ActualHR">
-                                <rect key="frame" x="16" y="344" width="181" height="71"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5" userLabel="ActualHR">
+                                <rect key="frame" x="16" y="344" width="122" height="142"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">--
+BPM</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="60"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -401,7 +403,7 @@ BPM</string>
                     </view>
                     <navigationItem key="navigationItem" id="xk1-BK-bn0"/>
                     <connections>
-                        <outlet property="actualVerticalSpace" destination="zEq-FU-wV5" id="YmS-YO-Zl0"/>
+                        <outlet property="actualVerticalSpace" destination="zb7-dD-KUY" id="80P-hb-JKM"/>
                         <outlet property="label" destination="zEq-FU-wV5" id="AX3-4v-8Qj"/>
                         <outlet property="targetBannerVerticalSpace" destination="8mu-zs-IgY" id="5Id-aU-aaH"/>
                         <outlet property="targetLabel" destination="dvF-Uy-C8z" id="GNp-KS-pdb"/>

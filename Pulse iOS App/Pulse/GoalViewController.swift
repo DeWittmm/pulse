@@ -14,7 +14,7 @@ class GoalViewController: UIViewController, HKAccessProtocol {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var targetLabel: UILabel!
     
-    @IBOutlet weak var actualVerticalSpace: UILabel!
+    @IBOutlet weak var actualVerticalSpace: NSLayoutConstraint!
     @IBOutlet weak var targetBannerVerticalSpace: NSLayoutConstraint!
     
     //MARK: Properties
@@ -48,10 +48,22 @@ class GoalViewController: UIViewController, HKAccessProtocol {
             
             if let hr = data.first, label = self.label {
                 dispatch_async(dispatch_get_main_queue()) {
-                    label.text = String(format:"%.01f BPM", arguments: [hr])
+                    self.layoutActualHRLabel(hr)
                 }
             }
         }        
+    }
+    
+    func layoutActualHRLabel(hr: Double) {
+        let height = self.view.frame.height
+        let step =  CGFloat(MAX_HR - MIN_HR) / height // hr/px
+        
+        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+                self.actualVerticalSpace.constant =  (CGFloat(MAX_HR - hr) / step) - self.touchOffset
+        }, completion: nil);
+        
+        label.text = String(format:"%.01f\nBPM", arguments: [hr])
     }
     
     //MARK:
@@ -62,14 +74,9 @@ class GoalViewController: UIViewController, HKAccessProtocol {
             sender.setTranslation(CGPointZero, inView: view)
         }
         
-//        var translation = sender.translationInView(view).y / 15.0
-//        topRedConstraint.constant += translation
-//        bottomBlueConstraint.constant += translation
-//        bottomLabelConstraint.constant += translation
-        
         if point.y > 0 {
             view.layoutIfNeeded()
-            targetBannerVerticalSpace.constant = point.y - 45
+            targetBannerVerticalSpace.constant = point.y - touchOffset
         }
         
         let step = CGFloat(MAX_HR - MIN_HR) / view.frame.height
@@ -78,5 +85,7 @@ class GoalViewController: UIViewController, HKAccessProtocol {
         
         targetLabel.text = "\(value)\nBPM"
     }
-
+    
+    //MARK: Private 
+    let touchOffset: CGFloat = 75.0
 }
