@@ -20,6 +20,11 @@ public protocol DataAnalysisDelegate: class {
 
 public class DataCruncher {
     
+    struct PeakTrough {
+        let peak: DataPoint
+        let trough: DataPoint
+    }
+    
     //MARK: Private Properties
 //    private var rawData = [UInt8]()
 
@@ -27,8 +32,8 @@ public class DataCruncher {
     var IRDataBin = [DataPacket]()
     var LEDDataBin = [DataPacket]()
     
-    var peaks = [LightSource: [DataPoint]]()
-    
+    var peakTroughs = [LightSource: [PeakTrough]]()
+
     public weak var delegate: DataAnalysisDelegate?
     
     public init() {}
@@ -83,9 +88,10 @@ public class DataCruncher {
         clear() //clear immediatly to allow bins to continue building
         
         if let info = processBin(bin) {
-            let newPeaks = findPeaks(info.0)
-            peaks.updateValue(newPeaks, forKey:source)
+            let extremes = findPeaks(info.0)
+            peakTroughs.updateValue(extremes, forKey: source)
             
+            let newPeaks = extremes.map { $0.peak }
             let hr = calculateHeartRate(newPeaks, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
             
             let data = info.0.map { $0.value }
@@ -100,8 +106,9 @@ public class DataCruncher {
             }
         }
         
-        if let irPeaks = peaks[.IR], let ledPeaks = peaks[.RedLED] where irPeaks.count > 2 && ledPeaks.count > 2 {
-            let spO2 = calculateBloodOxygenSaturation(ledPeaks, irPeaks: irPeaks)
+        if let exIR = peakTroughs[.IR], exLED = peakTroughs[.RedLED] where exIR.count > 2 && exLED.count > 2 {
+            let spO2 = calculateBloodOxygenSaturation(exLED, irExtremes: exIR)
+            
             dispatch_async(dispatch_get_main_queue()) {
                 self.delegate?.analysisFoundSP02(spO2)
             }
@@ -146,7 +153,7 @@ public class DataCruncher {
 //        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
         
         //FIXME: Constant Times
-        avgTimePerPoint = 1.65
+        avgTimePerPoint = 1.6626
         avgtimeBtwPaks = 30
         
         if let filetedPts = filter(data) {
@@ -173,7 +180,7 @@ public class DataCruncher {
         return nil
     }
     
-    public func findPeaks(data: [DataPoint]) -> [DataPoint] {
+    func findPeaks(data: [DataPoint]) -> [PeakTrough] {
         
         let valueDict = data.reduce([Int:Double]()) { (var dict, dataPt) in
             dict[dataPt.point] = dataPt.value
@@ -190,10 +197,8 @@ public class DataCruncher {
         }
         let sVals = slopes.map { $0.value }.filter{ $0 > MINIMUM_SLOPE }
         let minimumSlope = sVals.reduce(0.0) { $0 + $1 } / Double(sVals.count)
-        minimumSlope
         
-        var peaks = [DataPoint]()
-        slopes.count
+        var extremes = [PeakTrough]()
         
         for var i=0; i < slopes.count; i++ {
             let slopePoint = slopes[i]
@@ -202,6 +207,7 @@ public class DataCruncher {
             if slopePoint.value > minimumSlope {
                 
                 var peakVal = valueDict[slopePoint.point]
+                var troughVal = peakVal
                 while i < slopes.count &&
                     slopes[i-1].value < slopes[i++].value {
                     peakVal = valueDict[slopes[i-1].point]
@@ -224,14 +230,35 @@ public class DataCruncher {
                 }
                 i = runIndex //Skip index past found peak
                 
+                //Peak
                 let peakIndex = slopes[runIndex].point
-                if let value = valueDict[peakIndex] {
-                    peaks.append(DataPoint(point: peakIndex, value: value))
+                if let peakValue = valueDict[peakIndex] {
+                
+                    while runIndex + 1 < slopes.count {
+                        let slo = slopes[++runIndex]
+                        if let val = valueDict[slo.point] where val <= troughVal {
+                            troughVal = val
+                        }
+                        else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
+                            break
+                        }
+                    }
+                    
+                    //Trough
+                    let troughIndex = slopes[runIndex].point
+                    if let troughVal2 = valueDict[troughIndex] {
+                        let troughValue = troughVal > troughVal2 ? troughVal2 : troughVal!
+                        
+                        let peakPoint = DataPoint(point: peakIndex, value: peakValue)
+                        let troughPoint = DataPoint(point: troughIndex, value: troughValue)
+
+                        extremes.append(PeakTrough(peak: peakPoint, trough: troughPoint))
+                    }
                 }
             }
         }
         
-        return peaks
+        return extremes
     }
     
     //MARK: Calculations (Should be private - exposed for playground)
@@ -269,18 +296,28 @@ public class DataCruncher {
         return avg(timeSpans)
     }
     
-    func calculateBloodOxygenSaturation(ledPeaks: [DataPoint], irPeaks: [DataPoint]) -> Double {
+    func calculateBloodOxygenSaturation(ledExtremes: [PeakTrough], irExtremes: [PeakTrough]) -> Double {
         
         //First Pass
-        var ledGen = ledPeaks.generate()
-        var irGen = irPeaks.generate()
+        var ledExGen = ledExtremes.generate()
+        var irExGen = irExtremes.generate()
         
         var peakRatios = [Double]()
-        while let irPeak = irGen.next(),
-            let ledPeak = ledGen.next() {
+        while let irEx = irExGen.next(),
+            let ledEx = ledExGen.next() {
                 
-                let calRED = ledPeak.value //* IR_RED_RATIO
-                peakRatios.append(calRED/ledPeak.value)
+                let calLEDPeakDiff = (ledEx.peak.value - ledEx.trough.value) * IR_RED_RATIO
+                let numerator =  calLEDPeakDiff / ledEx.trough.value //Red Peak - Red Trough / RedTrough
+                
+                let denomenator = (irEx.peak.value - irEx.trough.value) / irEx.trough.value
+                
+                let spO2 = numerator/denomenator
+//                println("Num/Denom: \(spO2)")
+                
+                //SPO2 should never be greater than 100%
+                if spO2 < 1 {
+                    peakRatios.append(spO2)
+                }
         }
         
         return avg(peakRatios)

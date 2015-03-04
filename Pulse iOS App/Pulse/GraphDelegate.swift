@@ -36,10 +36,9 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
             graphView.widthLine = 3.5
             graphView.enableTouchReport = true
             graphView.enablePopUpReport = true
-            
             graphView.autoScaleYAxis = true
-            //  graphView.enableYAxisLabel = true
-            //  graphView.alwaysDisplayDots = true
+//              graphView.enableYAxisLabel = true
+//              graphView.alwaysDisplayDots = true
             
             graphView.delegate = self
             graphView.dataSource = self

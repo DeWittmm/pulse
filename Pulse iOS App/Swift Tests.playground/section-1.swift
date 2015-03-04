@@ -65,4 +65,8 @@ func test() {
     }
 }
 
+let opt1: Int? = nil
+let opt2: Int = 0
+opt1 < opt2 //nil < 0
+
 test()

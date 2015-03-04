@@ -57,7 +57,7 @@ extension HKHealthStore {
     func fetchHeartRateData(predicate: NSPredicate, limit: Int = 0, completion: (data: [Double], error: NSError!) -> Void) {
         let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
         
-        let timeSortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
+        let timeSortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: limit != 1)
         
         let query = HKSampleQuery(sampleType: heartRateQuantity, predicate: predicate, limit: limit, sortDescriptors: [timeSortDescriptor]) { (query, results, error) in
             

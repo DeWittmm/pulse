@@ -75,7 +75,7 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
         redLEDGraphDelegate.data = [0.0, 0.0]
         
         irGraphDelegate.graphView = sp02Graph
-        irGraphDelegate.data = [15.0, 15.0]
+        irGraphDelegate.data = [0.0, 0.0]
         
         observer.observer //simply instantiating lazy var
         
@@ -141,9 +141,10 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
                 previousHRs.removeLast()
             }
             
-            bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
+            bpmLabel.text = String(format:"%.01f BPM", arguments: [smoothHR])
         }
         else {
+            spO2Label.text = "---"
             bpmLabel.text = "💔"
         }
     }
