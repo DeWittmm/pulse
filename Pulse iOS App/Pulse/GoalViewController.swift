@@ -6,19 +6,25 @@
 //  Copyright (c) 2015 Biomedical Engineering Design. All rights reserved.
 //
 
-import UIKit
+import HealthKit
 
-class GoalViewController: UIViewController {
+class GoalViewController: UIViewController, HKAccessProtocol {
 
+    //MARK: Outlets
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var targetLabel: UILabel!
     
     @IBOutlet weak var actualVerticalSpace: UILabel!
     @IBOutlet weak var targetBannerVerticalSpace: NSLayoutConstraint!
     
-    
-    private let MAX_HR = 180
-    private let MIN_HR = 60
+    //MARK: Properties
+    var hkObserver: HKObserverQuery?
+    var healthStore: HKHealthStore? {
+        didSet {
+            hkObserver = HKObserverQuery(sampleType: heartRateQuantity, predicate: nil, updateHandler: updateHandler)
+            healthStore?.executeQuery(hkObserver)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +37,24 @@ class GoalViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Updates
+    func updateHandler(query:HKObserverQuery!, completionHandler: HKObserverQueryCompletionHandler!, error: NSError!) {
+        if error != nil {
+            println("ERROR: \(error.localizedFailureReason)")
+            return
+        }
+        
+        self.healthStore?.fetchHeartRateData(todayPredicate, limit: 1) { (data, error) -> Void in
+            
+            if let hr = data.first, label = self.label {
+                dispatch_async(dispatch_get_main_queue()) {
+                    label.text = String(format:"%.01f BPM", arguments: [hr])
+                }
+            }
+        }        
+    }
+    
+    //MARK:
     @IBAction func panGesture(sender: UIPanGestureRecognizer) {
         
         let point = sender.locationInView(view)
@@ -45,12 +69,12 @@ class GoalViewController: UIViewController {
         
         if point.y > 0 {
             view.layoutIfNeeded()
-            targetBannerVerticalSpace.constant = point.y
+            targetBannerVerticalSpace.constant = point.y - 45
         }
         
         let step = CGFloat(MAX_HR - MIN_HR) / view.frame.height
         
-        let value = MAX_HR - Int(point.y * step)
+        let value = Int(MAX_HR - Double(point.y * step))
         
         targetLabel.text = "\(value)\nBPM"
     }

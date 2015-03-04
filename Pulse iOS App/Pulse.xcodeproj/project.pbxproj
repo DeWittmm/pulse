@@ -266,7 +266,6 @@
 		0A7566051AA509D0007B1913 /* Monitor */ = {
 			isa = PBXGroup;
 			children = (
-				0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */,
 				0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */,
 			);
 			name = Monitor;
@@ -294,6 +293,7 @@
 		0A85ED281A7FF54700BD5863 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */,
 				0A7566051AA509D0007B1913 /* Monitor */,
 				0A7566041AA509CA007B1913 /* Goal */,
 				0A7566061AA509D5007B1913 /* Statistics */,

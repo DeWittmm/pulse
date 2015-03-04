@@ -32,12 +32,6 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     var healthStore: HKHealthStore?
     
     var previousHRs = [Double]()
-    
-    var previousspO2: Double? {
-        didSet {
-            
-        }
-    }
 
     let dataCruncher = DataCruncher()
     
@@ -134,17 +128,23 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     }
     
     func analysisFoundHeartRate(hr: Double)  {
+        println(String(format:"%.01f BPM", arguments: [hr]))
+        
         if hr < MAX_HR && hr > MIN_HR {
-            bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
             
             previousHRs.append(hr)
-            if previousHRs.count >= HK_WRITE_FREQUENCY {
-                healthStore?.saveHeartRate(avg(previousHRs))
-                previousHRs.removeAll(keepCapacity: true)
+            let average = avg(previousHRs)
+            let smoothHR = average * 0.75 + hr * 0.25
+            healthStore?.saveHeartRate(smoothHR)
+
+            if previousHRs.count >= SMOOTHING_BIN_SIZE {
+                previousHRs.removeLast()
             }
+            
+            bpmLabel.text = String(format:"%.01f BPM", arguments: [hr])
         }
         else {
-            bpmLabel.text = "---"
+            bpmLabel.text = "💔"
         }
     }
     

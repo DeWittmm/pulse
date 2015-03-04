@@ -12,8 +12,9 @@ import HealthKit
 class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
     //MARK: - Outlets
-    @IBOutlet weak var ageMaxHRLabel: UILabel!
-    
+    @IBOutlet weak var ageLabel: UILabel!
+    @IBOutlet weak var maxTargetHRLabel: UILabel!
+
     //1
     @IBOutlet weak var heartRateGraph: BEMSimpleLineGraphView!
     @IBOutlet weak var avgHeartRateLabel: UILabel!
@@ -49,7 +50,8 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         }
         
         //0
-        ageMaxHRLabel.designatedBond.bind(statisticsManager.ageMaxHR)
+        ageLabel.designatedBond.bind(statisticsManager.age)
+        maxTargetHRLabel.designatedBond.bind(statisticsManager.maxTargetHR)
         
         //1
         avgHeartRateLabel.designatedBond.bind(statisticsManager.avgHR)

@@ -17,7 +17,7 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
-    var maxValue:CGFloat = 900.0
+    var maxValue:CGFloat = 800.0
     var minValue:CGFloat = 200.0
     
     private var refreshDate = NSDate()

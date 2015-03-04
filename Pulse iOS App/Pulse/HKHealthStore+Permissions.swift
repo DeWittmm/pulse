@@ -8,9 +8,10 @@
 
 import HealthKit
 
+let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) // Scalar(Count)/Time, Discrete
+
 //MARK: Permissions
 var writeDataTypes: Set<HKObjectType> {
-    let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) // Scalar(Count)/Time, Discrete
     
     let bloodOxygenQuantity = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierOxygenSaturation)  // Scalar (Percent, 0.0 - 1.0,  Discrete
     
@@ -25,6 +26,17 @@ var readDataTypes: Set<HKObjectType> {
     
     return dataTypes
 }
+
+let todayPredicate: NSPredicate = {
+    let calendar = NSCalendar.currentCalendar()
+    
+    let now = NSDate()
+    
+    let startDate = calendar.startOfDayForDate(now)
+    let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: startDate, options: NSCalendarOptions.allZeros)
+    
+    return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
+    }()
 
 let bpmUnit = HKUnit(fromString: "count/min")
 
@@ -42,12 +54,12 @@ extension HKHealthStore {
         return ageComponents.year
     }
     
-    func fetchHeartRateData(predicate: NSPredicate, completion: (data: [Double], error: NSError!) -> Void) {
+    func fetchHeartRateData(predicate: NSPredicate, limit: Int = 0, completion: (data: [Double], error: NSError!) -> Void) {
         let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
         
         let timeSortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
         
-        let query = HKSampleQuery(sampleType: heartRateQuantity, predicate: predicate, limit: 0, sortDescriptors: [timeSortDescriptor]) { (query, results, error) in
+        let query = HKSampleQuery(sampleType: heartRateQuantity, predicate: predicate, limit: limit, sortDescriptors: [timeSortDescriptor]) { (query, results, error) in
             
             if let results = results {
                 let values = results.map { value in

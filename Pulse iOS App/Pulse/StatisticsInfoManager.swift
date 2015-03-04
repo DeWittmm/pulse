@@ -34,16 +34,16 @@ class StatisticsInfoManager {
     //MARK: Info Properties
     let user: User
     
-    var ageMaxHR = Dynamic("")
+    var age = Dynamic("")
+    var maxTargetHR = Dynamic("")
     
     var avgHR = Dynamic("")
     var maxMinHR = Dynamic("")
     var hrData = Dynamic([0.0])
     
     init(healthStore: HKHealthStore) {
-        let usersAge = healthStore.readUsersAge()
+        let usersAge = 23//healthStore.readUsersAge()
         let user = User(age: usersAge)
-        println("Age: \(usersAge)")
         
         self.user = user
         self.healthStore = healthStore
@@ -117,9 +117,10 @@ class StatisticsInfoManager {
     }
     
     private func retriveInfoFromHeartful() {
-        client.getMaxHRForAge(user.age) { (maxHR, error)  in
-            if let mx = maxHR {
-                self.ageMaxHR.value = "\(self.user.age) Years/\(mx) BPM"
+        client.getMaxHRForAge(user.age) { (maxHR, targetRange, error)  in
+            if let mx = maxHR, targetRange = targetRange {
+                self.age.value = "\(self.user.age)"
+                self.maxTargetHR.value = "\(mx)/ \(targetRange.0)-\(targetRange.1) BPM"
             }
         }
     }
@@ -127,24 +128,13 @@ class StatisticsInfoManager {
     //MARK: Private Properties
     private let client = HeartfulAPIClient()
     
-    private let todayPredicate: NSPredicate = {
-        let calendar = NSCalendar.currentCalendar()
-        
-        let now = NSDate()
-        
-        let startDate = calendar.startOfDayForDate(now)
-        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: startDate, options: NSCalendarOptions.allZeros)
-        
-        return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
-        }()
-    
     private let weekPredicate: NSPredicate = {
         let calendar = NSCalendar.currentCalendar()
         
         let now = NSDate()
         
-        let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -7, toDate: now, options: NSCalendarOptions.allZeros)
-        let endDate = calendar.startOfDayForDate(now)
+        let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -6, toDate: now, options: NSCalendarOptions.allZeros)
+        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: now, options: NSCalendarOptions.allZeros)
         
         return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
         }()

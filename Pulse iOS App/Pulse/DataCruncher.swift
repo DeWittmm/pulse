@@ -146,8 +146,8 @@ public class DataCruncher {
 //        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
         
         //FIXME: Constant Times
-        avgTimePerPoint = 2.0
-        avgtimeBtwPaks = 40
+        avgTimePerPoint = 1.65
+        avgtimeBtwPaks = 30
         
         if let filetedPts = filter(data) {
             return (filetedPts, avgTimePerPoint, avgtimeBtwPaks)
@@ -231,7 +231,6 @@ public class DataCruncher {
             }
         }
         
-//        println("Found \(peaks.count) Peaks")
         return peaks
     }
     
@@ -273,8 +272,6 @@ public class DataCruncher {
     func calculateBloodOxygenSaturation(ledPeaks: [DataPoint], irPeaks: [DataPoint]) -> Double {
         
         //First Pass
-        println("\(ledPeaks.count) LEDPeaks, \(irPeaks.count) IRPeaks")
-        
         var ledGen = ledPeaks.generate()
         var irGen = irPeaks.generate()
         
@@ -282,7 +279,7 @@ public class DataCruncher {
         while let irPeak = irGen.next(),
             let ledPeak = ledGen.next() {
                 
-                let calRED = ledPeak.value * IR_RED_RATIO
+                let calRED = ledPeak.value //* IR_RED_RATIO
                 peakRatios.append(calRED/ledPeak.value)
         }
         

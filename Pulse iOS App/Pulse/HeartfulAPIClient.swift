@@ -28,7 +28,7 @@ class HeartfulAPIClient {
         callbackQueue = queue
     }
     
-    func getMaxHRForAge(age: Int, completion: (maxHR: Double?, error: NSError!)->Void) {
+    func getMaxHRForAge(age: Int, completion: (maxHR: Int?, targetRange: (Int, Int)?, error: NSError!)->Void) {
         
         let ext = "analysis/?age=\(age)"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
@@ -40,14 +40,17 @@ class HeartfulAPIClient {
                 if let httpResponse = response as? NSHTTPURLResponse {
                     switch(httpResponse.statusCode) {
                     case 200, 201:
-                        if let json = self.parseJSON(data), let hr = json["max_hr"] as? Double {
-                            completion(maxHR: hr, error: nil)
+                        if let json = self.parseJSON(data){
+                            if let hr = json["max_hr"] as? Int,
+                            let target = json["target_hr"] as? [Int] where target.count == 2 {
+                                completion(maxHR: hr, targetRange: (target[0], target[1]), error: nil)
+                            }
                         }
                     default:
                         println("HTTP \(httpResponse.statusCode):")
                     }
                 } else {
-                    completion(maxHR: nil, error: error)
+                    completion(maxHR: nil, targetRange: nil, error: error)
                     println("ERROR: \(error)")
                 }
             }
