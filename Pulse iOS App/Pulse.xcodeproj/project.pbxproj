@@ -23,6 +23,8 @@
 		0A1CE9721A9E48EE00ED5A4A /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D6AA41A7C5BB10004A534 /* TypedNotifications.swift */; };
 		0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
 		0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2276371A8D1BE60040A30E /* UUIDConstants.swift */; };
+		0A378D201AB0F62200B94C4F /* HKDatePredicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A378D1F1AB0F62200B94C4F /* HKDatePredicates.swift */; };
+		0A378D211AB0F64300B94C4F /* HKDatePredicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A378D1F1AB0F62200B94C4F /* HKDatePredicates.swift */; };
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
@@ -133,6 +135,7 @@
 		0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTServiceManager.swift; sourceTree = "<group>"; };
 		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
+		0A378D1F1AB0F62200B94C4F /* HKDatePredicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKDatePredicates.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataCruncher.swift; path = ../Pulse/DataCruncher.swift; sourceTree = "<group>"; };
 		0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfoManager.swift; sourceTree = "<group>"; };
@@ -284,6 +287,7 @@
 			children = (
 				0A0F81581A30FB0B00622383 /* BT */,
 				0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */,
+				0A378D1F1AB0F62200B94C4F /* HKDatePredicates.swift */,
 				0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */,
 				0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */,
 			);
@@ -727,6 +731,7 @@
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
+				0A378D201AB0F62200B94C4F /* HKDatePredicates.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
 				0AFA082D1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
@@ -745,6 +750,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A378D211AB0F64300B94C4F /* HKDatePredicates.swift in Sources */,
 				0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A75660A1AA53037007B1913 /* SwiftBinding.swift in Sources */,
 				0A9135F61A702770005B2F7A /* GoalViewController.swift in Sources */,

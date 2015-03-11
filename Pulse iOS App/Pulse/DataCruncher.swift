@@ -153,7 +153,7 @@ public class DataCruncher {
 //        println("AvgTimePerPt: \(avgTimePerPoint), AvgTimeBtwPak: \(avgtimeBtwPaks)")
         
         //FIXME: Constant Times
-        avgTimePerPoint = 1.6626
+        avgTimePerPoint = 3.006
         avgtimeBtwPaks = 30
         
         if let filetedPts = filter(data) {

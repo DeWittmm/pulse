@@ -42,7 +42,7 @@ class StatisticsInfoManager {
     var hrData = Dynamic([0.0])
     
     init(healthStore: HKHealthStore) {
-        let usersAge = 23//healthStore.readUsersAge()
+        let usersAge = healthStore.readUsersAge()
         let user = User(age: usersAge)
         
         self.user = user
@@ -130,34 +130,4 @@ class StatisticsInfoManager {
     
     //MARK: Private Properties
     private let client = HeartfulAPIClient()
-    
-    private let weekPredicate: NSPredicate = {
-        let calendar = NSCalendar.currentCalendar()
-        let now = NSDate()
-        
-        let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -6, toDate: now, options: NSCalendarOptions.allZeros)
-        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: now, options: NSCalendarOptions.allZeros)
-        
-        return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
-        }()
-    
-    private let monthPredicate: NSPredicate = {
-        let calendar = NSCalendar.currentCalendar()
-        let today = NSDate()
-        
-        let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -30, toDate: today, options: NSCalendarOptions.allZeros)
-        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: today, options: NSCalendarOptions.allZeros)
-
-        //Instead of grabbing month, look at previous 30 days
-//        let components = calendar.components(NSCalendarUnit.CalendarUnitMonth, fromDate: today)
-//        
-//        components.day = 1
-//        let firstDateOfMonth: NSDate = calendar.dateFromComponents(components)!
-//        
-//        components.month += 1
-//        components.day = 0
-//        let lastDateOfMonth: NSDate = calendar.dateFromComponents(components)!
-        
-        return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
-        }()
 }

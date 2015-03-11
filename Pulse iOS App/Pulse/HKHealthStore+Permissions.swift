@@ -27,17 +27,6 @@ var readDataTypes: Set<HKObjectType> {
     return dataTypes
 }
 
-let todayPredicate: NSPredicate = {
-    let calendar = NSCalendar.currentCalendar()
-    
-    let now = NSDate()
-    
-    let startDate = calendar.startOfDayForDate(now)
-    let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: startDate, options: NSCalendarOptions.allZeros)
-    
-    return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
-    }()
-
 let bpmUnit = HKUnit(fromString: "count/min")
 
 //MARK: HealthKit

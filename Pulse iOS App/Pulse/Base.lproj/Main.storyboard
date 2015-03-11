@@ -629,7 +629,7 @@ BPM</string>
                                 <action selector="switchTimeSpan:" destination="xhh-F8-kCB" eventType="valueChanged" id="UrH-av-aai"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" title="Sign In" id="hCr-mL-YBv"/>
+                        <barButtonItem key="rightBarButtonItem" id="hCr-mL-YBv"/>
                     </navigationItem>
                     <connections>
                         <outlet property="ageLabel" destination="cLX-ii-Wd8" id="fys-qu-iGI"/>

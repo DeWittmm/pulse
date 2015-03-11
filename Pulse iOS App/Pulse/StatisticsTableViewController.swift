@@ -45,7 +45,10 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
                 
                 if !success {
                     println("ERROR: Failed to get access to HealthStore read write data types: \(error.localizedDescription)")
+                    return;
                 }
+                
+                self.statisticsManager.refreshAll()
             }
         }
         
@@ -72,7 +75,6 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         spO2Graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
         spO2Graph.enableYAxisLabel = true
         
-        statisticsManager.refreshAll()
     }
 
     //MARK: - TableView Accessory Views

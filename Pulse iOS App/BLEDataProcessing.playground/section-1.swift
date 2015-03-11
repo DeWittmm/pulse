@@ -58,7 +58,7 @@ var avgtimeBtwBins: Double
 avgTimePerPoint
 avgtimeBtwBins
 
-//FIXME: Constant Times
+//Constant Times
 avgTimePerPoint = 2.0
 avgtimeBtwBins = 30
 

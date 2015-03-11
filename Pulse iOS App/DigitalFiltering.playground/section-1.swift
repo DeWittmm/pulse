@@ -51,7 +51,6 @@ for packet in allDataPackets {
     points += packet.dataPoints
 }
 
-//FIXME: Slicing for speed
 //let reasonableValues = someValues.filter { $0 < 1000.0 && $0 > 200 }
 let conversionFactor = 1.0 //4.0 / 1023.0
 let voltageValues = points.map { $0.value * conversionFactor }.filter { $0 > 0.0 }
