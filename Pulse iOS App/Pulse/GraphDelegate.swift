@@ -17,6 +17,8 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
         }
     }
     
+    //Delegate Properties
+    var suffix = ""
     var maxValue:CGFloat = 800.0
     var minValue:CGFloat = 200.0
     
@@ -80,6 +82,10 @@ class GraphDelegate: NSObject, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphD
     func lineGraph(graph: BEMSimpleLineGraphView!, valueForPointAtIndex index: Int) -> CGFloat {
         
         return CGFloat(data[index])
+    }
+    
+    func popUpSuffixForlineGraph(graph: BEMSimpleLineGraphView!) -> String! {
+        return suffix
     }
 }
 

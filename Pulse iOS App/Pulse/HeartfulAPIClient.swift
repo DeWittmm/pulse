@@ -58,26 +58,70 @@ class HeartfulAPIClient {
         task.resume()
     }
     
-    func postUserReading(age: Int, completion: (maxHR: Double?, error: NSError!)->Void) {
+    func postUserBaseInfo(age: Int, name: String, baseHR: Double, baseSPO2: Double, completion: (error: NSError!)->Void) {
         
-        let ext = "analysis/?age=\(age)"
+        let ext = "user/"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
         let request = NSMutableURLRequest(URL: url)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+        request.HTTPMethod = "POST"
+        
+        let params = ["age":age, "name":name, "googleid":"1", "heartrate":baseHR, "spO2":baseSPO2]
+        var err: NSError?
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+        if let err = err { println("ERROR: \(err.localizedDescription)") }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             dispatch_async(self.callbackQueue) {
                 if let httpResponse = response as? NSHTTPURLResponse {
                     switch(httpResponse.statusCode) {
                     case 200, 201:
-                        if let json = self.parseJSON(data), let hr = json["max_hr"] as? Double {
-                            completion(maxHR: hr, error: nil)
+                        if let json = self.parseJSON(data) {
+                            println("User: \(json)")
+                            completion(error: nil)
                         }
                     default:
-                        println("HTTP \(httpResponse.statusCode):")
+                        println("HTTP \(httpResponse.statusCode): \(NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode))")
                     }
                 } else {
-                    completion(maxHR: nil, error: error)
+                    completion(error: error)
+                    println("ERROR: \(error)")
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func postUserReading(heartRates: [Int], forDate date: NSDate, tag: String, completion: (error: NSError!)->Void) {
+        
+        let ext = "user/data"
+        let url = NSURL(string: ext, relativeToURL: baseURL)!
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        
+        let params = ["date":date.description, "values":heartRates, "tag": tag]
+        var err: NSError?
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+        if err != nil { println("ERROR: \(err?.localizedDescription)") }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            dispatch_async(self.callbackQueue) {
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    switch(httpResponse.statusCode) {
+                    case 200, 201:
+                        if let json = self.parseJSON(data) {
+                            completion(error: nil)
+                        }
+                    default:
+                        println("HTTP \(httpResponse.statusCode): \(NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode))")
+                    }
+                } else {
+                    completion(error: error)
                     println("ERROR: \(error)")
                 }
             }

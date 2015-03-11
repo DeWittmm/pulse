@@ -3,10 +3,11 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7513.1"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Monitor Table View Controller-->
+        <!--Monitor-->
         <scene sceneID="EeX-Cb-G2b">
             <objects>
                 <tableViewController id="zxs-JE-4Po" customClass="MonitorTableViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
@@ -123,14 +124,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kGH-KW-zVS" id="a0m-O4-m4S">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pulse Oximetry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJP-Cl-mU0">
-                                                    <rect key="frame" x="8" y="10" width="117" height="23"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pulse Oximetry Ratio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJP-Cl-mU0">
+                                                    <rect key="frame" x="8" y="11" width="161" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9W-Nv-NPH">
-                                                    <rect key="frame" x="209" y="12" width="383" height="20"/>
+                                                    <rect key="frame" x="209" y="13" width="383" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="383" id="dwz-uT-t9T"/>
                                                     </constraints>
@@ -147,18 +148,19 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="MJP-Cl-mU0" firstAttribute="leading" secondItem="a0m-O4-m4S" secondAttribute="leadingMargin" id="2Lo-LH-Umx"/>
-                                                <constraint firstItem="C9W-Nv-NPH" firstAttribute="baseline" secondItem="MJP-Cl-mU0" secondAttribute="baseline" id="8Qq-sL-irv"/>
+                                                <constraint firstItem="MJP-Cl-mU0" firstAttribute="leading" secondItem="a0m-O4-m4S" secondAttribute="leadingMargin" id="6tE-kE-MCY"/>
+                                                <constraint firstItem="C9W-Nv-NPH" firstAttribute="leading" secondItem="MJP-Cl-mU0" secondAttribute="trailing" constant="40" id="8pA-ks-ogc"/>
                                                 <constraint firstItem="C9W-Nv-NPH" firstAttribute="leading" secondItem="MJP-Cl-mU0" secondAttribute="trailing" constant="84" id="Lb3-SW-3yf"/>
+                                                <constraint firstItem="MJP-Cl-mU0" firstAttribute="firstBaseline" secondItem="C9W-Nv-NPH" secondAttribute="baseline" id="Mih-4m-UFf"/>
                                                 <constraint firstItem="C9W-Nv-NPH" firstAttribute="leading" secondItem="MJP-Cl-mU0" secondAttribute="trailing" constant="84" id="Xqa-eY-MAB"/>
                                                 <constraint firstAttribute="centerY" secondItem="C9W-Nv-NPH" secondAttribute="centerY" id="aC6-8z-zMr"/>
-                                                <constraint firstItem="MJP-Cl-mU0" firstAttribute="leading" secondItem="a0m-O4-m4S" secondAttribute="leadingMargin" id="bmp-jc-N20"/>
-                                                <constraint firstAttribute="centerY" secondItem="MJP-Cl-mU0" secondAttribute="centerY" id="imR-4g-57p"/>
+                                                <constraint firstItem="MJP-Cl-mU0" firstAttribute="top" secondItem="a0m-O4-m4S" secondAttribute="topMargin" constant="3" id="gJa-En-jbQ"/>
                                                 <constraint firstItem="C9W-Nv-NPH" firstAttribute="trailing" secondItem="a0m-O4-m4S" secondAttribute="trailingMargin" id="l5B-5Q-q9Q"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="C9W-Nv-NPH" secondAttribute="trailing" constant="-7" id="zxh-I9-rXG"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="8pA-ks-ogc"/>
                                                     <exclude reference="Lb3-SW-3yf"/>
                                                     <exclude reference="Xqa-eY-MAB"/>
                                                     <exclude reference="zxh-I9-rXG"/>
@@ -219,10 +221,10 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dd8-2Z-BsI" id="zkd-y9-kyh">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peaks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qF-ub-TK8" userLabel="PacketSize">
-                                                    <rect key="frame" x="8" y="11" width="118" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detected Peaks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qF-ub-TK8" userLabel="PacketSize">
+                                                    <rect key="frame" x="8" y="11" width="122" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="118" id="TT5-ZJ-DlT"/>
+                                                        <constraint firstAttribute="width" constant="122" id="TT5-ZJ-DlT"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -267,10 +269,10 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdT-jP-BzU" id="1j6-w4-jU4">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RSSI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFq-ir-sUG">
-                                                    <rect key="frame" x="8" y="11" width="106" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Received Signal Strength" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFq-ir-sUG">
+                                                    <rect key="frame" x="8" y="11" width="194" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="106" id="YS4-Wq-fCh"/>
+                                                        <constraint firstAttribute="width" constant="194" id="YS4-Wq-fCh"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -304,7 +306,11 @@
                             <outlet property="delegate" destination="zxs-JE-4Po" id="KHh-dZ-npk"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" systemItem="mostRecent" id="sxK-Vq-uwo"/>
+                    <tabBarItem key="tabBarItem" title="Monitor" image="Monitor" selectedImage="Monitor" id="sxK-Vq-uwo">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Monitor"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <connections>
                         <outlet property="activityIndicator" destination="hPu-iP-iD7" id="Mec-nQ-T3q"/>
                         <outlet property="bpmLabel" destination="za2-Ur-Lht" id="6W2-Am-QQu"/>
@@ -638,11 +644,15 @@ BPM</string>
             </objects>
             <point key="canvasLocation" x="1480" y="289"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Statistics-->
         <scene sceneID="tg4-Pl-sXP">
             <objects>
                 <navigationController hidesBarsWhenKeyboardAppears="YES" id="u8h-LX-CDC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="more" id="wpA-f2-Zfj"/>
+                    <tabBarItem key="tabBarItem" title="Statistics" image="Statistics" selectedImage="Statistics" id="wpA-f2-Zfj">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Statistics"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uCD-9V-9uQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -655,11 +665,15 @@ BPM</string>
             </objects>
             <point key="canvasLocation" x="1480" y="-469"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Goal-->
         <scene sceneID="FAy-zA-bfo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NkM-8G-ndo" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="mostViewed" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Goal" image="Goal" selectedImage="Goal" id="cPa-gy-q4n">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Goal"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vdd-pH-kdG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -675,4 +689,9 @@ BPM</string>
             <point key="canvasLocation" x="736" y="-469"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Goal" width="22" height="24"/>
+        <image name="Monitor" width="25" height="26"/>
+        <image name="Statistics" width="24" height="22"/>
+    </resources>
 </document>

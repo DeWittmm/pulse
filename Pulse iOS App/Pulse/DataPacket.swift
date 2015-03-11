@@ -85,12 +85,11 @@ public class DataPacket {
         
         endTime = endmillis
         
-        //FIXME: timePerPoint * 2?
         let rawValues = Array(rawData[5..<rawData.count])
         timePerPoint = Double(endmillis - startmillis) / Double(rawValues.count)
         */
         
-        let rawValues = Array(rawData[1..<rawData.count])
+        let rawValues = Array(rawData[5..<rawData.count])
         timePerPoint = 2.0
         
         var indicies = [DataPoint]()

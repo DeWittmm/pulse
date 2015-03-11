@@ -59,14 +59,18 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         
         hrGraphDelegate.graphView = heartRateGraph
         hrGraphDelegate.designatedBond.bind(statisticsManager.hrData)
-        heartRateGraph.backgroundColor = UIColor(red:255/255.0, green:102/255.0, blue:74/255.0, alpha:1.0)
-        hrGraphDelegate.maxValue = 200
+        hrGraphDelegate.maxValue = 140
         hrGraphDelegate.minValue = 40
+        hrGraphDelegate.suffix = " BPM"
+        
+        heartRateGraph.backgroundColor = UIColor(red:255/255.0, green:102/255.0, blue:74/255.0, alpha:1.0)
+//        heartRateGraph.enableYAxisLabel = true
         
         //2
         spGraphDelegate.graphView = spO2Graph
-        spGraphDelegate.designatedBond.bind(statisticsManager.hrData)
+//        spGraphDelegate.designatedBond.bind(statisticsManager.hrData)
         spO2Graph.backgroundColor = UIColor(red:0.0, green:140.0/255.0, blue:255.0/255.0, alpha:1.0)
+        spO2Graph.enableYAxisLabel = true
         
         statisticsManager.refreshAll()
     }
@@ -76,7 +80,7 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         titleForHeaderInSection section: Int) -> String? {
             switch section {
             case 0:
-                return "User Info"
+                return "User Info - Heartful.com"
             case 1:
                 return "Heart Rate"
             case 2:
@@ -99,7 +103,6 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
     
     @IBAction func switchTimeSpan(sender: UISegmentedControl) {
         if let span = TimeRange(rawValue:sender.selectedSegmentIndex) {
-            
             statisticsManager.timeRange = span
         }
     }

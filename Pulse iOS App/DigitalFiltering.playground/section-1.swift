@@ -2,6 +2,7 @@
 
 import Foundation
 import XCPlayground
+import BLEDataProcessing
 
 func pathToFileInSharedSubfolder() -> String {
     return XCPSharedDataDirectoryPath +
@@ -11,7 +12,7 @@ func pathToFileInSharedSubfolder() -> String {
 }
 
 //MARK: Read in CSV
-let file = "RealDealArduino2"//"RLED_4mod10" //"IR_1mod5" //
+let file = "BLEData5" //"IR_1mod5" //
 let ext = file + ".csv"
 let dir = pathToFileInSharedSubfolder()
 let path = dir + ext
@@ -25,13 +26,43 @@ let strValues = csvFileContents!.componentsSeparatedByString(",")
 
 let values = strValues.map { NSString(string: $0).doubleValue }
 println("Num values: \(values.count)")
+let partValues = Array(values[0..<values.count])
+
+//MARK: Processing
+let dataCruncher = DataCruncher()
+
+var data = [UInt8]()
+var allDataPackets = [DataPacket]()
+var count = BLE_PACKET_SIZE - 1
+for num in partValues {
+    data.append(UInt8(num))
+    
+    if count-- <= 0 {
+        data.count
+        if let packet = DataPacket(rawData: data) {
+            allDataPackets.append(packet)
+            data.removeAll(keepCapacity: true)
+        }
+        count = BLE_PACKET_SIZE - 1
+    }
+}
+var points = [DataPoint]()
+for packet in allDataPackets {
+    points += packet.dataPoints
+}
+
+//FIXME: Slicing for speed
+//let reasonableValues = someValues.filter { $0 < 1000.0 && $0 > 200 }
+let conversionFactor = 1.0 //4.0 / 1023.0
+let voltageValues = points.map { $0.value * conversionFactor }.filter { $0 > 0.0 }
+
+let mapVs = voltageValues.map { $0 }
 
 /// MARK: Filtering
 
 //Finite Impulse Response (FIR) filter
 // http://www.arc.id.au/FilterDesign.html
 public struct FIRFilter {
-    //    static let FIR_coeff = [0.1, 0.2, 1, 0.2, 0.1]
     static let FIR_coeff = [0.4, 0.8, 1, 0.8, 0.4]
     
     var queue: [Double]
@@ -44,7 +75,7 @@ public struct FIRFilter {
         }
         
         data = inputData
-        queue = [Double](count: order, repeatedValue: 1.0)
+        queue = Array(inputData[0..<order])
     }
     
     public mutating func filter() -> [Double] {
@@ -61,15 +92,9 @@ public struct FIRFilter {
     }
 }
 
-
-//FIXME: Slicing for speed
-let someValues = Array(values[0..<values.count/2])
-//let reasonableValues = someValues.filter { $0 < 1000.0 && $0 > 200 }
-let conversionFactor = 4.0 / 1023.0
-let voltageValues = someValues.map { Double($0) * conversionFactor }
-
 var lowpass = FIRFilter(inputData: voltageValues)! //mutating
 let filValues = lowpass.filter()
+let vilVs = filValues.map { $0 }
 filValues.count
 voltageValues.count
 

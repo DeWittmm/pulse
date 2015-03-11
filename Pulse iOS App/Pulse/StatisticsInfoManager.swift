@@ -47,6 +47,9 @@ class StatisticsInfoManager {
         
         self.user = user
         self.healthStore = healthStore
+        
+        //FIXME: Test
+//        client.postUserBaseInfo(usersAge, name: "NO", baseHR: 84, baseSPO2: 0.99) { (error) -> Void in }
     }
     
     func refreshAll() {
@@ -57,7 +60,7 @@ class StatisticsInfoManager {
         case .Week:
             predicate = weekPredicate
         case .Month:
-            predicate = todayPredicate
+            predicate = monthPredicate
         }
         
         refreshHealthKitData(predicate)
@@ -67,7 +70,7 @@ class StatisticsInfoManager {
     
     private func refreshHealthKitData(predicate: NSPredicate) {
         healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
-            println("Data: \(data)")
+//            println("Data: \(data)")
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.hrData.value = data
@@ -130,7 +133,6 @@ class StatisticsInfoManager {
     
     private let weekPredicate: NSPredicate = {
         let calendar = NSCalendar.currentCalendar()
-        
         let now = NSDate()
         
         let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -6, toDate: now, options: NSCalendarOptions.allZeros)
@@ -142,16 +144,20 @@ class StatisticsInfoManager {
     private let monthPredicate: NSPredicate = {
         let calendar = NSCalendar.currentCalendar()
         let today = NSDate()
+        
+        let startDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -30, toDate: today, options: NSCalendarOptions.allZeros)
+        let endDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: 1, toDate: today, options: NSCalendarOptions.allZeros)
 
-        let components = calendar.components(NSCalendarUnit.CalendarUnitMonth, fromDate: today)
+        //Instead of grabbing month, look at previous 30 days
+//        let components = calendar.components(NSCalendarUnit.CalendarUnitMonth, fromDate: today)
+//        
+//        components.day = 1
+//        let firstDateOfMonth: NSDate = calendar.dateFromComponents(components)!
+//        
+//        components.month += 1
+//        components.day = 0
+//        let lastDateOfMonth: NSDate = calendar.dateFromComponents(components)!
         
-        components.day = 1
-        let firstDateOfMonth: NSDate = calendar.dateFromComponents(components)!
-        
-        components.month += 1
-        components.day = 0
-        let lastDateOfMonth: NSDate = calendar.dateFromComponents(components)!
-        
-        return HKQuery.predicateForSamplesWithStartDate(firstDateOfMonth, endDate: lastDateOfMonth, options: .StrictStartDate)
+        return HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .StrictStartDate)
         }()
 }

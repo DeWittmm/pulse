@@ -40,8 +40,10 @@ interval(refreshDate)
 let date = NSDate(timeInterval: 100, sinceDate: NSDate())
 date.timeIntervalSinceNow
 
-var intArr = [UInt](count: 100, repeatedValue: 0)
+var intArr = [Int](count: 100, repeatedValue: 2)
 intArr.count
+
+let strArr = intArr.map { "\($0*$0)" }
 
 intArr.removeAll(keepCapacity: true)
 intArr.count
@@ -70,3 +72,6 @@ let opt2: Int = 0
 opt1 < opt2 //nil < 0
 
 test()
+
+
+
