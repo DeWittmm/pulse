@@ -94,14 +94,21 @@ class HeartfulAPIClient {
         task.resume()
     }
     
-    func postUserReading(heartRates: [Double], forDate date: NSDate, tag: String, completion: (error: NSError!)->Void) {
+    func postUserReading(googleid: String, type: String, heartRates: [Double], forDate date: NSDate, completion: (error: NSError!)->Void) {
         
-        let ext = "dataSet/entries"
+        let ext = "dataSet/"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         
-        let params = ["date":date.description, "values":heartRates, "tag": tag]
+        var values = [NSDictionary]()
+        for val in heartRates {
+            values.append(["value": val,
+                       "unit": "bpm",
+                        "date_time": "2009-07-24 21:45:34-07"])
+        }
+        
+        let params = ["googleid": googleid, "type": type, "heartrate_values":values]
         var err: NSError?
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
         if err != nil { println("ERROR: \(err?.localizedDescription)") }

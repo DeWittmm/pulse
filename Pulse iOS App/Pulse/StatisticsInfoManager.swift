@@ -47,9 +47,6 @@ class StatisticsInfoManager {
         
         self.user = user
         self.healthStore = healthStore
-        
-        //FIXME: Test
-//        client.postUserBaseInfo(usersAge, name: "NO", baseHR: 84, baseSPO2: 0.99) { (error) -> Void in }
     }
     
     func refreshAll() {
@@ -75,10 +72,6 @@ class StatisticsInfoManager {
             dispatch_async(dispatch_get_main_queue()) {
                 self.hrData.value = data
                 self.hrData.valueChanged()
-                
-                self.client.postUserReading(data, forDate: NSDate(), tag: "iOS TEST", completion: { (error) -> Void in
-                    println("")
-                })
             }
         }
     }

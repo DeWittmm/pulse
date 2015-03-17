@@ -28,6 +28,7 @@
 		0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CE3A41A6F8243003E719E /* MonitorTableViewController.swift */; };
 		0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
 		0A3DBDDA1A89393D00DE8065 /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */; };
+		0A4A7CB11AB7C8B10050633C /* GooglePlusLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */; };
 		0A55B6C91AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
 		0A55B6CA1AA3D5C900380C89 /* StatisticsInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */; };
 		0A55B6CC1AA3D64100380C89 /* HeartfulAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */; };
@@ -856,6 +857,7 @@
 				0AB19E3719FDB3C10024ACC7 /* PulseTests.swift in Sources */,
 				0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */,
 				0A6CE3A81A6F84FF003E719E /* BTServiceManager.swift in Sources */,
+				0A4A7CB11AB7C8B10050633C /* GooglePlusLoginViewController.swift in Sources */,
 				0AFA082A1A9D7DD000DBBEE8 /* AppDelegate.swift in Sources */,
 				0A6D6AA61A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
 				0A3DBDD71A89382E00DE8065 /* MonitorTableViewController.swift in Sources */,
