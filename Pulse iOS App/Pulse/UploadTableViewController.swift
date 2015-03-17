@@ -14,6 +14,7 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
     //MARK: Outlets
     
     @IBOutlet var signInButton: GPPSignInButton!
+    @IBOutlet weak var textField: UITextField!
 
     
     //MARK: Properties
@@ -27,7 +28,7 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Sign into Google Plus"
+        navigationController?.hidesBarsWhenKeyboardAppears = false
         signIntoGooglePlus()
     }
     
@@ -70,6 +71,8 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
+                self.googleId = thePerson.identifier
+                
                 self.signInButton.hidden = true
                 self.createUser()
             }
@@ -78,25 +81,31 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
     
     func createUser() {
         let currentUser = self.user
-        self.client.postUserBaseInfo(currentUser.age, name: "Private", baseHR: currentUser.baseHR ?? 0, baseSPO2: currentUser.baseSpO2 ?? 0) { (error) -> Void in
-            
-            println("***Created User!")
+        self.client.postUserBaseInfo(currentUser.age, name: "Private", gId:googleId!, baseHR: currentUser.baseHR ?? 0, baseSPO2: currentUser.baseSpO2 ?? 0) { (error) -> Void in
+            if error == nil {
+                println("***Created User: \(self.googleId)")
+            }
         }
     }
 
     //MARK: Upload
     @IBAction func upload(sender: UIButton) {
         uploadTodaysActivity()
+        
+        textField.resignFirstResponder()
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func uploadTodaysActivity() {
         let predicate = todayPredicate
-        let activityTag = "Posting from iOS"
+        let activityTag = textField.text
+        
         if let gId = googleId {
             healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
                 self.client.postUserReading(gId, type: activityTag, heartRates: data, forDate: NSDate()) { (error) -> Void in
+                    
                     if error == nil {
-                        println("***Uploaded Data!")
+                        UIAlertView(title: "Uploaded Data!", message: "♥️❤️❤️♥️", delegate: nil, cancelButtonTitle: "A+").show()
                     }
                 }
             }

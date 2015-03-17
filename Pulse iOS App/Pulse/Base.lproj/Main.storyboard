@@ -659,7 +659,7 @@ BPM</string>
                         <sections>
                             <tableViewSection id="OsM-w7-EQY">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="138" id="J8G-NP-tVq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="138" id="J8G-NP-tVq">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J8G-NP-tVq" id="vSc-f6-4ev">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -670,7 +670,7 @@ BPM</string>
                                                         <constraint firstAttribute="width" constant="161" id="4ci-pB-1Jq"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heartful is a Django App which you can compare your health info against other users. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rp-FQ-8wb">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heartful is an online service that allows you to evaluate your health and monitor your progress!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rp-FQ-8wb">
                                                     <rect key="frame" x="169" y="8" width="423" height="121"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="800" constant="423" id="MvS-IP-bwq"/>
@@ -703,7 +703,7 @@ BPM</string>
                             </tableViewSection>
                             <tableViewSection headerTitle="Activity" id="QuV-xJ-dN5">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Uho-Pk-vEf">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="50" id="Uho-Pk-vEf">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uho-Pk-vEf" id="daD-ow-dTE">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -711,7 +711,7 @@ BPM</string>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="What activity was this?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ryB-8N-ydD">
                                                     <rect key="frame" x="8" y="11" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -725,7 +725,7 @@ BPM</string>
                             </tableViewSection>
                             <tableViewSection id="qij-LT-wHL">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="116" id="89o-yt-DQu">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="116" id="89o-yt-DQu">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="89o-yt-DQu" id="bR2-lt-vwQ">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -764,6 +764,7 @@ BPM</string>
                     </tableView>
                     <connections>
                         <outlet property="signInButton" destination="M9S-XC-dok" id="Xb8-9t-5AK"/>
+                        <outlet property="textField" destination="ryB-8N-ydD" id="mhp-v1-I2Q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nM5-ze-NgL" userLabel="First Responder" sceneMemberID="firstResponder"/>

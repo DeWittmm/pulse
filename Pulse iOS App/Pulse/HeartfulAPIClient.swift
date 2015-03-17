@@ -16,8 +16,8 @@ class HeartfulAPIClient {
     typealias JSONDictionary = [String: AnyObject]
 //    typealias APICallback<T> = ((T?, NSError?) -> ())
     
-    let baseURL = NSURL(string: "http://52.10.162.213")!
-//    let baseURL = NSURL(string: "http://127.0.0.1:8000")! //Local
+    //let baseURL = NSURL(string: "http://52.10.162.213")!
+    let baseURL = NSURL(string: "http://127.0.0.1:8000")! //Local
     lazy var config = NSURLSessionConfiguration.defaultSessionConfiguration()
     lazy var session: NSURLSession = NSURLSession(configuration: self.config) //Declaring type is required
     
@@ -58,14 +58,14 @@ class HeartfulAPIClient {
         task.resume()
     }
     
-    func postUserBaseInfo(age: Int, name: String, baseHR: Double, baseSPO2: Double, completion: (error: NSError!)->Void) {
+    func postUserBaseInfo(age: Int, name: String, gId: String, baseHR: Double, baseSPO2: Double, completion: (error: NSError!)->Void) {
         
         let ext = "user/"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         
-        let params = ["age":age, "name":name, "googleid":"1", "heartrate":baseHR, "spO2":baseSPO2]
+        let params = ["age":age, "name":name, "googleid":gId, "heartrate":baseHR, "spO2":baseSPO2]
         var err: NSError?
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
         if let err = err { println("ERROR: \(err.localizedDescription)") }
@@ -79,7 +79,7 @@ class HeartfulAPIClient {
                     switch(httpResponse.statusCode) {
                     case 200, 201:
                         if let json = self.parseJSON(data) {
-                            println("User: \(json)")
+                            println("User Response: \(json)")
                             completion(error: nil)
                         }
                     default:
@@ -123,9 +123,7 @@ class HeartfulAPIClient {
                 if let httpResponse = response as? NSHTTPURLResponse {
                     switch(httpResponse.statusCode) {
                     case 200, 201:
-                        if let json = self.parseJSON(data) {
-                            completion(error: nil)
-                        }
+                        completion(error: nil)
                     default:
                         println("HTTP \(httpResponse.statusCode): \(NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode))")
                     }
