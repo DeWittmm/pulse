@@ -8,8 +8,10 @@
 
 import UIKit
 
-class UploadTableViewController: UITableViewController, GPPSignInDelegate {
+class UploadTableViewController: UITableViewController {
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,26 +21,22 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        signIntoGooglePlus()
+    }
+    
+    func signIntoGooglePlus() {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.shouldFetchGoogleUserID = true
         signIn.shouldFetchGoogleUserEmail = true
         signIn.clientID = kClientId
         signIn.scopes = [kGTLAuthScopePlusUserinfoEmail, kGTLAuthScopePlusLogin, kGTLAuthScopePlusMe, kGTLAuthScopePlusUserinfoProfile]
-        signIn.delegate = self
-        signIn.trySilentAuthentication()
+        if !signIn.trySilentAuthentication() {
+            self.performSegueWithIdentifier("google_plus_login_segue", sender: self)
+        }
     }
     
-    func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
-        println(auth)
-        if let theError = error {
-            println(theError.description)
-        }
-        else {
-            
-        }
-    }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
