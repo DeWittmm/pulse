@@ -17,8 +17,10 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
         
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
+        signIn.shouldFetchGoogleUserID = true
+        signIn.shouldFetchGoogleUserEmail = true
         signIn.clientID = kClientId
-        signIn.scopes = [kGTLAuthScopePlusUserinfoProfile]
+        signIn.scopes = [kGTLAuthScopePlusUserinfoEmail, kGTLAuthScopePlusLogin, kGTLAuthScopePlusMe, kGTLAuthScopePlusUserinfoProfile]
         signIn.delegate = self
         // Do any additional setup after loading the view.
     }
@@ -31,6 +33,43 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
         println("FinishedWithAuth: \(auth) and error: \(error)")
+        println("User email: \(auth.userEmail)")
+        println("User id: \(auth.userID)")
+
+        getGoogleId()
+        //var query = GTLQueryPlus.queryForPeopleGetWithUserId("me")
+        
+    }
+    
+    func getGoogleId() {
+        var plusService = GTLServicePlus()
+        plusService.retryEnabled = true;
+        
+        plusService.authorizer = GPPSignIn.sharedInstance().authentication
+
+        var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
+        
+        plusService.executeQuery(query) { (ticket, person, error) -> Void in
+            if let thePerson = person as? GTLPlusPerson {
+                println("OMG THE ID: \(thePerson.identifier)")
+            }
+        }
+        /*
+        GTLQueryPlus *query =
+        [GTLQueryPlus queryForPeopleListWithUserId:@"me"
+        collection:kGTLPlusCollectionVisible];
+        [plusService executeQuery:query
+        completionHandler:^(GTLServiceTicket *ticket,
+        GTLPlusPeopleFeed *peopleFeed,
+        NSError *error) {
+        if (error) {
+        GTMLoggerError(@"Error: %@", error);
+        } else {
+        // Get an array of people from GTLPlusPeopleFeed
+        NSArray* peopleList = [peopleFeed.items retain];
+        }
+        }];
+        */
     }
 
     /*
