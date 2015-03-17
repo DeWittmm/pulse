@@ -22,6 +22,8 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
         signIn.clientID = kClientId
         signIn.scopes = [kGTLAuthScopePlusUserinfoEmail, kGTLAuthScopePlusLogin, kGTLAuthScopePlusMe, kGTLAuthScopePlusUserinfoProfile]
         signIn.delegate = self
+                
+        signIn.trySilentAuthentication()
         // Do any additional setup after loading the view.
     }
 
