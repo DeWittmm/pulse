@@ -631,7 +631,7 @@ BPM</string>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="hCr-mL-YBv">
                             <connections>
-                                <segue destination="OSN-nH-lPM" kind="show" id="98Y-dE-8vC"/>
+                                <segue destination="vhi-yp-iPK" kind="show" id="2fh-YX-QMT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -648,23 +648,111 @@ BPM</string>
             </objects>
             <point key="canvasLocation" x="1480" y="289"/>
         </scene>
-        <!--Google Plus Login View Controller-->
-        <scene sceneID="M2X-Np-Irm">
+        <!--Upload Table View Controller-->
+        <scene sceneID="Ppl-eO-9Fg">
             <objects>
-                <viewController id="OSN-nH-lPM" customClass="GooglePlusLoginViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="R9B-jh-0aU"/>
-                        <viewControllerLayoutGuide type="bottom" id="k7Z-Wh-Lu0"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="dej-Ch-HZI">
+                <tableViewController id="vhi-yp-iPK" customClass="UploadTableViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="0fS-Lv-24o">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="OsM-w7-EQY">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="138" id="J8G-NP-tVq">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J8G-NP-tVq" id="vSc-f6-4ev">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Activity" id="QuV-xJ-dN5">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Uho-Pk-vEf">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uho-Pk-vEf" id="daD-ow-dTE">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="What activity was this?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ryB-8N-ydD">
+                                                    <rect key="frame" x="8" y="11" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ryB-8N-ydD" firstAttribute="trailing" secondItem="daD-ow-dTE" secondAttribute="trailingMargin" id="Kx8-Jv-T5u"/>
+                                                <constraint firstItem="ryB-8N-ydD" firstAttribute="leading" secondItem="daD-ow-dTE" secondAttribute="leadingMargin" id="fq4-am-421"/>
+                                                <constraint firstAttribute="centerY" secondItem="ryB-8N-ydD" secondAttribute="centerY" constant="-1.5" id="uJt-jQ-KC0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="qij-LT-wHL">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="116" id="89o-yt-DQu">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="89o-yt-DQu" id="bR2-lt-vwQ">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vWc-Tv-sSZ">
+                                                    <rect key="frame" x="237" y="43" width="126" height="30"/>
+                                                    <state key="normal" title="Upload to Heartful">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="vWc-Tv-sSZ" secondAttribute="centerX" id="jF0-Ak-pAX"/>
+                                                <constraint firstAttribute="centerY" secondItem="vWc-Tv-sSZ" secondAttribute="centerY" constant="-0.5" id="xgC-Vb-TQu"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="vhi-yp-iPK" id="NGO-eX-gyc"/>
+                            <outlet property="delegate" destination="vhi-yp-iPK" id="lqU-4Z-P2p"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="Cws-af-cGt" kind="show" identifier="google_plus_login_segue" id="BXi-Du-qGZ"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nM5-ze-NgL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2196" y="289"/>
+        </scene>
+        <!--Google Plus Login View Controller-->
+        <scene sceneID="gl5-Mj-TZ5">
+            <objects>
+                <viewController id="Cws-af-cGt" customClass="GooglePlusLoginViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ebn-h4-Ctb"/>
+                        <viewControllerLayoutGuide type="bottom" id="cKB-tF-qf4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zmq-YT-b5Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-5j-paV" customClass="GPPSignInButton">
+                                <rect key="frame" x="265" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="signInButton" destination="hJk-5j-paV" id="7Wl-Zg-Z3w"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ROK-p9-dDu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JyF-tp-J5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2178" y="284"/>
+            <point key="canvasLocation" x="2925" y="289"/>
         </scene>
         <!--Statistics-->
         <scene sceneID="tg4-Pl-sXP">

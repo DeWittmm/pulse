@@ -93,6 +93,7 @@
 		1640A6211AB7B296002A00A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EB1AB7A678003DEBD2 /* Security.framework */; };
 		1640A6221AB7B296002A00A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */; };
 		1640A6231AB7B296002A00A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E71AB7A665003DEBD2 /* CoreText.framework */; };
+		1640A6251AB7CA37002A00A4 /* UploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1640A6241AB7CA37002A00A4 /* UploadTableViewController.swift */; };
 		16D603DD1AB7A63C003DEBD2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */; };
 		16D603DF1AB7A643003DEBD2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */; };
 		16D603E11AB7A64B003DEBD2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */; };
@@ -211,6 +212,7 @@
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		1640A6121AB7A899002A00A4 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "google-plus-ios-sdk-1.7.1/GooglePlus.bundle"; sourceTree = SOURCE_ROOT; };
 		1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlusLoginViewController.swift; sourceTree = "<group>"; };
+		1640A6241AB7CA37002A00A4 /* UploadTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadTableViewController.swift; sourceTree = "<group>"; };
 		16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -391,6 +393,7 @@
 				0A7566061AA509D5007B1913 /* Statistics */,
 				0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */,
 				1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */,
+				1640A6241AB7CA37002A00A4 /* UploadTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				0A2276381A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */,
 				0A6D6AA51A7C5BB10004A534 /* TypedNotifications.swift in Sources */,
+				1640A6251AB7CA37002A00A4 /* UploadTableViewController.swift in Sources */,
 				0A378D201AB0F62200B94C4F /* HKDatePredicates.swift in Sources */,
 				0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */,
 				0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */,
