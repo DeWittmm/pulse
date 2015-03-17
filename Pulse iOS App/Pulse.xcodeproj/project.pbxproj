@@ -78,6 +78,20 @@
 		0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */; };
 		0AFA08301A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
 		0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
+		1640A6131AB7A899002A00A4 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1640A6121AB7A899002A00A4 /* GooglePlus.bundle */; };
+		16D603DD1AB7A63C003DEBD2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */; };
+		16D603DF1AB7A643003DEBD2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */; };
+		16D603E11AB7A64B003DEBD2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */; };
+		16D603E21AB7A650003DEBD2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE362721A82020900E1B3C2 /* Foundation.framework */; };
+		16D603E41AB7A659003DEBD2 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E31AB7A659003DEBD2 /* CoreMotion.framework */; };
+		16D603E61AB7A65F003DEBD2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */; };
+		16D603E81AB7A665003DEBD2 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E71AB7A665003DEBD2 /* CoreText.framework */; };
+		16D603EA1AB7A66D003DEBD2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */; };
+		16D603EC1AB7A678003DEBD2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EB1AB7A678003DEBD2 /* Security.framework */; };
+		16D603EE1AB7A682003DEBD2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */; };
+		16D603F01AB7A688003DEBD2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EF1AB7A688003DEBD2 /* UIKit.framework */; };
+		16D603F41AB7A6C9003DEBD2 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */; };
+		16D603F51AB7A6C9003DEBD2 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */; };
 		66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A497F6505F12E5CA6F97E817 /* libPods.a */; };
 		A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */; };
 /* End PBXBuildFile section */
@@ -181,6 +195,19 @@
 		0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+Permissions.swift"; sourceTree = "<group>"; };
 		0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		1640A6121AB7A899002A00A4 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "google-plus-ios-sdk-1.7.1/GooglePlus.bundle"; sourceTree = SOURCE_ROOT; };
+		16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		16D603E31AB7A659003DEBD2 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		16D603E71AB7A665003DEBD2 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		16D603EB1AB7A678003DEBD2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		16D603EF1AB7A688003DEBD2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "google-plus-ios-sdk-1.7.1/GoogleOpenSource.framework"; sourceTree = SOURCE_ROOT; };
+		16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "google-plus-ios-sdk-1.7.1/GooglePlus.framework"; sourceTree = SOURCE_ROOT; };
 		328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PulseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A497F6505F12E5CA6F97E817 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EA1E950FEF7AE307EFE491 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -193,6 +220,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D603F01AB7A688003DEBD2 /* UIKit.framework in Frameworks */,
+				16D603F51AB7A6C9003DEBD2 /* GooglePlus.framework in Frameworks */,
+				16D603EE1AB7A682003DEBD2 /* SystemConfiguration.framework in Frameworks */,
+				16D603EC1AB7A678003DEBD2 /* Security.framework in Frameworks */,
+				16D603EA1AB7A66D003DEBD2 /* MediaPlayer.framework in Frameworks */,
+				16D603E81AB7A665003DEBD2 /* CoreText.framework in Frameworks */,
+				16D603E61AB7A65F003DEBD2 /* CoreGraphics.framework in Frameworks */,
+				16D603E41AB7A659003DEBD2 /* CoreMotion.framework in Frameworks */,
+				16D603E21AB7A650003DEBD2 /* Foundation.framework in Frameworks */,
+				16D603E11AB7A64B003DEBD2 /* CoreLocation.framework in Frameworks */,
+				16D603DF1AB7A643003DEBD2 /* AssetsLibrary.framework in Frameworks */,
+				16D603F41AB7A6C9003DEBD2 /* GoogleOpenSource.framework in Frameworks */,
+				16D603DD1AB7A63C003DEBD2 /* AddressBook.framework in Frameworks */,
 				0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */,
 				0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */,
 				66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */,
@@ -240,6 +280,7 @@
 		0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */ = {
 			isa = PBXGroup;
 			children = (
+				16D603F11AB7A6B3003DEBD2 /* Google - Framework */,
 				0AB19E1B19FDB3C10024ACC7 /* Pulse */,
 				0AB19E3319FDB3C10024ACC7 /* PulseTests */,
 				0A99B96C1A21A4F2002DF93D /* Frameworks */,
@@ -362,6 +403,16 @@
 		0AB19E1019FDB3C10024ACC7 = {
 			isa = PBXGroup;
 			children = (
+				16D603EF1AB7A688003DEBD2 /* UIKit.framework */,
+				16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */,
+				16D603EB1AB7A678003DEBD2 /* Security.framework */,
+				16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */,
+				16D603E71AB7A665003DEBD2 /* CoreText.framework */,
+				16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */,
+				16D603E31AB7A659003DEBD2 /* CoreMotion.framework */,
+				16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */,
+				16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */,
+				16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */,
 				0AFA082B1A9D95F000DBBEE8 /* Pulse.entitlements */,
 				0A7E9DDF1AA94513000DA73A /* Playgrounds */,
 				0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */,
@@ -463,6 +514,16 @@
 				0AE566201A9BC2FB00F4894F /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		16D603F11AB7A6B3003DEBD2 /* Google - Framework */ = {
+			isa = PBXGroup;
+			children = (
+				1640A6121AB7A899002A00A4 /* GooglePlus.bundle */,
+				16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */,
+				16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */,
+			);
+			name = "Google - Framework";
 			sourceTree = "<group>";
 		};
 		E194F4F934B8850C5DA56876 /* Pods */ = {
@@ -627,6 +688,7 @@
 			files = (
 				0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */,
 				0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */,
+				1640A6131AB7A899002A00A4 /* GooglePlus.bundle in Resources */,
 				0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -939,6 +1001,10 @@
 				CODE_SIGN_ENTITLEMENTS = Pulse/Pulse.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+				);
 				INFOPLIST_FILE = Pulse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -957,6 +1023,10 @@
 				CODE_SIGN_ENTITLEMENTS = Pulse/Pulse.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+				);
 				INFOPLIST_FILE = Pulse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

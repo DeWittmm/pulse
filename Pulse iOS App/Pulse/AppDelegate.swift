@@ -13,6 +13,8 @@ public protocol HKAccessProtocol: class {
     var healthStore: HKHealthStore? { get set }
 }
 
+let kClientId = "739218324274-bkm37s8in7r5dqoq5mmvgn2jgml2upq1.apps.googleusercontent.com"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
