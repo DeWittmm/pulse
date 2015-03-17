@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7525" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -88,7 +88,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7u4-23-Q3Z" id="cjs-GK-iDe">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="❤️ - Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npq-F1-HPK">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="❤️ - Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npq-F1-HPK">
                                                     <rect key="frame" x="8" y="11" width="74" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -618,7 +618,7 @@ BPM</string>
                     <navigationItem key="navigationItem" id="2GN-7n-IRu">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="Qp4-nZ-MYj">
-                            <rect key="frame" x="125.5" y="7" width="349" height="30"/>
+                            <rect key="frame" x="126" y="7" width="349" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Day"/>
@@ -629,7 +629,11 @@ BPM</string>
                                 <action selector="switchTimeSpan:" destination="xhh-F8-kCB" eventType="valueChanged" id="UrH-av-aai"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="hCr-mL-YBv"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="hCr-mL-YBv">
+                            <connections>
+                                <segue destination="OSN-nH-lPM" kind="show" id="98Y-dE-8vC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ageLabel" destination="cLX-ii-Wd8" id="fys-qu-iGI"/>
@@ -644,10 +648,10 @@ BPM</string>
             </objects>
             <point key="canvasLocation" x="1480" y="289"/>
         </scene>
-        <!--View Controller-->
+        <!--Google Plus Login View Controller-->
         <scene sceneID="M2X-Np-Irm">
             <objects>
-                <viewController id="OSN-nH-lPM" sceneMemberID="viewController">
+                <viewController id="OSN-nH-lPM" customClass="GooglePlusLoginViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R9B-jh-0aU"/>
                         <viewControllerLayoutGuide type="bottom" id="k7Z-Wh-Lu0"/>
@@ -655,8 +659,23 @@ BPM</string>
                     <view key="view" contentMode="scaleToFill" id="dej-Ch-HZI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbM-nD-5Wz" customClass="GPPSignInButton">
+                                <rect key="frame" x="277" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="QbM-nD-5Wz" secondAttribute="centerX" id="chq-9d-Ekz"/>
+                            <constraint firstAttribute="centerY" secondItem="QbM-nD-5Wz" secondAttribute="centerY" id="hEK-u8-IVo"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="signInButton" destination="QbM-nD-5Wz" id="KMs-iV-Rds"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ROK-p9-dDu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,6 +6,9 @@
 #ifndef Cocoapods_Bridging_Header_h
 #define Cocoapods_Bridging_Header_h
 
+#import <GooglePlus/GooglePlus.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
+
 #import "BEMSimpleLineGraph/BEMSimpleLineGraphView.h"
 
 #endif

@@ -8,4 +8,7 @@
 #import "BEMSimpleLineGraph/BEMSimpleLineGraphView.h"
 #import "FBSnapshotTestCase/FBSnapshotTestCase.h"
 
+#import <GooglePlus/GooglePlus.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
+
 #endif

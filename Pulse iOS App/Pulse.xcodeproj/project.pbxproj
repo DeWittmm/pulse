@@ -79,6 +79,19 @@
 		0AFA08301A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
 		0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
 		1640A6131AB7A899002A00A4 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1640A6121AB7A899002A00A4 /* GooglePlus.bundle */; };
+		1640A6171AB7AB50002A00A4 /* GooglePlusLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */; };
+		1640A6181AB7B24A002A00A4 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */; };
+		1640A6191AB7B24E002A00A4 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */; };
+		1640A61A1AB7B27A002A00A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */; };
+		1640A61B1AB7B27D002A00A4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */; };
+		1640A61C1AB7B28C002A00A4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */; };
+		1640A61D1AB7B28F002A00A4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E31AB7A659003DEBD2 /* CoreMotion.framework */; };
+		1640A61E1AB7B292002A00A4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */; };
+		1640A61F1AB7B296002A00A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EF1AB7A688003DEBD2 /* UIKit.framework */; };
+		1640A6201AB7B296002A00A4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */; };
+		1640A6211AB7B296002A00A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EB1AB7A678003DEBD2 /* Security.framework */; };
+		1640A6221AB7B296002A00A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */; };
+		1640A6231AB7B296002A00A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E71AB7A665003DEBD2 /* CoreText.framework */; };
 		16D603DD1AB7A63C003DEBD2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */; };
 		16D603DF1AB7A643003DEBD2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */; };
 		16D603E11AB7A64B003DEBD2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */; };
@@ -196,6 +209,7 @@
 		0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		1640A6121AB7A899002A00A4 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "google-plus-ios-sdk-1.7.1/GooglePlus.bundle"; sourceTree = SOURCE_ROOT; };
+		1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlusLoginViewController.swift; sourceTree = "<group>"; };
 		16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -243,7 +257,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1640A61C1AB7B28C002A00A4 /* CoreLocation.framework in Frameworks */,
+				1640A61F1AB7B296002A00A4 /* UIKit.framework in Frameworks */,
+				1640A6181AB7B24A002A00A4 /* GoogleOpenSource.framework in Frameworks */,
+				1640A6211AB7B296002A00A4 /* Security.framework in Frameworks */,
+				1640A6191AB7B24E002A00A4 /* GooglePlus.framework in Frameworks */,
+				1640A61A1AB7B27A002A00A4 /* AddressBook.framework in Frameworks */,
+				1640A61E1AB7B292002A00A4 /* CoreGraphics.framework in Frameworks */,
+				1640A6201AB7B296002A00A4 /* SystemConfiguration.framework in Frameworks */,
 				A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */,
+				1640A61B1AB7B27D002A00A4 /* AssetsLibrary.framework in Frameworks */,
+				1640A6221AB7B296002A00A4 /* MediaPlayer.framework in Frameworks */,
+				1640A61D1AB7B28F002A00A4 /* CoreMotion.framework in Frameworks */,
+				1640A6231AB7B296002A00A4 /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +390,7 @@
 				0A7566041AA509CA007B1913 /* Goal */,
 				0A7566061AA509D5007B1913 /* Statistics */,
 				0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */,
+				1640A6161AB7AB50002A00A4 /* GooglePlusLoginViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -801,6 +828,7 @@
 				0A7566091AA53037007B1913 /* SwiftBinding.swift in Sources */,
 				0A3DBDD91A89393D00DE8065 /* GraphDelegate.swift in Sources */,
 				0A7565FD1AA4E76A007B1913 /* PhysiologicalConstants.swift in Sources */,
+				1640A6171AB7AB50002A00A4 /* GooglePlusLoginViewController.swift in Sources */,
 				0A9135F51A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A6CE3A51A6F8243003E719E /* MonitorTableViewController.swift in Sources */,
 				0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */,
@@ -1044,6 +1072,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1067,6 +1096,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
 				);
 				INFOPLIST_FILE = PulseTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
