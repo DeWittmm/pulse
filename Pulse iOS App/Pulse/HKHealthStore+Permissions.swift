@@ -11,20 +11,20 @@ import HealthKit
 let heartRateQuantity = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) // Scalar(Count)/Time, Discrete
 
 //MARK: Permissions
-var writeDataTypes: Set<HKObjectType> {
+var writeDataTypes: NSSet {
     
     let bloodOxygenQuantity = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierOxygenSaturation)  // Scalar (Percent, 0.0 - 1.0,  Discrete
     
-    return [heartRateQuantity, bloodOxygenQuantity]
+    return NSSet(array: [heartRateQuantity, bloodOxygenQuantity])
 }
 
-var readDataTypes: Set<HKObjectType> {
-    var dataTypes = writeDataTypes
+var readDataTypes: NSSet {
+    var dataTypes: AnyObject = writeDataTypes.mutableCopy()
     
     let birthDay = HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)
-    dataTypes.insert(birthDay)
+    dataTypes.addObject(birthDay)
     
-    return dataTypes
+    return dataTypes as NSSet
 }
 
 let bpmUnit = HKUnit(fromString: "count/min")
@@ -52,7 +52,7 @@ extension HKHealthStore {
             
             if let results = results {
                 let values = results.map { value in
-                     (value as! HKQuantitySample).quantity.doubleValueForUnit(bpmUnit)
+                     (value as HKQuantitySample).quantity.doubleValueForUnit(bpmUnit)
                 }
                 
                 completion(data: values, error: error)

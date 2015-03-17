@@ -50,7 +50,7 @@ class StatisticsInfoManager {
     }
     
     func refreshAll() {
-        let predicate: NSPredicate
+        var predicate: NSPredicate
         switch timeRange {
         case .Day:
             predicate = todayPredicate
@@ -66,14 +66,14 @@ class StatisticsInfoManager {
     }
     
     private func refreshHealthKitData(predicate: NSPredicate) {
-        healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
+        healthStore.fetchHeartRateData(predicate, completion: { (data, error) -> Void in
 //            println("Data: \(data)")
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.hrData.value = data
                 self.hrData.valueChanged()
             }
-        }
+        })
     }
     
     private func refreshHealthKitStatistics(predicate: NSPredicate) {
@@ -118,9 +118,11 @@ class StatisticsInfoManager {
     
     private func retriveInfoFromHeartful() {
         client.getMaxHRForAge(user.age) { (maxHR, targetRange, error)  in
-            if let mx = maxHR, targetRange = targetRange {
-                self.age.value = "\(self.user.age)"
-                self.maxTargetHR.value = "\(mx)/ \(targetRange.0)-\(targetRange.1) BPM"
+            if let mx = maxHR {
+                if let targetRange = targetRange {
+                    self.age.value = "\(self.user.age)"
+                    self.maxTargetHR.value = "\(mx)/ \(targetRange.0)-\(targetRange.1) BPM"
+                }
             }
         }
     }

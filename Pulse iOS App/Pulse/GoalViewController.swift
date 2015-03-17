@@ -46,12 +46,14 @@ class GoalViewController: UIViewController, HKAccessProtocol {
         
         self.healthStore?.fetchHeartRateData(todayPredicate, limit: 1) { (data, error) -> Void in
             
-            if let hr = data.first, label = self.label {
+            if let hr = data.first {
+            if let label = self.label {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.layoutActualHRLabel(hr)
                 }
             }
-        }        
+            }
+        }
     }
     
     func layoutActualHRLabel(hr: Double) {

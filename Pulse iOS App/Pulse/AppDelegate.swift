@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-public protocol HKAccessProtocol: class {
+@objc public protocol HKAccessProtocol {
     var healthStore: HKHealthStore? { get set }
 }
 
@@ -33,12 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
             for controller in tabBarController.viewControllers! {
                 
-                let viewController: UIViewController
+                var viewController: UIViewController
                 if let nav = controller as? UINavigationController {
                     viewController = nav.topViewController
                 }
                 else {
-                    viewController = controller as! UIViewController
+                    viewController = controller as UIViewController
                 }
                 
                 if let vc = viewController as? HKAccessProtocol {

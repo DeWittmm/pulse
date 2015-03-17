@@ -17,7 +17,7 @@ class HeartfulAPIClient {
 //    typealias APICallback<T> = ((T?, NSError?) -> ())
     
     let baseURL = NSURL(string: "http://52.10.162.213")!
-//    let baseURL = NSURL(string: "http://127.0.0.1:8000")! //Local
+//      let baseURL = NSURL(string: "http://127.0.0.1:8000")! //Local
     lazy var config = NSURLSessionConfiguration.defaultSessionConfiguration()
     lazy var session: NSURLSession = NSURLSession(configuration: self.config) //Declaring type is required
     
@@ -41,10 +41,13 @@ class HeartfulAPIClient {
                     switch(httpResponse.statusCode) {
                     case 200, 201:
                         if let json = self.parseJSON(data){
-                            if let hr = json["max_hr"] as? Int,
-                            let target = json["target_hr"] as? [Int] where target.count == 2 {
+                            if let hr = json["max_hr"] as? Int {
+                                if let target = json["target_hr"] as? [Int]{
+                                if target.count == 2 {
                                 completion(maxHR: hr, targetRange: (target[0], target[1]), error: nil)
                             }
+                            }
+                        }
                         }
                     default:
                         println("HTTP \(httpResponse.statusCode):")
@@ -105,7 +108,7 @@ class HeartfulAPIClient {
         for val in heartRates {
             values.append(["value": val,
                        "unit": "bpm",
-                        "date_time": "2009-07-24 21:45:34-07"])
+                        "date_time": "2015-03-17 13:45:34-07"])
         }
         
         let params = ["googleid": googleid, "type": type, "heartrate_values":values]

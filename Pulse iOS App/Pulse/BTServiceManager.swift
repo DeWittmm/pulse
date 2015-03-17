@@ -65,7 +65,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         println("Found \(peripheral.services.count) services")
-        for service in peripheral.services as! [CBService] {
+        for service in peripheral.services as [CBService] {
             //FIXME: REDBEARLAB
             peripheral.discoverCharacteristics(nil, forService: service)
 
@@ -84,7 +84,7 @@ class BTServiceManager: NSObject, CBPeripheralDelegate {
         }
         
         println("Found \(service.characteristics.count) characteristics")
-        for characteristic in service.characteristics as! [CBCharacteristic] {
+        for characteristic in service.characteristics as [CBCharacteristic] {
             
             if find(characteristicUUIDS, characteristic.UUID) != nil {
                 println("--- \(characteristic.UUID.description)")

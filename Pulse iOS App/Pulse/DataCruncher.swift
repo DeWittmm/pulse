@@ -48,6 +48,7 @@ public class DataCruncher {
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.delegate?.currentProgress(irProg, ledDataProg: ledProg)
+                return
             }
             
             crunchPacket(data)
@@ -94,6 +95,7 @@ public class DataCruncher {
             let newPeaks = extremes.map { $0.peak }
             let hr = calculateHeartRate(newPeaks, avgTimeBtwPackets: info.2, avgTimePerPoint: info.1)
             
+            println(hr)
             let data = info.0.map { $0.value }
             dispatch_async(dispatch_get_main_queue()) {
                 switch source {
@@ -106,11 +108,16 @@ public class DataCruncher {
             }
         }
         
-        if let exIR = peakTroughs[.IR], exLED = peakTroughs[.RedLED] where exIR.count > 2 && exLED.count > 2 {
-            let spO2 = calculateBloodOxygenSaturation(exLED, irExtremes: exIR)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.delegate?.analysisFoundSP02(spO2)
+        if let exIR = peakTroughs[.IR] {
+            if let exLED = peakTroughs[.RedLED] {
+                if exIR.count > 2 && exLED.count > 2 {
+                    let spO2 = calculateBloodOxygenSaturation(exLED, irExtremes: exIR)
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.delegate?.analysisFoundSP02(spO2)
+                        return
+                    }
+                }
             }
         }
     }
@@ -129,8 +136,8 @@ public class DataCruncher {
             data[i] = DataPoint(point: i, value: point.value)
         }
         
-        let timesPerPoint = bin.map { packet in
-            return packet.timePerPoint
+        let timesPerPoint = bin.map {
+             $0.timePerPoint
         }
         
         let totalTimeInPacket = timesPerPoint.reduce(0.0) { $0 + $1 }
@@ -217,8 +224,10 @@ public class DataCruncher {
                 var runIndex = i
                 while runIndex + 1 < slopes.count {
                     let slo = slopes[++runIndex]
-                    if let val = valueDict[slo.point] where val >= peakVal {
-                        peakVal = val
+                    if let val = valueDict[slo.point] {
+                        if val >= peakVal {
+                            peakVal = val
+                        }
                     }
                     else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                         break
@@ -236,8 +245,10 @@ public class DataCruncher {
                 
                     while runIndex + 1 < slopes.count {
                         let slo = slopes[++runIndex]
-                        if let val = valueDict[slo.point] where val <= troughVal {
-                            troughVal = val
+                        if let val = valueDict[slo.point] {
+                             if val <= troughVal {
+                                troughVal = val
+                             }
                         }
                         else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                             break
@@ -303,8 +314,8 @@ public class DataCruncher {
         var irExGen = irExtremes.generate()
         
         var peakRatios = [Double]()
-        while let irEx = irExGen.next(),
-            let ledEx = ledExGen.next() {
+        while let irEx = irExGen.next() {
+            if let ledEx = ledExGen.next() {
                 
                 let calLEDPeakDiff = (ledEx.peak.value - ledEx.trough.value) * IR_RED_RATIO
                 let numerator =  calLEDPeakDiff / ledEx.trough.value //Red Peak - Red Trough / RedTrough
@@ -318,6 +329,10 @@ public class DataCruncher {
                 if spO2 < 1 {
                     peakRatios.append(spO2)
                 }
+            }
+            else {
+                break
+            }
         }
         
         return avg(peakRatios)

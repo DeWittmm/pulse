@@ -64,7 +64,7 @@ private var handle: UInt8 = 0;
 extension UILabel: Bondable {
     var designatedBond: Bond<String> {
         if let b: AnyObject = objc_getAssociatedObject(self, &handle) {
-            return b as! Bond<String>
+            return b as Bond<String>
         } else {
             let b = Bond<String>() { [unowned self] v in self.text = v }
             objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
