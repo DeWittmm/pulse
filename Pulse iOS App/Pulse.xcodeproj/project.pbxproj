@@ -306,7 +306,6 @@
 		0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */ = {
 			isa = PBXGroup;
 			children = (
-				16D603F11AB7A6B3003DEBD2 /* Google - Framework */,
 				0AB19E1B19FDB3C10024ACC7 /* Pulse */,
 				0AB19E3319FDB3C10024ACC7 /* PulseTests */,
 				0A99B96C1A21A4F2002DF93D /* Frameworks */,
@@ -409,6 +408,17 @@
 		0A98EB5B1A155C780040544B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16D603F11AB7A6B3003DEBD2 /* Google - Framework */,
+				16D603EF1AB7A688003DEBD2 /* UIKit.framework */,
+				16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */,
+				16D603EB1AB7A678003DEBD2 /* Security.framework */,
+				16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */,
+				16D603E71AB7A665003DEBD2 /* CoreText.framework */,
+				16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */,
+				16D603E31AB7A659003DEBD2 /* CoreMotion.framework */,
+				16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */,
+				16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */,
+				16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */,
 				0A98EB591A155C6D0040544B /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
@@ -430,16 +440,6 @@
 		0AB19E1019FDB3C10024ACC7 = {
 			isa = PBXGroup;
 			children = (
-				16D603EF1AB7A688003DEBD2 /* UIKit.framework */,
-				16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */,
-				16D603EB1AB7A678003DEBD2 /* Security.framework */,
-				16D603E91AB7A66D003DEBD2 /* MediaPlayer.framework */,
-				16D603E71AB7A665003DEBD2 /* CoreText.framework */,
-				16D603E51AB7A65F003DEBD2 /* CoreGraphics.framework */,
-				16D603E31AB7A659003DEBD2 /* CoreMotion.framework */,
-				16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */,
-				16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */,
-				16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */,
 				0AFA082B1A9D95F000DBBEE8 /* Pulse.entitlements */,
 				0A7E9DDF1AA94513000DA73A /* Playgrounds */,
 				0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */,
@@ -551,6 +551,7 @@
 				16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */,
 			);
 			name = "Google - Framework";
+			path = Pulse;
 			sourceTree = "<group>";
 		};
 		E194F4F934B8850C5DA56876 /* Pods */ = {

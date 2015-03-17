@@ -32,44 +32,26 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
     }
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
-        println("FinishedWithAuth: \(auth) and error: \(error)")
-        println("User email: \(auth.userEmail)")
-        println("User id: \(auth.userID)")
-
-        getGoogleId()
-        //var query = GTLQueryPlus.queryForPeopleGetWithUserId("me")
-        
+        if let theError = error {
+            println(theError.description)
+        }
+        else {
+            getGoogleId()
+        }
     }
     
     func getGoogleId() {
         var plusService = GTLServicePlus()
-        plusService.retryEnabled = true;
         
+        plusService.retryEnabled = true;
         plusService.authorizer = GPPSignIn.sharedInstance().authentication
 
         var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
-        
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
-                println("OMG THE ID: \(thePerson.identifier)")
+                println("THE ID: \(thePerson.identifier)")
             }
         }
-        /*
-        GTLQueryPlus *query =
-        [GTLQueryPlus queryForPeopleListWithUserId:@"me"
-        collection:kGTLPlusCollectionVisible];
-        [plusService executeQuery:query
-        completionHandler:^(GTLServiceTicket *ticket,
-        GTLPlusPeopleFeed *peopleFeed,
-        NSError *error) {
-        if (error) {
-        GTMLoggerError(@"Error: %@", error);
-        } else {
-        // Get an array of people from GTLPlusPeopleFeed
-        NSArray* peopleList = [peopleFeed.items retain];
-        }
-        }];
-        */
     }
 
     /*

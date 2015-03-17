@@ -659,23 +659,8 @@ BPM</string>
                     <view key="view" contentMode="scaleToFill" id="dej-Ch-HZI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbM-nD-5Wz" customClass="GPPSignInButton">
-                                <rect key="frame" x="285" y="285" width="30" height="30"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="QbM-nD-5Wz" secondAttribute="centerX" id="chq-9d-Ekz"/>
-                            <constraint firstAttribute="centerY" secondItem="QbM-nD-5Wz" secondAttribute="centerY" id="hEK-u8-IVo"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="signInButton" destination="QbM-nD-5Wz" id="KMs-iV-Rds"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ROK-p9-dDu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
