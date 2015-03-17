@@ -717,10 +717,42 @@ BPM</string>
                             <outlet property="delegate" destination="vhi-yp-iPK" id="lqU-4Z-P2p"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="Cws-af-cGt" kind="show" identifier="google_plus_login_segue" id="BXi-Du-qGZ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nM5-ze-NgL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2196" y="289"/>
+        </scene>
+        <!--Google Plus Login View Controller-->
+        <scene sceneID="gl5-Mj-TZ5">
+            <objects>
+                <viewController id="Cws-af-cGt" customClass="GooglePlusLoginViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ebn-h4-Ctb"/>
+                        <viewControllerLayoutGuide type="bottom" id="cKB-tF-qf4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zmq-YT-b5Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-5j-paV" customClass="GPPSignInButton">
+                                <rect key="frame" x="265" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="signInButton" destination="hJk-5j-paV" id="7Wl-Zg-Z3w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JyF-tp-J5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2925" y="289"/>
         </scene>
         <!--Statistics-->
         <scene sceneID="tg4-Pl-sXP">
