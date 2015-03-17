@@ -11,16 +11,34 @@ import HealthKit
 
 class UploadTableViewController: UITableViewController, GPPSignInDelegate {
     
+    //MARK: Outlets
+    
+    @IBOutlet var signInButton: GPPSignInButton!
+
+    
+    //MARK: Properties
+    
     var healthStore: HKHealthStore!
     var user: User!
-    var googleId: String? = "100"
+    var googleId: String?
     
     //MARK: Private Properties
     private let client = HeartfulAPIClient()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Sign into Google Plus"
+        signIntoGooglePlus()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
+        navigationItem.title = "Heartful"
+    }
+    
+    //MARK: Google+
+    func signIntoGooglePlus() {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.shouldFetchGoogleUserID = true
@@ -28,14 +46,13 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         signIn.clientID = kClientId
         signIn.scopes = [kGTLAuthScopePlusUserinfoEmail, kGTLAuthScopePlusLogin, kGTLAuthScopePlusMe, kGTLAuthScopePlusUserinfoProfile]
         signIn.delegate = self
-        signIn.trySilentAuthentication()
-        
-        //FIXME: Test
-        uploadTodaysActivity()
+
+        if signIn.trySilentAuthentication() {
+            signInButton.hidden = true
+        }
     }
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
-        println(auth)
         if let theError = error {
             println(theError.description)
         }
@@ -43,7 +60,7 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
             getGoogleId()
         }
     }
-
+    
     func getGoogleId() {
         var plusService = GTLServicePlus()
         
@@ -53,17 +70,25 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
-                println("THE ID: \(thePerson.identifier)")
-                
-                //Create User
-                let currentUser = self.user
-                self.client.postUserBaseInfo(currentUser.age, name: "Private", baseHR: currentUser.baseHR ?? 0, baseSPO2: currentUser.baseSpO2 ?? 0) { (error) -> Void in
-                    println("Created User!")
-                }
+                self.signInButton.hidden = true
+                self.createUser()
             }
         }
     }
+    
+    func createUser() {
+        let currentUser = self.user
+        self.client.postUserBaseInfo(currentUser.age, name: "Private", baseHR: currentUser.baseHR ?? 0, baseSPO2: currentUser.baseSpO2 ?? 0) { (error) -> Void in
+            
+            println("***Created User!")
+        }
+    }
 
+    //MARK: Upload
+    @IBAction func upload(sender: UIButton) {
+        uploadTodaysActivity()
+    }
+    
     func uploadTodaysActivity() {
         let predicate = todayPredicate
         let activityTag = "Posting from iOS"
@@ -71,22 +96,10 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
             healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
                 self.client.postUserReading(gId, type: activityTag, heartRates: data, forDate: NSDate()) { (error) -> Void in
                     if error == nil {
-                        println("Uploaded Data!")
+                        println("***Uploaded Data!")
                     }
                 }
             }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

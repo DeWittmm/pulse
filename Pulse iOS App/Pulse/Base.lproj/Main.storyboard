@@ -631,7 +631,7 @@ BPM</string>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="hCr-mL-YBv">
                             <connections>
-                                <segue destination="vhi-yp-iPK" kind="show" id="2fh-YX-QMT"/>
+                                <segue destination="vhi-yp-iPK" kind="show" identifier="" id="2fh-YX-QMT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -663,6 +663,40 @@ BPM</string>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J8G-NP-tVq" id="vSc-f6-4ev">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HeartfulIcon" translatesAutoresizingMaskIntoConstraints="NO" id="p9c-Hv-anl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="161" height="137"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="161" id="4ci-pB-1Jq"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heartful is a Django App which you can compare your health info against other users. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rp-FQ-8wb">
+                                                    <rect key="frame" x="169" y="8" width="423" height="121"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" priority="800" constant="423" id="MvS-IP-bwq"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="3Rp-FQ-8wb" firstAttribute="leading" relation="lessThanOrEqual" secondItem="p9c-Hv-anl" secondAttribute="trailing" constant="53" id="Avp-sc-dn0"/>
+                                                <constraint firstItem="3Rp-FQ-8wb" firstAttribute="trailing" secondItem="vSc-f6-4ev" secondAttribute="trailingMargin" id="Eir-4m-zjB"/>
+                                                <constraint firstAttribute="centerY" secondItem="3Rp-FQ-8wb" secondAttribute="centerY" id="If8-Oz-srz"/>
+                                                <constraint firstItem="3Rp-FQ-8wb" firstAttribute="bottom" secondItem="vSc-f6-4ev" secondAttribute="bottomMargin" id="PJu-Sq-eaA"/>
+                                                <constraint firstItem="p9c-Hv-anl" firstAttribute="top" secondItem="vSc-f6-4ev" secondAttribute="topMargin" constant="-8" id="Wfp-eA-2Oy"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="p9c-Hv-anl" secondAttribute="bottom" constant="-8" id="Yzr-63-fEh"/>
+                                                <constraint firstItem="p9c-Hv-anl" firstAttribute="leading" secondItem="vSc-f6-4ev" secondAttribute="leadingMargin" constant="-8" id="rKI-Fz-H8H"/>
+                                                <constraint firstItem="3Rp-FQ-8wb" firstAttribute="leading" secondItem="p9c-Hv-anl" secondAttribute="trailing" constant="8" id="uUG-34-VyZ"/>
+                                                <constraint firstItem="3Rp-FQ-8wb" firstAttribute="top" secondItem="vSc-f6-4ev" secondAttribute="topMargin" id="vAL-Bv-ijG"/>
+                                                <constraint firstAttribute="centerY" secondItem="p9c-Hv-anl" secondAttribute="centerY" id="xTN-5c-wBD"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Avp-sc-dn0"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -701,9 +735,20 @@ BPM</string>
                                                     <state key="normal" title="Upload to Heartful">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="upload:" destination="vhi-yp-iPK" eventType="touchUpInside" id="TW0-1J-qDB"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9S-XC-dok" customClass="GPPSignInButton">
+                                                    <rect key="frame" x="285" y="41" width="30" height="34"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="M9S-XC-dok" secondAttribute="centerX" id="Qhd-nO-c4N"/>
+                                                <constraint firstAttribute="centerY" secondItem="M9S-XC-dok" secondAttribute="centerY" constant="-0.5" id="VDl-63-ubM"/>
                                                 <constraint firstAttribute="centerX" secondItem="vWc-Tv-sSZ" secondAttribute="centerX" id="jF0-Ak-pAX"/>
                                                 <constraint firstAttribute="centerY" secondItem="vWc-Tv-sSZ" secondAttribute="centerY" constant="-0.5" id="xgC-Vb-TQu"/>
                                             </constraints>
@@ -718,41 +763,12 @@ BPM</string>
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="Cws-af-cGt" kind="show" identifier="google_plus_login_segue" id="BXi-Du-qGZ"/>
+                        <outlet property="signInButton" destination="M9S-XC-dok" id="Xb8-9t-5AK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nM5-ze-NgL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2196" y="289"/>
-        </scene>
-        <!--Google Plus Login View Controller-->
-        <scene sceneID="gl5-Mj-TZ5">
-            <objects>
-                <viewController id="Cws-af-cGt" customClass="GooglePlusLoginViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ebn-h4-Ctb"/>
-                        <viewControllerLayoutGuide type="bottom" id="cKB-tF-qf4"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Zmq-YT-b5Y">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-5j-paV" customClass="GPPSignInButton">
-                                <rect key="frame" x="265" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="signInButton" destination="hJk-5j-paV" id="7Wl-Zg-Z3w"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JyF-tp-J5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2925" y="289"/>
         </scene>
         <!--Statistics-->
         <scene sceneID="tg4-Pl-sXP">
@@ -801,6 +817,7 @@ BPM</string>
     </scenes>
     <resources>
         <image name="Goal" width="22" height="24"/>
+        <image name="HeartfulIcon" width="400" height="297"/>
         <image name="Monitor" width="25" height="26"/>
         <image name="Statistics" width="24" height="22"/>
     </resources>

@@ -51,7 +51,7 @@ class HeartfulAPIClient {
                     }
                 } else {
                     completion(maxHR: nil, targetRange: nil, error: error)
-                    println("ERROR: \(error)")
+                    println("API ERROR: \(error)")
                 }
             }
         }
