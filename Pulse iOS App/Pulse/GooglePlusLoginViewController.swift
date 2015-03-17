@@ -14,7 +14,7 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "Sign into Google Plus"
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.shouldFetchGoogleUserID = true
@@ -51,7 +51,8 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
         var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
-                println("THE ID: \(thePerson.identifier)")
+                //println("THE ID: \(thePerson.identifier)")
+                self.performSegueWithIdentifier("unwindToData", sender: thePerson.identifier)
             }
         }
     }
@@ -60,10 +61,11 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
     */
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let uploadDataTVC = segue.destinationViewController as? UploadTableViewController {
+            var googleId = sender as! String
+            uploadDataTVC.googleId = googleId
+        }
+    }
 }

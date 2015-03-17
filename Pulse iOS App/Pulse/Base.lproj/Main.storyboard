@@ -737,20 +737,26 @@ BPM</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-5j-paV" customClass="GPPSignInButton">
-                                <rect key="frame" x="265" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-5j-paV" customClass="GPPSignInButton">
+                                <rect key="frame" x="273" y="285" width="30" height="30"/>
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="hJk-5j-paV" secondAttribute="centerX" constant="12" id="jWT-VR-Suh"/>
+                            <constraint firstAttribute="centerY" secondItem="hJk-5j-paV" secondAttribute="centerY" id="ncf-Bn-ty5"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="signInButton" destination="hJk-5j-paV" id="7Wl-Zg-Z3w"/>
+                        <segue destination="uB8-Bf-Nqk" kind="unwind" identifier="unwindToData" unwindAction="unwindToUploadDataTableViewController:" id="V05-v4-1Wi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JyF-tp-J5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="uB8-Bf-Nqk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2925" y="289"/>
         </scene>

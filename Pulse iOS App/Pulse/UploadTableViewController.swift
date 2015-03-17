@@ -10,7 +10,7 @@ import UIKit
 
 class UploadTableViewController: UITableViewController {
 
-    
+    var googleId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,10 @@ class UploadTableViewController: UITableViewController {
         if !signIn.trySilentAuthentication() {
             self.performSegueWithIdentifier("google_plus_login_segue", sender: self)
         }
+    }
+    
+    @IBAction func unwindToUploadDataTableViewController(segue: UIStoryboardSegue) {
+        println("GoogleId in UDTVC: \(googleId)")
     }
     
     
