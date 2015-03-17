@@ -94,9 +94,9 @@ class HeartfulAPIClient {
         task.resume()
     }
     
-    func postUserReading(heartRates: [Int], forDate date: NSDate, tag: String, completion: (error: NSError!)->Void) {
+    func postUserReading(heartRates: [Double], forDate date: NSDate, tag: String, completion: (error: NSError!)->Void) {
         
-        let ext = "user/data"
+        let ext = "dataSet/entries"
         let url = NSURL(string: ext, relativeToURL: baseURL)!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"

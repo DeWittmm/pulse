@@ -15,16 +15,6 @@ class BLEDataProcessingTests: XCTestCase {
     
     let startPackets = [[1, 4, 0, 25, 74]]
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
     //MARK: Helpers
     func readCSV(fileName:String = "BLEData", delimiter: String = ",") ->[Double]? {
         
@@ -105,7 +95,6 @@ class BLEDataProcessingTests: XCTestCase {
     
     func testPlateau() {
         var packets = [DataPacket]()
-//        PACKET_DATA_SIZE = 15
         
         for i: UInt8 in 1...50 {
             var basePacket = [0, UInt8(random() % 255), UInt8(random() % 255), UInt8(random() % 255), UInt8(random() % 255)]

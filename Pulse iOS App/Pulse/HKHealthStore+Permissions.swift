@@ -8,7 +8,7 @@
 
 import HealthKit
 
-let heartRateQuantity  = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) // Scalar(Count)/Time, Discrete
+let heartRateQuantity = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) // Scalar(Count)/Time, Discrete
 
 //MARK: Permissions
 var writeDataTypes: Set<HKObjectType> {
