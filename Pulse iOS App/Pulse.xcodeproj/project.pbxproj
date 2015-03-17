@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0E36A51AB7CEA500EA7945 /* UploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1640A6241AB7CA37002A00A4 /* UploadTableViewController.swift */; };
 		0A0F815C1A30FB2F00622383 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */; };
 		0A0F815D1A30FB2F00622383 /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
 		0A1CE9661A9E46A800ED5A4A /* BTServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */; };
@@ -849,6 +850,7 @@
 				0A378D211AB0F64300B94C4F /* HKDatePredicates.swift in Sources */,
 				0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */,
 				0A75660A1AA53037007B1913 /* SwiftBinding.swift in Sources */,
+				0A0E36A51AB7CEA500EA7945 /* UploadTableViewController.swift in Sources */,
 				0A9135F61A702770005B2F7A /* GoalViewController.swift in Sources */,
 				0A2276391A8D1BE60040A30E /* UUIDConstants.swift in Sources */,
 				0A9135E91A702202005B2F7A /* UIViewOperators.swift in Sources */,

@@ -7,16 +7,9 @@
 //
 
 import UIKit
-import HealthKit
 
 class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
 
-    var healthStore: HKHealthStore!
-    var user: User!
-    var googleId: String?
-
-    //MARK: Private Properties
-    private let client = HeartfulAPIClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,43 +37,10 @@ class GooglePlusLoginViewController: UIViewController, GPPSignInDelegate {
             println(theError.description)
         }
         else {
-            getGoogleId()
+//            getGoogleId()
         }
     }
     
-    func getGoogleId() {
-        var plusService = GTLServicePlus()
-        
-        plusService.retryEnabled = true;
-        plusService.authorizer = GPPSignIn.sharedInstance().authentication
-
-        var query = GTLQueryPlus.queryForPeopleGetWithUserId("me") as! GTLQueryPlus
-        plusService.executeQuery(query) { (ticket, person, error) -> Void in
-            if let thePerson = person as? GTLPlusPerson {
-                println("THE ID: \(thePerson.identifier)")
-                
-                //Create User
-                let currentUser = self.user
-                self.client.postUserBaseInfo(currentUser.age, name: "Private", baseHR: currentUser.baseHR ?? 0, baseSPO2: currentUser.baseSpO2 ?? 0) { (error) -> Void in
-                    println("Created User!")
-                }
-            }
-        }
-    }
-    
-    func uploadTodaysActivity() {
-        let predicate = todayPredicate
-        let activityTag = ""
-        if let gId = googleId {
-            healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
-                self.client.postUserReading(gId, type: activityTag, heartRates: data, forDate: NSDate()) { (error) -> Void in
-                    if error == nil {
-                        println("Uploaded Data!")
-                    }
-                }
-            }
-        }
-    }
 
     /*
     // MARK: - Navigation

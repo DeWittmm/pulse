@@ -109,6 +109,8 @@ class HeartfulAPIClient {
         }
         
         let params = ["googleid": googleid, "type": type, "heartrate_values":values]
+        
+        println(params)
         var err: NSError?
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
         if err != nil { println("ERROR: \(err?.localizedDescription)") }

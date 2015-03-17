@@ -144,10 +144,10 @@ class StatisticsTableViewController: UITableViewController, HKAccessProtocol {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
-        if let glvc = segue.destinationViewController as? GooglePlusLoginViewController {
+        if let upvc = segue.destinationViewController as? UploadTableViewController {
             
-            glvc.healthStore = healthStore
-            glvc.user = statisticsManager.user
+            upvc.healthStore = healthStore
+            upvc.user = statisticsManager.user
         }
     }
 }
