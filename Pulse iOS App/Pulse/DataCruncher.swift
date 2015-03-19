@@ -228,6 +228,9 @@ public class DataCruncher {
                         if val >= peakVal {
                             peakVal = val
                         }
+                        else {
+                            break
+                        }
                     }
                     else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                         break
@@ -249,6 +252,9 @@ public class DataCruncher {
                              if val <= troughVal {
                                 troughVal = val
                              }
+                             else {
+                                break
+                            }
                         }
                         else if slo.value < DECLINE_CUTTOFF { //Only break when back in significant decrease (slope < 0)
                             break

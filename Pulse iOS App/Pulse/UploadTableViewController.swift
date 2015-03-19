@@ -72,6 +72,7 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
                 self.googleId = thePerson.identifier
+                NSUserDefaults.standardUserDefaults().setObject(self.googleId!, forKey: "googleid")
                 
                 self.signInButton.hidden = true
                 self.createUser()

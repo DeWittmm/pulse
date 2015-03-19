@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7519.1" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7513.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -36,10 +36,21 @@
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IeB-Lh-3cW">
                                                     <rect key="frame" x="-6" y="73" width="612" height="2"/>
                                                 </progressView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2E-kq-PGd">
+                                                    <rect key="frame" x="570" y="41" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="22" id="Ime-tR-ho3"/>
+                                                        <constraint firstAttribute="height" constant="22" id="nDu-1j-pRm"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="addActivity:" destination="zxs-JE-4Po" eventType="touchUpInside" id="VKs-hP-35t"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="leading" secondItem="hPu-iP-iD7" secondAttribute="trailing" constant="8" symbolic="YES" id="9Jl-jI-jZn"/>
                                                 <constraint firstItem="hPu-iP-iD7" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="34" id="G82-oz-e0b"/>
+                                                <constraint firstItem="h2E-kq-PGd" firstAttribute="trailing" secondItem="Pkj-bp-CSz" secondAttribute="trailingMargin" id="O8y-tN-kr9"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="centerX" secondItem="Pkj-bp-CSz" secondAttribute="centerX" id="OUt-j6-Ceg"/>
                                                 <constraint firstAttribute="centerX" secondItem="IeB-Lh-3cW" secondAttribute="centerX" id="Ocr-3v-8kY"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="Yar-qM-qed"/>
@@ -47,6 +58,7 @@
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="centerX" secondItem="R98-dB-FHb" secondAttribute="centerX" id="bF4-Zi-hpd"/>
                                                 <constraint firstAttribute="bottom" secondItem="IeB-Lh-3cW" secondAttribute="bottom" id="jIy-Dn-8Zt"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="29" id="khX-KN-Vrf"/>
+                                                <constraint firstItem="IeB-Lh-3cW" firstAttribute="top" secondItem="h2E-kq-PGd" secondAttribute="bottom" constant="10" id="wPf-lZ-5i1"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="IeB-Lh-3cW" secondAttribute="trailing" constant="-14" id="zVh-kI-5UO"/>
                                             </constraints>
                                             <variation key="default">
@@ -89,7 +101,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="❤️ - Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npq-F1-HPK">
-                                                    <rect key="frame" x="8" y="11" width="74" height="21"/>
+                                                    <rect key="frame" x="8" y="11" width="75" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -618,7 +630,7 @@ BPM</string>
                     <navigationItem key="navigationItem" id="2GN-7n-IRu">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="Qp4-nZ-MYj">
-                            <rect key="frame" x="126" y="7" width="349" height="30"/>
+                            <rect key="frame" x="125.5" y="7" width="349" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Day"/>
