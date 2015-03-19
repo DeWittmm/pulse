@@ -11,9 +11,11 @@ Wearable, noninvasive sensors create an opportunity for precision medicine by co
 
 <img src="/static/Poster.jpg" title="Poster" width="600" />
 
-<img src="/static/Monitor.png" title="Monitor Screen" width="450" />
+Monitor Screen             |  Analysis Screen
+:-------------------------:|:-------------------------:
+<img src="/static/Monitor.png" title="Monitor Screen" width="450" />  |  <img src="/static/Analysis.png" title="Analysis Screen" width="450" />
 
-<img src="/static/Analysis.png" title="Analysis Screen" width="450" />
+
 
 ##Hardware
 
