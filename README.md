@@ -9,7 +9,7 @@ This project is a result of a class assignment, and it has been graded and accep
 
 Wearable, noninvasive sensors create an opportunity for precision medicine by considerably lowering the barrier to entry for continuously monitoring vital signs. Pulse is a wearable pulse oximeter ring used to track both heart rate (HR) and blood oxygen saturation levels (SpO2), not of a patient, but of a typical individual. Once collected, this information is transmitted via Bluetooth low energy protocol and recorded by an iOS application that provides the user with details about, and analysis of, their collected health data. Finally, this collected information can be sent to Heartful (a Django Web app) to facilitate analytics allowing the user to garner a greater understanding of what this newly collected information means, as well as compare their fitness to their friends.
 
-<img src="/static/Poster.jpg" title="Poster" width="600" />
+<center><img src="/static/Poster.jpg" title="Poster" width="600" /></center>
 
 Monitor Screen             |  Analysis Screen
 :-------------------------:|:-------------------------:
