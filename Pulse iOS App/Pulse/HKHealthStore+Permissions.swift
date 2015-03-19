@@ -38,7 +38,7 @@ extension HKHealthStore {
         let dateOfBirth = dateOfBirthWithError(&error)
         
         // Compute the age of the user.
-        let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
+        let ageComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitYear, fromDate: dateOfBirth ?? NSDate(), toDate: NSDate(), options: NSCalendarOptions.WrapComponents)
         
         return ageComponents.year
     }

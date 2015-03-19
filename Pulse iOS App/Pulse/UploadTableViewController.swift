@@ -72,6 +72,7 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         plusService.executeQuery(query) { (ticket, person, error) -> Void in
             if let thePerson = person as? GTLPlusPerson {
                 self.googleId = thePerson.identifier
+                NSUserDefaults.standardUserDefaults().setObject(self.googleId!, forKey: "googleid")
                 
                 self.signInButton.hidden = true
                 self.createUser()
@@ -101,14 +102,14 @@ class UploadTableViewController: UITableViewController, GPPSignInDelegate {
         let activityTag = textField.text
         
         if let gId = googleId {
-            healthStore.fetchHeartRateData(predicate) { (data, error) -> Void in
+            healthStore.fetchHeartRateData(predicate, completion: { (data, error) -> Void in
                 self.client.postUserReading(gId, type: activityTag, heartRates: data, forDate: NSDate()) { (error) -> Void in
                     
                     if error == nil {
                         UIAlertView(title: "Uploaded Data!", message: "♥️❤️❤️♥️", delegate: nil, cancelButtonTitle: "A+").show()
                     }
                 }
-            }
+            })
         }
     }
 }

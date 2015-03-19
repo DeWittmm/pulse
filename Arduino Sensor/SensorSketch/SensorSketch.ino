@@ -7,7 +7,7 @@
   Team: Pulse
  */
 
-//RedBear Lab
+//RedBear Lab BLE Shield
 #include <SPI.h>
 #include <boards.h>
 #include <RBL_nRF8001.h>

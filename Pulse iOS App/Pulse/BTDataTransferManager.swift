@@ -27,7 +27,7 @@ class BTDataTransferManager: BTServiceManager {
         
         if let data = characteristic.value {
             var values = [UInt8](count: data.length, repeatedValue: 0)
-            data.getBytes(&values)
+            data.getBytes(&values, length:data.length)
             
             self.delegate?.characteristic(characteristic, didRecieveData: values)
         }

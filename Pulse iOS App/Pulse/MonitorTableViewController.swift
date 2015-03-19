@@ -11,7 +11,7 @@ import CoreBluetooth
 import HealthKit
 import BLEDataProcessing
 
-class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, HKAccessProtocol, BLEDataTransferDelegate {
+class MonitorTableViewController: UITableViewController, UIAlertViewDelegate, DataAnalysisDelegate, HKAccessProtocol, BLEDataTransferDelegate {
     
     //MARK: Outlets
     
@@ -27,6 +27,13 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
     
     @IBOutlet weak var hrGraph: BEMSimpleLineGraphView!
     @IBOutlet weak var sp02Graph: BEMSimpleLineGraphView!
+    
+    var typeAlert: UIAlertView?
+    var activityType = ""
+    var uploadData: Bool = false
+    
+    //MARK: Private Properties
+    private let client = HeartfulAPIClient()
     
     //MARK: Properties
     var healthStore: HKHealthStore?
@@ -97,13 +104,43 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
 //        healthStore?.requestAccess()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func addActivity(sender: UIButton) {
+        
+        typeAlert = UIAlertView(title: "New Heartful DataSet", message: "Please enter your activity type", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Start")
+        
+        typeAlert?.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        typeAlert?.textFieldAtIndex(0)?.placeholder = "Presenting"
+        
+        typeAlert?.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex != alertView.cancelButtonIndex {
+            let text = alertView.textFieldAtIndex(0)?.text
+            println(alertView.textFieldAtIndex(0)?.text)
+            activityType = text ?? "default"
+            uploadData = true
+        }
+        else {
+            uploadData = false
+        }
+    }
+    
+    func uploadActivity(data: [Double]) {
+        let predicate = todayPredicate
+        let gId = NSUserDefaults.standardUserDefaults().objectForKey("googleid") as? String
+        
+        if let gId = gId {
+            client.postUserReading(gId, type: activityType, heartRates: data, forDate: NSDate()) { (error) -> Void in
+                
+                if error == nil {
+                    self.packetSize.text = "Uploaded!"
+                }
+            }
+        }
     }
     
     //MARK: DataAnalysisDelegate
-    
     func currentProgress(irDataProg: Double, ledDataProg: Double) {
         progressBar.progress = Float(ledDataProg)
         
@@ -142,6 +179,10 @@ class MonitorTableViewController: UITableViewController, DataAnalysisDelegate, H
             }
             
             bpmLabel.text = String(format:"%.01f BPM", arguments: [smoothHR])
+            
+            if uploadData {
+                uploadActivity([smoothHR])
+            }
         }
         else {
             spO2Label.text = "---"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7519.1" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7525" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7513.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -36,12 +36,27 @@
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IeB-Lh-3cW">
                                                     <rect key="frame" x="-6" y="73" width="612" height="2"/>
                                                 </progressView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ta4-nL-Sio">
+                                                    <rect key="frame" x="570" y="40" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="22" id="8TR-ch-nci"/>
+                                                        <constraint firstAttribute="height" constant="22" id="X5J-eI-gAt"/>
+                                                    </constraints>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addActivity:" destination="zxs-JE-4Po" eventType="touchUpInside" id="clU-dH-2aJ"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="leading" secondItem="hPu-iP-iD7" secondAttribute="trailing" constant="8" symbolic="YES" id="9Jl-jI-jZn"/>
+                                                <constraint firstItem="IeB-Lh-3cW" firstAttribute="top" secondItem="ta4-nL-Sio" secondAttribute="bottom" constant="11" id="Dcs-mE-4Ue"/>
                                                 <constraint firstItem="hPu-iP-iD7" firstAttribute="top" secondItem="Pkj-bp-CSz" secondAttribute="topMargin" constant="34" id="G82-oz-e0b"/>
                                                 <constraint firstItem="R98-dB-FHb" firstAttribute="centerX" secondItem="Pkj-bp-CSz" secondAttribute="centerX" id="OUt-j6-Ceg"/>
                                                 <constraint firstAttribute="centerX" secondItem="IeB-Lh-3cW" secondAttribute="centerX" id="Ocr-3v-8kY"/>
+                                                <constraint firstItem="ta4-nL-Sio" firstAttribute="trailing" secondItem="Pkj-bp-CSz" secondAttribute="trailingMargin" id="WJW-r2-iIC"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="Yar-qM-qed"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="leading" secondItem="Pkj-bp-CSz" secondAttribute="leadingMargin" constant="-14" id="b4F-W7-Poz"/>
                                                 <constraint firstItem="IeB-Lh-3cW" firstAttribute="centerX" secondItem="R98-dB-FHb" secondAttribute="centerX" id="bF4-Zi-hpd"/>
@@ -306,7 +321,7 @@
                             <outlet property="delegate" destination="zxs-JE-4Po" id="KHh-dZ-npk"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Monitor" image="Monitor" selectedImage="Monitor" id="sxK-Vq-uwo">
+                    <tabBarItem key="tabBarItem" title="Monitor" image="Monitor" id="sxK-Vq-uwo">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Monitor"/>
                         </userDefinedRuntimeAttributes>
@@ -328,7 +343,7 @@
             </objects>
             <point key="canvasLocation" x="-16" y="-469"/>
         </scene>
-        <!--Goal View Controller-->
+        <!--Goal-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="GoalViewController" customModule="Pulse" customModuleProvider="target" sceneMemberID="viewController">
@@ -407,7 +422,7 @@ BPM</string>
                             <outletCollection property="gestureRecognizers" destination="6tz-oT-hN0" appends="YES" id="b16-9r-hvb"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="xk1-BK-bn0"/>
+                    <navigationItem key="navigationItem" title="Goal" id="xk1-BK-bn0"/>
                     <connections>
                         <outlet property="actualVerticalSpace" destination="zb7-dD-KUY" id="80P-hb-JKM"/>
                         <outlet property="label" destination="zEq-FU-wV5" id="AX3-4v-8Qj"/>
@@ -775,7 +790,7 @@ BPM</string>
         <scene sceneID="tg4-Pl-sXP">
             <objects>
                 <navigationController hidesBarsWhenKeyboardAppears="YES" id="u8h-LX-CDC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Statistics" image="Statistics" selectedImage="Statistics" id="wpA-f2-Zfj">
+                    <tabBarItem key="tabBarItem" title="Statistics" image="Statistics" id="wpA-f2-Zfj">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Statistics"/>
                         </userDefinedRuntimeAttributes>
@@ -796,7 +811,7 @@ BPM</string>
         <scene sceneID="FAy-zA-bfo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NkM-8G-ndo" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Goal" image="Goal" selectedImage="Goal" id="cPa-gy-q4n">
+                    <tabBarItem key="tabBarItem" title="Goal" image="Goal" id="cPa-gy-q4n">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Goal"/>
                         </userDefinedRuntimeAttributes>

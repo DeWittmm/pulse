@@ -58,6 +58,12 @@
 		0A9135F91A70277C005B2F7A /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */; };
 		0A98EB561A15587D0040544B /* BLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98EB551A15587D0040544B /* BLETests.swift */; };
 		0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A98EB591A155C6D0040544B /* CoreBluetooth.framework */; };
+		0A9D6F711ABB79D8009C7511 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D6F6E1ABB79D8009C7511 /* GoogleOpenSource.framework */; };
+		0A9D6F721ABB79D8009C7511 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D6F6E1ABB79D8009C7511 /* GoogleOpenSource.framework */; };
+		0A9D6F731ABB79D8009C7511 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A9D6F6F1ABB79D8009C7511 /* GooglePlus.bundle */; };
+		0A9D6F741ABB79D8009C7511 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A9D6F6F1ABB79D8009C7511 /* GooglePlus.bundle */; };
+		0A9D6F751ABB79D8009C7511 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D6F701ABB79D8009C7511 /* GooglePlus.framework */; };
+		0A9D6F761ABB79D8009C7511 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D6F701ABB79D8009C7511 /* GooglePlus.framework */; };
 		0AA422E11A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
 		0AA422E21A8E71FF00F54604 /* BTDataTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */; };
 		0AB19E1F19FDB3C10024ACC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB19E1E19FDB3C10024ACC7 /* AppDelegate.swift */; };
@@ -79,9 +85,6 @@
 		0AFA082E1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */; };
 		0AFA08301A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
 		0AFA08311A9D9CED00DBBEE8 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */; };
-		1640A6131AB7A899002A00A4 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1640A6121AB7A899002A00A4 /* GooglePlus.bundle */; };
-		1640A6181AB7B24A002A00A4 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */; };
-		1640A6191AB7B24E002A00A4 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */; };
 		1640A61A1AB7B27A002A00A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */; };
 		1640A61B1AB7B27D002A00A4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */; };
 		1640A61C1AB7B28C002A00A4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603E01AB7A64B003DEBD2 /* CoreLocation.framework */; };
@@ -104,8 +107,6 @@
 		16D603EC1AB7A678003DEBD2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EB1AB7A678003DEBD2 /* Security.framework */; };
 		16D603EE1AB7A682003DEBD2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */; };
 		16D603F01AB7A688003DEBD2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603EF1AB7A688003DEBD2 /* UIKit.framework */; };
-		16D603F41AB7A6C9003DEBD2 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */; };
-		16D603F51AB7A6C9003DEBD2 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */; };
 		66AB7024FD3DC143D1546C1A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A497F6505F12E5CA6F97E817 /* libPods.a */; };
 		A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */; };
 /* End PBXBuildFile section */
@@ -161,15 +162,12 @@
 /* Begin PBXFileReference section */
 		0A0F815A1A30FB2F00622383 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
 		0A0F815B1A30FB2F00622383 /* BTServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTServiceManager.swift; sourceTree = "<group>"; };
-		0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Pulse/HealthKitSnippets.playground; sourceTree = "<group>"; };
 		0A2276371A8D1BE60040A30E /* UUIDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDConstants.swift; sourceTree = "<group>"; };
 		0A378D1F1AB0F62200B94C4F /* HKDatePredicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKDatePredicates.swift; sourceTree = "<group>"; };
 		0A3DBDD81A89393D00DE8065 /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		0A3DBDDB1A89697C00DE8065 /* DataCruncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataCruncher.swift; path = ../Pulse/DataCruncher.swift; sourceTree = "<group>"; };
 		0A55B6C81AA3D5C900380C89 /* StatisticsInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfoManager.swift; sourceTree = "<group>"; };
 		0A55B6CB1AA3D64100380C89 /* HeartfulAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartfulAPIClient.swift; sourceTree = "<group>"; };
-		0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeartfulNetworking.playground; sourceTree = "<group>"; };
-		0A60CED41A9BDAED004B91C1 /* PacketReconstruction.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PacketReconstruction.playground; sourceTree = "<group>"; };
 		0A650C9D1A9C44E00039BFD4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A650C9F1A9C4FBD0039BFD4 /* BLEData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BLEData.csv; sourceTree = "<group>"; };
 		0A6533AB1A946319007A403D /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataPacket.swift; path = ../Pulse/DataPacket.swift; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 		0A7565FC1AA4E76A007B1913 /* PhysiologicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysiologicalConstants.swift; sourceTree = "<group>"; };
 		0A7565FF1AA507A7007B1913 /* Array+Avg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Avg.swift"; sourceTree = "<group>"; };
 		0A7566081AA53037007B1913 /* SwiftBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftBinding.swift; sourceTree = "<group>"; };
-		0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BLEDataProcessing.playground; sourceTree = SOURCE_ROOT; };
 		0A9135E71A702202005B2F7A /* UIViewOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewOperators.swift; sourceTree = "<group>"; };
 		0A9135F41A702770005B2F7A /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0A9135F71A70277C005B2F7A /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +183,16 @@
 		0A98EB4E1A15572C0040544B /* PulseTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PulseTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A98EB551A15587D0040544B /* BLETests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLETests.swift; sourceTree = "<group>"; };
 		0A98EB591A155C6D0040544B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		0A9D6F681ABB78BC009C7511 /* BLEDataProcessing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = BLEDataProcessing.playground; path = Playgrounds/BLEDataProcessing.playground; sourceTree = "<group>"; };
+		0A9D6F691ABB78BC009C7511 /* DigitalFiltering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = DigitalFiltering.playground; path = Playgrounds/DigitalFiltering.playground; sourceTree = "<group>"; };
+		0A9D6F6A1ABB78BC009C7511 /* HealthKitSnippets.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HealthKitSnippets.playground; path = Playgrounds/HealthKitSnippets.playground; sourceTree = "<group>"; };
+		0A9D6F6B1ABB78BC009C7511 /* HeartfulNetworking.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = HeartfulNetworking.playground; path = Playgrounds/HeartfulNetworking.playground; sourceTree = "<group>"; };
+		0A9D6F6C1ABB78BC009C7511 /* PacketReconstruction.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = PacketReconstruction.playground; path = Playgrounds/PacketReconstruction.playground; sourceTree = "<group>"; };
+		0A9D6F6D1ABB78BC009C7511 /* Swift Tests.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Swift Tests.playground"; path = "Playgrounds/Swift Tests.playground"; sourceTree = "<group>"; };
+		0A9D6F6E1ABB79D8009C7511 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "Pulse/google-plus-ios-sdk-1.7.1/GoogleOpenSource.framework"; sourceTree = "<group>"; };
+		0A9D6F6F1ABB79D8009C7511 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "Pulse/google-plus-ios-sdk-1.7.1/GooglePlus.bundle"; sourceTree = "<group>"; };
+		0A9D6F701ABB79D8009C7511 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "Pulse/google-plus-ios-sdk-1.7.1/GooglePlus.framework"; sourceTree = "<group>"; };
+		0A9D6F791ABB7B9F009C7511 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		0AA422E01A8E71FF00F54604 /* BTDataTransferManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDataTransferManager.swift; sourceTree = "<group>"; };
 		0AB19E1919FDB3C10024ACC7 /* Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB19E1D19FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,8 +203,6 @@
 		0AB19E3019FDB3C10024ACC7 /* PulseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PulseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB19E3519FDB3C10024ACC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB19E3619FDB3C10024ACC7 /* PulseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseTests.swift; sourceTree = "<group>"; };
-		0AD53F731A813D48009578E6 /* Swift Tests.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Swift Tests.playground"; sourceTree = "<group>"; };
-		0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = DigitalFiltering.playground; sourceTree = "<group>"; };
 		0AE362721A82020900E1B3C2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AE5660E1A9BC2FB00F4894F /* BLEDataProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BLEDataProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE566111A9BC2FB00F4894F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -209,7 +214,6 @@
 		0AFA082C1A9D96FF00DBBEE8 /* HKHealthStore+Permissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+Permissions.swift"; sourceTree = "<group>"; };
 		0AFA082F1A9D9CED00DBBEE8 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		14B19F4090BCAD78DE8C246D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		1640A6121AB7A899002A00A4 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "google-plus-ios-sdk-1.7.1/GooglePlus.bundle"; sourceTree = SOURCE_ROOT; };
 		1640A6241AB7CA37002A00A4 /* UploadTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadTableViewController.swift; sourceTree = "<group>"; };
 		16D603DC1AB7A63C003DEBD2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		16D603DE1AB7A643003DEBD2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -221,8 +225,6 @@
 		16D603EB1AB7A678003DEBD2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		16D603EF1AB7A688003DEBD2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "google-plus-ios-sdk-1.7.1/GoogleOpenSource.framework"; sourceTree = SOURCE_ROOT; };
-		16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "google-plus-ios-sdk-1.7.1/GooglePlus.framework"; sourceTree = SOURCE_ROOT; };
 		328C127B48B4748C36AE9D89 /* libPods-PulseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PulseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A497F6505F12E5CA6F97E817 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EA1E950FEF7AE307EFE491 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -236,7 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16D603F01AB7A688003DEBD2 /* UIKit.framework in Frameworks */,
-				16D603F51AB7A6C9003DEBD2 /* GooglePlus.framework in Frameworks */,
+				0A9D6F751ABB79D8009C7511 /* GooglePlus.framework in Frameworks */,
 				16D603EE1AB7A682003DEBD2 /* SystemConfiguration.framework in Frameworks */,
 				16D603EC1AB7A678003DEBD2 /* Security.framework in Frameworks */,
 				16D603EA1AB7A66D003DEBD2 /* MediaPlayer.framework in Frameworks */,
@@ -246,7 +248,7 @@
 				16D603E21AB7A650003DEBD2 /* Foundation.framework in Frameworks */,
 				16D603E11AB7A64B003DEBD2 /* CoreLocation.framework in Frameworks */,
 				16D603DF1AB7A643003DEBD2 /* AssetsLibrary.framework in Frameworks */,
-				16D603F41AB7A6C9003DEBD2 /* GoogleOpenSource.framework in Frameworks */,
+				0A9D6F711ABB79D8009C7511 /* GoogleOpenSource.framework in Frameworks */,
 				16D603DD1AB7A63C003DEBD2 /* AddressBook.framework in Frameworks */,
 				0AFA08291A9D792C00DBBEE8 /* HealthKit.framework in Frameworks */,
 				0A98EB5A1A155C6D0040544B /* CoreBluetooth.framework in Frameworks */,
@@ -260,16 +262,16 @@
 			files = (
 				1640A61C1AB7B28C002A00A4 /* CoreLocation.framework in Frameworks */,
 				1640A61F1AB7B296002A00A4 /* UIKit.framework in Frameworks */,
-				1640A6181AB7B24A002A00A4 /* GoogleOpenSource.framework in Frameworks */,
 				1640A6211AB7B296002A00A4 /* Security.framework in Frameworks */,
-				1640A6191AB7B24E002A00A4 /* GooglePlus.framework in Frameworks */,
 				1640A61A1AB7B27A002A00A4 /* AddressBook.framework in Frameworks */,
 				1640A61E1AB7B292002A00A4 /* CoreGraphics.framework in Frameworks */,
+				0A9D6F761ABB79D8009C7511 /* GooglePlus.framework in Frameworks */,
 				1640A6201AB7B296002A00A4 /* SystemConfiguration.framework in Frameworks */,
 				A544C26DA3810F78FF03F24D /* libPods-PulseTests.a in Frameworks */,
 				1640A61B1AB7B27D002A00A4 /* AssetsLibrary.framework in Frameworks */,
 				1640A6221AB7B296002A00A4 /* MediaPlayer.framework in Frameworks */,
 				1640A61D1AB7B28F002A00A4 /* CoreMotion.framework in Frameworks */,
+				0A9D6F721ABB79D8009C7511 /* GoogleOpenSource.framework in Frameworks */,
 				1640A6231AB7B296002A00A4 /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,9 +367,9 @@
 		0A7E9DDE1AA94508000DA73A /* Analysis Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
-				0A60CED41A9BDAED004B91C1 /* PacketReconstruction.playground */,
-				0AE3626F1A82001100E1B3C2 /* DigitalFiltering.playground */,
-				0A85ED2C1A7FF59E00BD5863 /* BLEDataProcessing.playground */,
+				0A9D6F681ABB78BC009C7511 /* BLEDataProcessing.playground */,
+				0A9D6F691ABB78BC009C7511 /* DigitalFiltering.playground */,
+				0A9D6F6C1ABB78BC009C7511 /* PacketReconstruction.playground */,
 			);
 			name = "Analysis Playgrounds";
 			sourceTree = "<group>";
@@ -375,10 +377,10 @@
 		0A7E9DDF1AA94513000DA73A /* Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
-				0A17DFC81A2C49DC00A9AD8E /* HealthKitSnippets.playground */,
+				0A9D6F6A1ABB78BC009C7511 /* HealthKitSnippets.playground */,
+				0A9D6F6B1ABB78BC009C7511 /* HeartfulNetworking.playground */,
 				0A7E9DDE1AA94508000DA73A /* Analysis Playgrounds */,
-				0A55B6CE1AA3D8DE00380C89 /* HeartfulNetworking.playground */,
-				0AD53F731A813D48009578E6 /* Swift Tests.playground */,
+				0A9D6F6D1ABB78BC009C7511 /* Swift Tests.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
@@ -409,7 +411,7 @@
 		0A98EB5B1A155C780040544B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				16D603F11AB7A6B3003DEBD2 /* Google - Framework */,
+				0A9D6F771ABB79DF009C7511 /* Google Auth */,
 				16D603EF1AB7A688003DEBD2 /* UIKit.framework */,
 				16D603ED1AB7A682003DEBD2 /* SystemConfiguration.framework */,
 				16D603EB1AB7A678003DEBD2 /* Security.framework */,
@@ -438,10 +440,21 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		0A9D6F771ABB79DF009C7511 /* Google Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0A9D6F6E1ABB79D8009C7511 /* GoogleOpenSource.framework */,
+				0A9D6F6F1ABB79D8009C7511 /* GooglePlus.bundle */,
+				0A9D6F701ABB79D8009C7511 /* GooglePlus.framework */,
+			);
+			name = "Google Auth";
+			sourceTree = "<group>";
+		};
 		0AB19E1019FDB3C10024ACC7 = {
 			isa = PBXGroup;
 			children = (
 				0AFA082B1A9D95F000DBBEE8 /* Pulse.entitlements */,
+				0A9D6F791ABB7B9F009C7511 /* README.md */,
 				0A7E9DDF1AA94513000DA73A /* Playgrounds */,
 				0A5FC6AE1A9BC43D00BA8AAA /* Pulse - iOS app */,
 				0A5FC6AF1A9BC45400BA8AAA /* Processing - Framework */,
@@ -542,17 +555,6 @@
 				0AE566201A9BC2FB00F4894F /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		16D603F11AB7A6B3003DEBD2 /* Google - Framework */ = {
-			isa = PBXGroup;
-			children = (
-				1640A6121AB7A899002A00A4 /* GooglePlus.bundle */,
-				16D603F21AB7A6C9003DEBD2 /* GoogleOpenSource.framework */,
-				16D603F31AB7A6C9003DEBD2 /* GooglePlus.framework */,
-			);
-			name = "Google - Framework";
-			path = Pulse;
 			sourceTree = "<group>";
 		};
 		E194F4F934B8850C5DA56876 /* Pods */ = {
@@ -717,7 +719,7 @@
 			files = (
 				0AB19E2619FDB3C10024ACC7 /* Main.storyboard in Resources */,
 				0AB19E2B19FDB3C10024ACC7 /* LaunchScreen.xib in Resources */,
-				1640A6131AB7A899002A00A4 /* GooglePlus.bundle in Resources */,
+				0A9D6F731ABB79D8009C7511 /* GooglePlus.bundle in Resources */,
 				0AB19E2819FDB3C10024ACC7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -726,6 +728,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9D6F741ABB79D8009C7511 /* GooglePlus.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,6 +1038,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Pulse/google-plus-ios-sdk-1.7.1",
 				);
 				INFOPLIST_FILE = Pulse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1057,6 +1061,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Pulse/google-plus-ios-sdk-1.7.1",
 				);
 				INFOPLIST_FILE = Pulse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1076,6 +1081,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Pulse/google-plus-ios-sdk-1.7.1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1100,6 +1106,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-plus-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Pulse/google-plus-ios-sdk-1.7.1",
 				);
 				INFOPLIST_FILE = PulseTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
